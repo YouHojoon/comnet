@@ -5,7 +5,14 @@
     <configuration>
     
          <typeAliases>
+<<<<<<< Updated upstream
             <typeAlias type="kr.ac.smu.cs.comnet.sampleVO" alias="sampleVO"/>
         </typeAliases>
+=======
+         	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
+         	 <typeAlias alias="FieldVO" type="kr.ac.smu.cs.comnet.vo.FieldVO"/>
+         	 <typeAlias alias="LanguageVO" type="kr.ac.smu.cs.comnet.vo.LanguageVO"/>
+         </typeAliases>
+>>>>>>> Stashed changes
         
     </configuration>
