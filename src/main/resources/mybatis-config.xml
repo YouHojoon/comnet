@@ -3,16 +3,13 @@
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
     <configuration>
-    
+
          <typeAliases>
-<<<<<<< Updated upstream
-            <typeAlias type="kr.ac.smu.cs.comnet.sampleVO" alias="sampleVO"/>
-        </typeAliases>
-=======
          	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
          	 <typeAlias alias="FieldVO" type="kr.ac.smu.cs.comnet.vo.FieldVO"/>
          	 <typeAlias alias="LanguageVO" type="kr.ac.smu.cs.comnet.vo.LanguageVO"/>
+         	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
          </typeAliases>
->>>>>>> Stashed changes
+
         
     </configuration>

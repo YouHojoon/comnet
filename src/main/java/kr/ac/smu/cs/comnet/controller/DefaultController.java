@@ -2,7 +2,6 @@ package kr.ac.smu.cs.comnet.controller;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
@@ -15,12 +14,10 @@ import kr.ac.smu.cs.comnet.service.LanguageService;
 
 @Controller
 public class DefaultController {
-	
-	@Autowired
-	LanguageService lService;
 	@Autowired
 	FieldService fService;
-	
+	@Autowired
+	LanguageService lService;
 	@GetMapping("/loginPage")
 	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto, 
 			HttpServletResponse response) {
@@ -37,4 +34,5 @@ public class DefaultController {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
 	}
+
 }
