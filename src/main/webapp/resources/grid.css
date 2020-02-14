@@ -1,0 +1,559 @@
+*{
+  margin: 0;
+  padding: 0;
+
+}
+body{
+  overflow: hidden;
+  text-align: center;
+}
+.alarm{
+  display: inline-block;
+  color: white;
+  text-align: center;
+  line-height: 15px;
+  position: relative;
+  background-color: red;
+  z-index: 1000;
+  border-radius: 12px;
+  width: 15px;
+  height: 15px;
+  left: 81%;
+  top: -10px;
+}
+#message > .glyphicon{
+  position: relative;
+  right: 135%;
+}
+table > thead > tr > th{
+  text-align: center;
+}
+table > tbody > tr > th{
+  text-align: center;
+}
+.modal-header{
+  font-family: 'Black Han Sans',cursive;
+  background-color: #0984e3;
+  color: white;
+}
+.modal-body > .list-group > .list-group-item:hover{
+  border: 1px solid #ddd;
+}
+.modal-title{
+  display: inline-block;
+}
+.modal:not(.show){
+  opacity: 0;
+}
+.modal{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+  transition: transform 0.3s ease-out, -webkit-transform 0.3s ease-out;
+    -webkit-transform: translate(0, -20px);
+  transform: translate(0, -20px);
+  transition: opacity .15s linear;
+  background-color: rgba(0,0,0,0.5);
+}
+.passwd-check-auth > .input-group{
+    display: inline-flex;
+    width: 310px;
+}
+.recruit{
+  display: inline-block;
+  vertical-align: middle;
+}
+.recruit > input {
+  top:11%;
+}
+.register-field{
+  margin-top: 20px;
+}
+.register-field > table{
+  font-size: 13px;
+}
+.register-language > table{
+  font-size: 13px;
+}
+.project-register{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  position: absolute;
+  width: 80%;
+  height: 95vh;
+  text-align: center;
+  margin-top: 10px;
+  left:10%;
+  overflow-y: auto;
+}
+.calander{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+.calander > table{
+  border: 1px solid;
+  border-collapse: separate;
+  border-spacing: 5px;
+  table-layout: fixed;
+}
+.calander > table > tbody > tr > th{
+  text-align: center;
+}
+.calander > table > tbody > td{
+  border: 1px solid black;
+  width: 30px;
+}
+.calander > table > thead > tr > td > #previous-month{
+  position: absolute;
+  left: 6%;
+  top: 7.2%;
+}
+.calander > table > thead > tr > td > #next-month{
+  position: absolute;
+  left: 30%;
+  top: 7.2%;
+}
+.calander > table > thead > tr > td > button > .glyphicon{
+
+  color: black;
+}
+.calander > table > tbody > td:hover:not(.disable){
+  background-color: #0984e3;
+  color: white;
+}
+.calander > table > tbody > .selected{
+  background-color: #0984e3;
+  color: white;
+}
+.disable{
+  background-color: #95a5a6;
+}
+.saturday{
+  color:blue;
+}
+.sunday{
+  color: red;
+}
+#project{
+  height: 93vh;
+  overflow-y: hidden;
+}
+#project:hover{
+  overflow-y: auto;
+}
+#view{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  text-align: center;
+}
+.volunteer{
+  color: white;
+  background-color: #0984e3;
+  border-style: none;
+  width: 85px;
+  height:45px;
+  font-size: 20px;
+  line-height: 1.5;
+  border-radius: .3rem;
+}
+.volunteer:hover{
+  background-color: #1e90ff;
+}
+.volunteer:focus{
+  background-color: #1e90ff;
+}
+.project-body > .list-group{
+  width: 90%;
+  display: inline-block;
+}
+.field-language{
+  margin-top: 5px;
+  text-align: left;
+  word-spacing: 15px;
+  width: 90%;
+  display: inline-block;
+}
+.field-language > label{
+  text-align: center;
+  width: 75px;
+  background-color: #0984e3;
+  color: white;
+  border-radius: 10px;
+  background-size: cover;
+}
+.volunteer-list > h1{
+  font-family: 'Black Han Sans',cursive;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+  margin-top: -15px;
+}
+.volunteer-list > table > tfoot > tr > th{
+  text-align: center;
+}
+.volunteer-list > table > tbody > tr > td > label{
+  text-align: center;
+  width: 75px;
+  background-color: #0984e3;
+  color: white;
+  border-radius: 10px;
+  background-size: cover;
+
+}
+.volunteer-list > table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.volunteer-list > table > thead > tr > th{
+  text-align: center;
+}
+.volunteer-list > table > tbody > tr > th{
+  text-align: center;
+}
+.project-body > table > tfoot > tr > th{
+  text-align: center;
+}
+.approval{
+  height: 25px;
+  background-color: #5cb85c;
+  border-color: #4cae4c;
+  border: 1px solid transparent;
+  color: white;
+  width: 50px;
+  font-size: 14px;
+}
+.approval:hover{
+  background-color: #449d44;
+  border-color: #398439;
+}
+.reject{
+  height: 25px;
+  background-color: #d9534f;
+  border-color: #d9534f;
+  border: 1px solid transparent;
+  color: white;
+  width: 50px;
+  font-size: 14px;
+}
+.reject:hover{
+  background-color: #c9302c;
+  border-color:#ac2925;
+}
+.project-body{
+  margin-bottom: -15px;
+}
+.project-body > table > tbody > tr > td > label{
+  text-align: center;
+  width: 75px;
+  background-color: #0984e3;
+  color: white;
+  border-radius: 10px;
+  background-size: cover;
+}
+.project-body > table {
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
+}
+.project-body > table > thead > tr > th{
+  text-align: center;
+}
+.project-body > table > tbody > tr > th{
+  text-align: center;
+}
+.project-body > .form-group > .form-control{
+  display: inline-block;
+  width: 90%;
+  resize: vertical;
+}
+.project-head{
+  margin-top: -15px;
+  margin-bottom: 30px;
+}
+.leader{
+  margin-left:5%;
+  float: left;
+}
+.deadline{
+  float: right;
+  margin-right:5%;
+}
+#project > h1{
+  font-family: 'Black Han Sans',cursive;
+  margin: 0;
+  padding: 0;
+
+  line-height: 1.4;
+}
+#info{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  overflow-y: auto;
+}
+#info > h1{
+  font-family: 'Black Han Sans',cursive;
+  margin: 0;
+  padding: 0;
+  line-height: 1.4;
+}
+#info >.{
+  margin-top: -15px;
+}
+#info >.register-form > .form-group{
+  width: 100%;
+}
+#info >.register-form > .form-group > .form-control{
+  display: inline-flex;
+  width: 80%;
+}
+#memo{
+  display:block;
+}
+#memo-form{
+  margin-bottom: 10px;
+}
+.serch{
+  display: none;
+  position: relative;
+  min-height: 1px;
+  padding-right: 15px;
+  padding-left: 15px;
+}
+.sidemenu > .serch > .input-group{
+  width: 100%;
+}
+.mypage{
+  text-align: center;
+  margin-top: 5%;
+}
+.menu{
+  width: 70%;
+  display: inline-block;
+  padding: 30px 15px;
+  margin-bottom: 30px;
+  color: inherit;
+  background-color: #0984e3;
+}
+.name{
+  font-family: 'Noto Sans KR', sans-serif;
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.name > h1{
+  color: white;
+  font-size: 40px;
+  font-weight: bold;
+}
+.menu:hover{
+  background-color: white;
+  border-color: #0984e3;
+  border-style: solid;
+}
+.menu:hover > .name > h1{
+  color: black;
+}
+#back{
+  margin-top: 10px;
+}
+#user-register{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  text-align: center;
+  overflow-y: auto;
+}
+.register-form > #register{
+  float: none;
+  display: flex;
+  margin: auto;
+}
+.register-form > .input-group{
+  margin-top: 15px;
+  width: 80%;
+  display: inline-flex;
+}
+.register-form > .form-group{
+  width: 80%;
+  display: inline-block;
+}
+.register-form > .auth >.form-group{
+  width: 80%;
+  display: inline-block;
+}
+.auth{
+    margin-bottom: 10px;
+}
+.auth >.form-group >.form-control{
+    float: left;
+    width: calc(85%);
+    display: inline-block;
+
+}
+.register-form > .table{
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 13px;
+}
+.register-form > #field{
+  margin-left: 45px;
+  float: left;
+  width: 100%;
+  display: inline-flex;
+}
+.register-form > .fieldCheck{
+  width: 80%;
+}
+.register-form > .fieldCheck> .form-check{
+  display: initial;
+  margin-left: 14px;
+}
+#auth-button{
+  float:right;
+}
+#register{
+  float: right;
+  margin-right: 10px;
+}
+.logo{
+  text-align: center;
+  padding-top: 109px;
+}
+.login{
+  text-align: center;
+  padding-top: 20px;
+}
+.login > .input-group{
+  display: inline-flex;
+  width: 310px;
+}
+#serch > .glyphicon-search{
+  color: black;
+}
+#password{
+  display: unset;
+  width: 310px;
+}
+.button > button{
+  margin-top: 5px;
+}
+#save{
+  font-weight: bold;
+  font-family: 'Noto Sans KR', sans-serif;
+  display: none;
+}
+#serchInput{
+  font-size: 11.5px;
+}
+.sidemenu{
+  font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
+  display: block;
+  background-color: #0984e3;
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  z-index: 5;
+  text-align: center;
+}
+.input-group-btn > .btn[disabled]{
+  opacity: 100;
+}
+.language{
+  height: 41.7%;
+}
+.language >  .list-group{
+  height: 90%;
+  overflow-y: hidden;
+}
+.language >  .list-group:hover{
+  overflow-y: scroll;
+}
+.sidemenu > .btn{
+  margin: 5px;
+}
+.menuLabel{
+  font-size: 16px;
+  display: none;
+}
+.sidemenu > .language > .list-group > .list-group-item{
+  color: white;
+  border-color: #0984e3;
+  background-color: #0984e3;
+}
+.sidemenu > .language > .list-group > .list-group-item:hover{
+  color: black;
+  background-color: white;
+  border-color: white;
+}
+a.list-group-item{
+  color: white;
+}
+nav{
+  margin-top: 54px;
+  height: 0%;
+}
+header{
+  height: 45px;
+  background-color: #0984e3;
+  position: relative;
+  text-align: center;
+  line-height: 45px;
+}
+header > .btn{
+  height: 100%;
+  background-color: #0984e3;
+  border-color: #0984e3;
+}
+header > .btn:hover{
+  height: 100%;
+  background-color: #1e90ff;
+  border-color: #1e90ff;
+}
+
+header > .btn:focus{
+  background-color: #1e90ff;
+  border-color: #1e90ff;
+}
+header > .btn + h1{
+  position: relative;
+  right: 20px;
+}
+header > h1{
+  font-size: 36px;
+  font-weight: 500;
+  line-height: 45px;
+  font-family: 'Black Han Sans',cursive;
+  margin: 0;
+  height: 0%;
+  color: white;
+}
+.btn > .glyphicon{
+  color: white;
+}
+.table{
+  font-family: 'Noto Sans KR', sans-serif;
+}
+header > #left{
+  float: left;
+}
+header > #right{
+  float: right;
+}
+header > #message{
+  float: right;
+  width: 40px;
+}
+th{
+  text-align: center;
+}
+footer{
+  text-align: center;
+}
