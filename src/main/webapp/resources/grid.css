@@ -46,6 +46,7 @@ table > tbody > tr > th{
   opacity: 0;
 }
 .modal{
+  height: 104%;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   transition: -webkit-transform 0.3s ease-out;
@@ -318,14 +319,14 @@ table > tbody > tr > th{
 #memo-form{
   margin-bottom: 10px;
 }
-.serch{
+.search{
   display: none;
   position: relative;
   min-height: 1px;
   padding-right: 15px;
   padding-left: 15px;
 }
-.sidemenu > .serch > .input-group{
+.sidemenu > .search > .input-group{
   width: 100%;
 }
 .mypage{
@@ -434,7 +435,7 @@ table > tbody > tr > th{
   display: inline-flex;
   width: 310px;
 }
-#serch > .glyphicon-search{
+#search > .glyphicon-search{
   color: black;
 }
 #password{
@@ -449,7 +450,7 @@ table > tbody > tr > th{
   font-family: 'Noto Sans KR', sans-serif;
   display: none;
 }
-#serchInput{
+#searchInput{
   font-size: 11.5px;
 }
 .sidemenu{

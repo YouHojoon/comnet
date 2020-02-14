@@ -54,11 +54,11 @@
 					</c:forEach>
 				</div>
 			</div>
-			<div class="serch">
+			<div class="search">
 				<div class="input-group">
-					<input type="text" id="serchInput" class="form-control"
+					<input type="text" id="searchInput" class="form-control"
 						placeholder="조회 조건 검색"> <span class="input-group-btn">
-						<button id="serch" class="btn btn-default" type="button" disabled>
+						<button id="search" class="btn btn-default" type="button" disabled>
 							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
 						</button>
 					</span>
@@ -172,19 +172,44 @@
 	</div>
 	<footer id="test"> Create by YouHoJoon </footer>
 	<script type="text/javascript">
+		
+			$(window).resize(function(){
+				if($(".sidemenu").width() > 0){
+					if($(window).width() > 960){
+						$(".sidemenu").css("width","15%");
+					}
+					else if($(window).width() > 768){
+						$(".sidemenu").css("width","20%");
+					}
+					else{
+						$(".sidemenu").css("width","30%");
+					}
+				}
+			});
+		
 		$("#message").click(function() {
 			$("#message-modal").modal("show");
 		});
-		$("#serchInput").keyup(function() {
-			var serch = $("#serchInput").val();
+		$("#searchInput").keyup(function() {
+			var search = $("#searchInput").val();
 			$("a").css('display', 'none');
-			$("a:contains(" + serch + ")").css('display', 'block');
+			$("a:contains(" + search + ")").css('display', 'block');
 		});
 		function showMenu() {
-			$(".sidemenu").animate({
-				width : "30%"
-			}, 1000);
-			$(".serch").css("display", "flex");
+			if($(window).width() > 960){
+				$(".sidemenu").css("width","15%");
+			}
+			else if($(window).width() > 768){
+				$(".sidemenu").animate({
+					width: "20%"
+				}, 1000);
+			}
+			else{
+				$(".sidemenu").animate({
+					width : "30%"
+				}, 1000);
+			}
+			$(".search").css("display", "flex");
 			$(".menuLabel").css("display", "inline-flex");
 			$("#save").css("display", "inline-flex");
 			$("#left").attr("onclick", "hideMenu()");
@@ -194,7 +219,7 @@
 				width : "0%"
 			}, 1000);
 			setTimeout(function() {
-				$(".serch").css("display", "none");
+				$(".search").css("display", "none");
 				$(".menuLabel").css("display", "none");
 				$("#save").css("display", "none");
 			}, 999);
