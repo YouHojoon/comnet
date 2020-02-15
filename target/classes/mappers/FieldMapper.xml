@@ -6,4 +6,8 @@
     	<select id="selectList" resultType="FieldVO">
     		SELECT * FROM Field
     	</select>
+    	<select id="selectBoardField" resultType="FieldVO">
+    		SELECT Field.fid, fname FROM Field, conn_bf
+    		WHERE conn_bf.bid=#{bid} AND conn_bf.fid=Field.fid
+    	</select>
     </mapper>

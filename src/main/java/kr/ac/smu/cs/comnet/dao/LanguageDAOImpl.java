@@ -17,4 +17,8 @@ public class LanguageDAOImpl implements LanguageDAO{
 	public List<LanguageVO> selectList() {
 		return mapper.selectList();
 	}
+	@Override
+	public List<LanguageVO> selectBoardLanguage(int bid) {
+		return mapper.selectBoardLanguage(bid);
+	}
 }

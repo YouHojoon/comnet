@@ -17,5 +17,8 @@ public class LanguageServiceImpl implements LanguageService{
 	public List<LanguageVO> selectList() {
 		return dao.selectList();
 	}
-	
+	@Override
+	public List<LanguageVO> selectBoardLanguage(int bid) {
+		return dao.selectBoardLanguage(bid);
+	}
 }

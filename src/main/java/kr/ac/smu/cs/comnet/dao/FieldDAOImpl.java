@@ -16,4 +16,8 @@ public class FieldDAOImpl implements FieldDAO {
 	public List<FieldVO> selectList() {
 		return mapper.selectList();
 	}
+	@Override
+	public List<FieldVO> selectBoardField(int bid) {
+		return mapper.selectBoardField(bid);
+	}
 }

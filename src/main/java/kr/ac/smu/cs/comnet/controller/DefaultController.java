@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 
+import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
 
@@ -18,6 +19,8 @@ public class DefaultController {
 	FieldService fService;
 	@Autowired
 	LanguageService lService;
+	@Autowired
+	BoardService bService;
 	@GetMapping("/loginPage")
 	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto, 
 			HttpServletResponse response) {
@@ -33,6 +36,7 @@ public class DefaultController {
 	public void board(Model model) {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
+		model.addAttribute("boardList",bService.selectList());
 	}
 
 }

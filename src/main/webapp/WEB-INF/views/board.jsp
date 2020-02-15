@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -68,7 +69,7 @@
 		</div>
 		<!--사이드 메뉴 끝-->
 		<!--프로젝트 조회 시작-->
-		<table class="table table-hover">
+		<table id="project-list" class="table table-hover">
 			<thead>
 				<tr>
 					<th scope="col">번호</th>
@@ -79,27 +80,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<th scope="row">1</th>
-					<td>이것저것다한다</td>
-					<td>서버</td>
-					<td>2020/01/08</td>
-					<td>4</td>
-				</tr>
-				<tr>
-					<th scope="row">2</th>
-					<td>왘</td>
-					<td>이것</td>
-					<td>Thornton</td>
-					<td>@fat</td>
-				</tr>
-				<tr>
-					<th scope="row">3</th>
-					<td>Larry</td>
-					<td>안드로이드</td>
-					<td>the Bird</td>
-					<td>@twitter</td>
-				</tr>
+				<c:forEach var="board" items="${boardList}">
+					<tr>
+						<th scope="row">${board.boardVO.rowNum}</th>
+						<td>${board.boardVO.title}</td>
+						<td>
+							<c:forEach var="field" items="${board.board_field}">
+								<label><c:out value="${field.fname}"/></label>
+							</c:forEach>
+							<c:forEach var="language" items="${board.board_language}">
+								<label><c:out value="${language.lname}"/></label>
+							</c:forEach>
+						</td>
+						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.boardVO.deadline}"/></td>
+						<td>${board.boardVO.partner_limit}</td>
+					</tr>
+				</c:forEach>
 			</tbody>
 		</table>
 		<!--프로젝트 조회 끝-->
@@ -197,7 +193,9 @@
 		});
 		function showMenu() {
 			if($(window).width() > 960){
-				$(".sidemenu").css("width","15%");
+				$(".sidemenu").animate({
+					width: "15%"
+				}, 1000);
 			}
 			else if($(window).width() > 768){
 				$(".sidemenu").animate({

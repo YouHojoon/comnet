@@ -6,4 +6,8 @@
     	<select id="selectList" resultType="LanguageVO">
     		SELECT * FROM Language
     	</select>
+    	<select id="selectBoardLanguage" resultType="LanguageVO">
+    		SELECT Language.lid, lname FROM Language, conn_bl
+			WHERE conn_bl.bid=#{bid} AND conn_bl.lid=Language.lid
+    	</select>
     </mapper>

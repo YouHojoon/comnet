@@ -9,6 +9,7 @@
          	 <typeAlias alias="FieldVO" type="kr.ac.smu.cs.comnet.vo.FieldVO"/>
          	 <typeAlias alias="LanguageVO" type="kr.ac.smu.cs.comnet.vo.LanguageVO"/>
          	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
+         	 <typeAlias alias="BoardVO" type="kr.ac.smu.cs.comnet.vo.BoardVO"/>
          </typeAliases>
 
         

@@ -17,4 +17,8 @@ public class FieldServiceImpl implements FieldService{
 	public List<FieldVO> selectList() {
 		return dao.selectList();
 	}
+	@Override
+	public List<FieldVO> selectBoardField(int bid) {
+		return dao.selectBoardField(bid);
+	}
 }
