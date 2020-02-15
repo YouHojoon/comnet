@@ -84,7 +84,7 @@
 					<tr>
 						<th scope="row">${board.boardVO.rowNum}</th>
 						<td>${board.boardVO.title}</td>
-						<td>
+						<td class="requirement">
 							<c:forEach var="field" items="${board.board_field}">
 								<label><c:out value="${field.fname}"/></label>
 							</c:forEach>

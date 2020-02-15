@@ -7,6 +7,15 @@ body{
   overflow: hidden;
   text-align: center;
 }
+.requirement {
+	width: 50%;
+}
+@media (max-width: 510px){
+	#project-list > tbody > tr > td > label{
+		width: 53px!important;
+		font-size: 10px;
+	}
+}
 #project-list > tbody > tr > td > label{
 	text-align: center;
     width: 75px;
@@ -14,6 +23,7 @@ body{
     color: white;
     border-radius: 10px;
     background-size: cover;
+    overflow-x: auto;
 }
 .alarm{
   display: inline-block;
@@ -432,7 +442,7 @@ table > tbody > tr > th{
   opacity: 100;
 }
 .language{
-  height: 41.7%;
+  height: 41%;
 }
 .language >  .list-group{
   height: 90%;

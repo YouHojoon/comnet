@@ -27,6 +27,7 @@ public class BoardServiceImpl implements BoardService{
 		List<BoardVO> boardList=dao.selectList();
 		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();
 		for(BoardVO tmp : boardList) {
+			//프로젝트 분야와 언어를 조회하기 위해 DTO를 만듬
 			boardDTOList.add(new BoardDTO(tmp,fService.selectBoardField(tmp.getBid())
 					,lService.selectBoardLanguage(tmp.getBid())));
 		}
