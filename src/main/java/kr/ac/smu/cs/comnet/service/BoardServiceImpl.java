@@ -24,14 +24,14 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public List<BoardDTO> selectList() {
 		long start=System.currentTimeMillis();
-		List<BoardVO> board=dao.selectList();
-		List<BoardDTO> result=new ArrayList<BoardDTO>();
-		for(BoardVO tmp : board) {
-			result.add(new BoardDTO(tmp,fService.selectBoardField(tmp.getBid())
+		List<BoardVO> boardList=dao.selectList();
+		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();
+		for(BoardVO tmp : boardList) {
+			boardDTOList.add(new BoardDTO(tmp,fService.selectBoardField(tmp.getBid())
 					,lService.selectBoardLanguage(tmp.getBid())));
 		}
 		long end=System.currentTimeMillis();
 		log.info(Long.toString(end-start));
-		return result;
+		return boardDTOList;
 	}
 }
