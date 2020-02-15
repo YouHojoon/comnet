@@ -40,7 +40,7 @@
 	<!--사이드 메뉴 시작-->
 		<div class="sidemenu">
 			<div class="language">
-				<label class="menuLabel">분야</label>
+				<label class="menu-label">분야</label>
 				<div class="list-group">
 					<c:forEach var="field" items="${fieldList}">
 						<a class="list-group-item">${field.fname}</a>
@@ -48,23 +48,14 @@
 				</div>
 			</div>
 			<div class="language">
-				<label class="menuLabel">언어</label>
+				<label class="menu-label">언어</label>
 				<div class="list-group">
 					<c:forEach var="language" items="${languageList}">
 						<a class="list-group-item">${language.lname}</a>
 					</c:forEach>
 				</div>
 			</div>
-			<div class="search">
-				<div class="input-group">
-					<input type="text" id="searchInput" class="form-control"
-						placeholder="조회 조건 검색"> <span class="input-group-btn">
-						<button id="search" class="btn btn-default" type="button" disabled>
-							<span class="glyphicon glyphicon-search" aria-hidden="true"></span>
-						</button>
-					</span>
-				</div>
-			</div>
+			<input type="text" id="search-input" class="form-control" placeholder="조회 조건 검색">
 			<button type="button" id="save" class="btn btn-default">저장</button>
 		</div>
 		<!--사이드 메뉴 끝-->
@@ -186,8 +177,8 @@
 		$("#message").click(function() {
 			$("#message-modal").modal("show");
 		});
-		$("#searchInput").keyup(function() {
-			var search = $("#searchInput").val();
+		$("#search-input").keyup(function() {
+			var search = $("#search-input").val();
 			$("a").css('display', 'none');
 			$("a:contains(" + search + ")").css('display', 'block');
 		});
@@ -207,8 +198,8 @@
 					width : "30%"
 				}, 1000);
 			}
-			$(".search").css("display", "flex");
-			$(".menuLabel").css("display", "inline-flex");
+			$("#search-input").css("display", "inline-flex");
+			$(".menu-label").css("display", "inline-flex");
 			$("#save").css("display", "inline-flex");
 			$("#left").attr("onclick", "hideMenu()");
 		}
@@ -217,8 +208,8 @@
 				width : "0%"
 			}, 1000);
 			setTimeout(function() {
-				$(".search").css("display", "none");
-				$(".menuLabel").css("display", "none");
+				$("#search-input").css("display", "none");
+				$(".menu-label").css("display", "none");
 				$("#save").css("display", "none");
 			}, 999);
 			$("#left").attr("onclick", "showMenu()");
