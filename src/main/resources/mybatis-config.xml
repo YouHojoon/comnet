@@ -3,9 +3,14 @@
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-config.dtd">
     <configuration>
-    
+
          <typeAliases>
          	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
+         	 <typeAlias alias="FieldVO" type="kr.ac.smu.cs.comnet.vo.FieldVO"/>
+         	 <typeAlias alias="LanguageVO" type="kr.ac.smu.cs.comnet.vo.LanguageVO"/>
+         	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
+         	 <typeAlias alias="BoardVO" type="kr.ac.smu.cs.comnet.vo.BoardVO"/>
          </typeAliases>
+
         
     </configuration>

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    <mapper	namespace="kr.ac.smu.cs.comnet.mapper.LanguageMapper">
+    	<select id="selectList" resultType="LanguageVO">
+    		SELECT * FROM Language
+    	</select>
+    	<select id="selectBoardLanguage" resultType="LanguageVO">
+    		SELECT Language.lid, lname FROM Language, conn_bl
+			WHERE conn_bl.bid=#{bid} AND conn_bl.lid=Language.lid
+    	</select>
+    </mapper>

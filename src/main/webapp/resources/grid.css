@@ -1,11 +1,30 @@
 *{
   margin: 0;
   padding: 0;
+  
 
 }
 body{
   overflow: hidden;
   text-align: center;
+}
+.requirement {
+	width: 50%;
+}
+@media (max-width: 510px){
+	#project-list > tbody > tr > td > label{
+		width: 53px!important;
+		font-size: 10px;
+	}
+}
+#project-list > tbody > tr > td > label{
+	text-align: center;
+    width: 75px;
+    background-color: #0984e3;
+    color: white;
+    border-radius: 10px;
+    background-size: cover;
+    overflow-x: auto;
 }
 .alarm{
   display: inline-block;
@@ -46,6 +65,7 @@ table > tbody > tr > th{
   opacity: 0;
 }
 .modal{
+  height: 104%;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   transition: -webkit-transform 0.3s ease-out;
@@ -89,55 +109,11 @@ table > tbody > tr > th{
   left:10%;
   overflow-y: auto;
 }
-.calander{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: bold;
-  text-align: center;
-}
-.calander > table{
-  border: 1px solid;
-  border-collapse: separate;
-  border-spacing: 5px;
-  table-layout: fixed;
-}
-.calander > table > tbody > tr > th{
-  text-align: center;
-}
-.calander > table > tbody > td{
-  border: 1px solid black;
-  width: 30px;
-}
-.calander > table > thead > tr > td > #previous-month{
-  position: absolute;
-  left: 6%;
-  top: 7.2%;
-}
-.calander > table > thead > tr > td > #next-month{
-  position: absolute;
-  left: 30%;
-  top: 7.2%;
-}
-.calander > table > thead > tr > td > button > .glyphicon{
 
-  color: black;
-}
-.calander > table > tbody > td:hover:not(.disable){
-  background-color: #0984e3;
-  color: white;
-}
-.calander > table > tbody > .selected{
-  background-color: #0984e3;
-  color: white;
-}
 .disable{
   background-color: #95a5a6;
 }
-.saturday{
-  color:blue;
-}
-.sunday{
-  color: red;
-}
+
 #project{
   height: 93vh;
   overflow-y: hidden;
@@ -318,16 +294,8 @@ table > tbody > tr > th{
 #memo-form{
   margin-bottom: 10px;
 }
-.serch{
-  display: none;
-  position: relative;
-  min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
-}
-.sidemenu > .serch > .input-group{
-  width: 100%;
-}
+
+
 .mypage{
   text-align: center;
   margin-top: 5%;
@@ -434,7 +402,7 @@ table > tbody > tr > th{
   display: inline-flex;
   width: 310px;
 }
-#serch > .glyphicon-search{
+#search > .glyphicon-search{
   color: black;
 }
 #password{
@@ -449,7 +417,12 @@ table > tbody > tr > th{
   font-family: 'Noto Sans KR', sans-serif;
   display: none;
 }
-#serchInput{
+#search-input{
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  width: 90%;
+  display: none;
   font-size: 11.5px;
 }
 .sidemenu{
@@ -458,7 +431,7 @@ table > tbody > tr > th{
   display: block;
   background-color: #0984e3;
   position: absolute;
-  height: 100%;
+  height: 120%;
   width: 0%;
   z-index: 5;
   text-align: center;
@@ -467,7 +440,7 @@ table > tbody > tr > th{
   opacity: 100;
 }
 .language{
-  height: 41.7%;
+  height: 35%;
 }
 .language >  .list-group{
   height: 90%;
@@ -479,7 +452,7 @@ table > tbody > tr > th{
 .sidemenu > .btn{
   margin: 5px;
 }
-.menuLabel{
+.menu-label{
   font-size: 16px;
   display: none;
 }
@@ -540,6 +513,7 @@ header > h1{
 }
 .table{
   font-family: 'Noto Sans KR', sans-serif;
+  font-weight: bold;
 }
 header > #left{
   float: left;

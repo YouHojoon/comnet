@@ -11,7 +11,7 @@
 <script src="\resources\jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Login</title>
+<title>Comnet</title>
 </head>
 <body>
 	<div class="logo">
