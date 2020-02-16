@@ -10,4 +10,8 @@
     		SELECT Language.lid, lname FROM Language, conn_bl
 			WHERE conn_bl.bid=#{bid} AND conn_bl.lid=Language.lid
     	</select>
+    	<insert id="registerUserLanguage">
+    		INSERT conn_ul
+    		VALUES(#{uid},#{lid})
+    	</insert>
     </mapper>

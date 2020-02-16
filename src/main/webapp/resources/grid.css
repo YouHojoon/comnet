@@ -1,12 +1,16 @@
 *{
   margin: 0;
   padding: 0;
-  
-
 }
 body{
   overflow: hidden;
   text-align: center;
+}
+.spinner-border{
+	display:none;
+}
+#field-label{
+	display: block;
 }
 .requirement {
 	width: 50%;
@@ -288,7 +292,7 @@ table > tbody > tr > th{
   display: inline-flex;
   width: 80%;
 }
-#memo{
+#memo-label{
   display:block;
 }
 #memo-form{
@@ -358,17 +362,42 @@ table > tbody > tr > th{
 .auth{
     margin-bottom: 10px;
 }
-.auth >.form-group >.form-control{
+@media(min-width: 400px){
+	.auth >.form-group >.form-control{
     float: left;
-    width: calc(85%);
+    width: calc(82%);
     display: inline-block;
 
+	}
+}
+@media(min-width: 850px){
+	.auth >.form-group >.form-control{
+    float: left;
+    width: calc(90%);
+    display: inline-block;
+
+	}
+}
+@media(max-width:600px){
+	.register-form > .table > tbody > tr > th{
+		padding-left: 0!important;
+    	padding-right: 0!important;
+	}
+	.form-check-label{
+	  font-size:10px;
+	}
+}
+.register-form > .table > tbody > tr > th{
+	text-align: left;
+}
+.register-form > .table > tbody > tr > th > .from-check{
+	text-align: center;
 }
 .register-form > .table{
   width: 80%;
   margin-left: auto;
   margin-right: auto;
-  font-size: 13px;
+  font-size: 13px; 
 }
 .register-form > #field{
   margin-left: 45px;
@@ -444,6 +473,7 @@ table > tbody > tr > th{
 }
 .language >  .list-group{
   height: 90%;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 .language >  .list-group:hover{

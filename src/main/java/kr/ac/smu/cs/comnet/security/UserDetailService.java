@@ -10,7 +10,7 @@ import kr.ac.smu.cs.comnet.vo.UserVO;
 
 public class UserDetailService implements UserDetailsService{
 	@Autowired
-	UserMapper mapper;
+	private UserMapper mapper;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

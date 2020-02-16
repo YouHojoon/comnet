@@ -11,14 +11,11 @@ import kr.ac.smu.cs.comnet.vo.FieldVO;
 @Service
 public class FieldServiceImpl implements FieldService{
 	@Autowired
-	FieldDAO dao;
+	private FieldDAO dao;
 	
 	@Override
 	public List<FieldVO> selectList() {
 		return dao.selectList();
 	}
-	@Override
-	public List<FieldVO> selectBoardField(int bid) {
-		return dao.selectBoardField(bid);
-	}
+	
 }

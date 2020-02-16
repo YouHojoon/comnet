@@ -11,14 +11,11 @@ import kr.ac.smu.cs.comnet.vo.LanguageVO;
 @Service
 public class LanguageServiceImpl implements LanguageService{
 	@Autowired
-	LanguageDAO dao;
+	private LanguageDAO dao;
 	
 	@Override
 	public List<LanguageVO> selectList() {
 		return dao.selectList();
 	}
-	@Override
-	public List<LanguageVO> selectBoardLanguage(int bid) {
-		return dao.selectBoardLanguage(bid);
-	}
+	
 }
