@@ -93,7 +93,7 @@
         <textarea name="memo" class="form-control" rows="3"></textarea>
       </div>
       <button type="button" id="register" class="btn btn-primary btn-lg">회원가입</button>
-      <button type="button" id="back" onclick="location.href='login.html'" class="btn btn-primary btn-sm">Back</button>
+      <button type="button" id="back" onclick="location.href='/loginPage'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
     	var authString;
@@ -192,17 +192,24 @@
     			type:"GET",
     			url:"/auth?email="+$("input[name=email]").val(),
     			success:function(data){
-    				authString=data;
+    				if(data==="duplication"){
+    					alert("이미 아이디가 존재합니다.");
+    					$("input[name=email]").focus();
+    				}
+    				else{
+    					authString=data;
+        				alert("인증 메일이 전송되었습니다.");
+        				$("#auth-button").attr("onclick","check()");
+    				}
     				$(".spinner-border").css("display","none");
     				$("#auth-button").css("display","inline-block");
-    				$("#auth-button").attr("onclick","check()");
-    				alert("인증 메일이 전송되었습니다.");
     			}
     		});
     	}
     	function check(){//인증메일 확인
     		if(authString===$("#auth-input").val()){
     			alert("인증 성공");
+    			$("input[name=email]").attr("readonly","readonly");
     			$("#auth-input").attr("readonly","readonly");
     			authString=true;
     		}

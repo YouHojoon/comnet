@@ -15,6 +15,10 @@ public class UserDAOImpl implements UserDAO{
 		mapper.register(userVO);
 	}
 	@Override
+	public UserVO select(String email) {
+		return mapper.select(email);
+	}
+	@Override
 	public int selectUid(String email) {
 		return mapper.selectUid(email);
 	}

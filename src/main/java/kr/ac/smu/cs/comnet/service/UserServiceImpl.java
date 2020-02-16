@@ -3,10 +3,13 @@ package kr.ac.smu.cs.comnet.service;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 
 import kr.ac.smu.cs.comnet.dao.FieldDAO;
 import kr.ac.smu.cs.comnet.dao.LanguageDAO;
@@ -37,6 +40,9 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public String auth(String email) {
+		if(uDAO.select(email)!=null) {
+			return "duplication";//email 중복
+		}
 		StringBuffer authString=new StringBuffer();
 		for(int i=0; i<6; i++) 
 			authString.insert(i, (char)((int)(Math.random()*26)+65));//랜덤 문자열 A~Z 6자리 전송

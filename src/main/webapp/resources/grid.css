@@ -473,6 +473,7 @@ table > tbody > tr > th{
 }
 .language >  .list-group{
   height: 90%;
+  overflow-x: hidden;
   overflow-y: hidden;
 }
 .language >  .list-group:hover{
