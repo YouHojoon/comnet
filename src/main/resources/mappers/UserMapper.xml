@@ -8,6 +8,9 @@
 			VALUES(#{email},#{name},#{password},#{memo},#{phone})
 		</insert>
 		<select id="select" resultType="UserVO">
-			select * from User where email=#{email}
+			SELECT * FROM User WHERE email=#{email}
+		</select>
+		<select id="selectUid" resultType="int">
+			SELECT uid FROM User WHERE email=#{email}
 		</select>
 	</mapper>

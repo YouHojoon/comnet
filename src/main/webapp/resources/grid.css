@@ -292,7 +292,7 @@ table > tbody > tr > th{
   display: inline-flex;
   width: 80%;
 }
-#memo{
+#memo-label{
   display:block;
 }
 #memo-form{

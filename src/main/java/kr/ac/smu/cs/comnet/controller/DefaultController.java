@@ -1,27 +1,31 @@
 package kr.ac.smu.cs.comnet.controller;
 
+import java.util.List;
+
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.taglibs.standard.tag.common.core.ForEachSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMailMessage;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
+import kr.ac.smu.cs.comnet.service.UserService;
+import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Controller
 public class DefaultController {
@@ -33,7 +37,7 @@ public class DefaultController {
 	@Autowired
 	private BoardService bService;
 	@Autowired
-	private JavaMailSenderImpl javaMailSender;
+	private UserService uService;
 	@GetMapping("/loginPage")
 	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto, 
 			HttpServletResponse response) {
@@ -57,19 +61,12 @@ public class DefaultController {
 		model.addAttribute("languageList", lService.selectList());
 	}
 	@GetMapping("/auth")
-	public @ResponseBody StringBuffer auth(@RequestParam("email") String email) {
-		StringBuffer authString=new StringBuffer();
-		for(int i=0; i<6; i++) 
-			authString.insert(i, (char)((int)(Math.random()*26)+65));//랜덤 문자열 A~Z 6자리 전송
-		try {
-			MimeMessage authMail= javaMailSender.createMimeMessage();
-			MimeMessageHelper messageHelper = new MimeMessageHelper(authMail,true,"UTF-8");
-			messageHelper.setFrom("dbghwns11@gmail.com");
-			messageHelper.setTo(email+"@sangmyung.kr");
-			messageHelper.setSubject("인증메일 테스트");
-			messageHelper.setText(authString.toString());
-			javaMailSender.send(authMail);
-		}catch(Exception e) {e.printStackTrace();}
-		return authString;
+	public @ResponseBody String auth(@RequestParam("email") String email) {
+		return uService.auth(email);
+	}
+	@PostMapping("/register")
+	public void register(UserVO userVO, @RequestParam("user_field") int[] user_field, @RequestParam("user_language")int[] user_language) {
+		uService.register(userVO,user_field,user_language);
+		
 	}
 }
