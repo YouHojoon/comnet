@@ -1,8 +1,9 @@
 package kr.ac.smu.cs.comnet.vo;
 
 public class FieldVO {
-	int fid;
-	String fname;
+	private int fid;
+	private String fname;
+	
 	public int getFid() {
 		return fid;
 	}

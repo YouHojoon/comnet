@@ -3,14 +3,14 @@ package kr.ac.smu.cs.comnet.vo;
 import java.sql.Date;
 
 public class BoardVO {
-	int rowNum;
-	int bid;
-	int uid;
-	String title;
-	String content;
-	Date deadline; 
-	int partner_limit;
-	String contact;
+	private int rowNum;//±Û ¹øÈ£
+	private int bid;
+	private int uid;
+	private String title;
+	private String content;
+	private Date deadline; 
+	private int partner_limit;
+	private String contact;
 	
 	public int getRowNum() {
 		return rowNum;

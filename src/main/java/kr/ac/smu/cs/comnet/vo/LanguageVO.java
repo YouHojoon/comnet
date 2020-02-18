@@ -1,8 +1,8 @@
 package kr.ac.smu.cs.comnet.vo;
 
 public class LanguageVO {
-	int lid;
-	String lname;
+	private int lid;
+	private String lname;
 	
 	public int getLid() {
 		return lid;

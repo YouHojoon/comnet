@@ -7,9 +7,9 @@ import kr.ac.smu.cs.comnet.vo.FieldVO;
 import kr.ac.smu.cs.comnet.vo.LanguageVO;
 
 public class BoardDTO {
-	BoardVO boardVO;
-	List<FieldVO> board_field;
-	List<LanguageVO> board_language;
+	private BoardVO boardVO;
+	private List<FieldVO> board_field;
+	private List<LanguageVO> board_language;
 	public BoardDTO(BoardVO boardVO, List<FieldVO> board_field, 
 			List<LanguageVO> board_language) {
 		this.boardVO=boardVO;
