@@ -45,7 +45,7 @@
         </div>
       </div>
       <label id="field-label">관심 분야</label>
-      <table id="user_field" class="table table-borderless">
+      <table id="user-field" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="field" items="${fieldList}">
@@ -67,7 +67,7 @@
         </tr>
       </table>
       <label id="field-label">관심 언어</label>
-      <table id="user_language" class="table table-borderless">
+      <table id="user-field" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="language" items="${languageList}">

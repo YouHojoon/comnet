@@ -1,4 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,34 +12,22 @@
 <meta charset="utf-8">
 <title>Insert title here</title>
 </head>
-<body>
+<body id="new">
 <header>
       <h1>COMNET</h1>
     </header>
-    <form class="project-register" method="post">
+    <form class="register-form" method="post">
       <div class="form-group">
-        <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="프로젝트 제목">
+        <input type="email" class="form-control" placeholder="프로젝트 제목">
       </div>
       <label>마감기한</label>
       <div class="row">
         <div class="col">
-          <select class="form-control" id="year">
+          <select class="form-control" onchange="makeDay()" id="year">
           </select>
         </div>
         <div class="col">
-          <select class="form-control" id="month">
-            <option value="1">1월</option>
-            <option value="2">2월</option>
-            <option value="3">3월</option>
-            <option value="4">4월</option>
-            <option value="5">5월</option>
-            <option value="6">6월</option>
-            <option value="7">7월</option>
-            <option value="8">8월</option>
-            <option value="9">9월</option>
-            <option value="10">10월</option>
-            <option value="11">11월</option>
-            <option value="12">12월</option>
+          <select class="form-control" onchange="makeDay()" id="month">
           </select>
         </div>
         <div class="col">
@@ -48,15 +37,15 @@
         <div class="col">
           <div class="recruit">
             <input class="form-check-input" type="checkbox" value="1" id="always">
-              <label class="form-check-label" for="defaultCheck1">
-                상시모집
+              <label class="form-check-label">
+                	상시모집
               </label>
           </div>
 
         </div>
       </div>
-      <label id="field-label">관심 분야</label>
-      <table id="user_field" class="table table-borderless">
+      <label id="field-label">모집 분야</label>
+      <table id="user-field" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="field" items="${fieldList}">
@@ -69,7 +58,7 @@
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input" name="field-check" type="checkbox" value="${field.fid}">
-                	<label class="form-check-label" for="defaultCheck1">
+                	<label class="form-check-label">
                   		${field.fname}
                 	</label>
                 </div>
@@ -77,8 +66,8 @@
         </c:forEach>
         </tr>
       </table>
-      <label id="field-label">관심 언어</label>
-      <table id="user_language" class="table table-borderless">
+      <label id="field-label">모집 언어</label>
+      <table id="user-language" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="language" items="${languageList}">
@@ -91,7 +80,7 @@
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input"  name="language-check" type="checkbox" value="${language.lid}">
-                	<label class="form-check-label" for="defaultCheck1">
+                	<label class="form-check-label">
                   		${language.lname}
                 	</label>
             	</div>
@@ -103,12 +92,22 @@
           <label>프로젝트 설명</label>
           <textarea class="form-control" rows="3"></textarea>
         </div>
-        <div class="form-group">
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="팀원제한(0입력시 무제한)">
+        <div class="partner-limit">
+	    	<div class="form-group">
+          		<input type="email" class="form-control" placeholder="팀원제한(0입력시 무제한)">
+        	</div>
+	        <div class="partner-limit-check">
+		        <div class="recruit">
+		            <input class="form-check-input" type="checkbox" value="1" id="always">
+		              <label class="form-check-label">
+		                	팀원 무제한
+		              </label>
+		        </div>
+	        </div>
         </div>
         <div class="form-group">
-          <input type="email" class="form-control" id="exampleFormControlInput1" placeholder="연락처">
-        </div>
+	    	<input type="email" class="form-control" placeholder="연락처">
+	    </div>
         <div>
           <button type="button" class="btn btn-primary btn-lg">작성</button>
         </div>
@@ -116,21 +115,28 @@
     </form>
     <script type="text/javascript">
       var Calander=new Date();
-      $("#year").append("<option value="+Calander.getFullYear()+" selected>"+Calander.getFullYear()+"년"+"</option>");
+      $("#year").append("<option selected value="+Calander.getFullYear()+">"+Calander.getFullYear()+"년"+"</option>");
       var nextYear=Calander.getFullYear()+1;
       $("#year").append("<option value="+nextYear+">"+nextYear+"년"+"</option>");
-      $("#month").click(function(){
-        var str="";
-        Calander.setYear($("#year").val());
-        Calander.setMonth($("#month").val()-1);
-        Calander.setDate(1);
-        do {
-          var date=Calander.getDate();
-          str+="<option value="+date+">"+date+"일"+"</option>";
-          Calander.setDate(date+1);
-        } while(Calander.getDate()!=1)
-        $("#day").html(str);
-      });
+      for(var i=Calander.getMonth()+1; i<=12; i++){
+    	  $("#month").append("<option value="+i+">"+i+"월"+"</option>");
+      }
+     $("#month option[value="+(new Date().getMonth()+1)+"]").attr("selected","selected");
+     makeDay();
+     $("#day option[value="+new Date().getDate()+"]").attr("selected","selected");
+     //마감기한 달력 생성
+      function makeDay(){//일 생성
+    	  var str="";
+          Calander.setYear($("#year").val());
+          Calander.setMonth($("#month").val()-1);
+          Calander.setDate(1);
+          do {
+            var date=Calander.getDate();
+            str+="<option value="+date+">"+date+"일"+"</option>";
+            Calander.setDate(date+1);
+          } while(Calander.getDate()!=1)
+          $("#day").html(str);
+      }
       $("#always").click(function(){
         if($("#always").prop("checked")){
           $("#year").attr("disabled","true");
@@ -143,6 +149,9 @@
           $("#day").removeAttr("disabled");
         }
       });
+      $(".new").click(function(){
+    	  
+      })
     </script>
 </body>
 </html>
