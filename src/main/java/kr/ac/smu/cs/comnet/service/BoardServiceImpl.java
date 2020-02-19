@@ -27,7 +27,7 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardDTO> selectList() {
 		long start=System.currentTimeMillis();
 		List<BoardVO> boardList=bDAO.selectList();
-		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();
+		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();//O(n)만큼 걸려서 데이터가 많아지면 시간 오래 걸림
 		for(BoardVO tmp : boardList) {
 			//프로젝트 분야와 언어를 조회하기 위해 DTO를 만듬
 			boardDTOList.add(new BoardDTO(tmp,fDAO.selectBoardField(tmp.getBid())
