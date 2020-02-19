@@ -125,7 +125,7 @@ table > tbody > tr > th{
 }
 @media(max-width: 625px){
 	.partner-limit > .form-group{
-	  width:calc(70%);
+	  width:calc(75%);
 	}
 	.partner-limit-check{
 	  width:calc(20%);
