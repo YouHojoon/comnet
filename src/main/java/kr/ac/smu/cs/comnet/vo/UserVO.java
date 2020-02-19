@@ -1,12 +1,12 @@
 package kr.ac.smu.cs.comnet.vo;
 
 public class UserVO {
-	int uid;
-	String email;
-	String name;
-	String password;
-	String memo;
-	String phone;
+	private int uid;
+	private String email;
+	private String name;
+	private String password;
+	private String memo;
+	private String phone;
 	
 	public int getUid() {
 		return uid;

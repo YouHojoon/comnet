@@ -11,7 +11,7 @@ import kr.ac.smu.cs.comnet.vo.BoardVO;
 @Repository
 public class BoardDAOImpl implements BoardDAO{
 	@Autowired
-	BoardMapper mapper;
+	private BoardMapper mapper;
 	@Override
 	public List<BoardVO> selectList() {
 		return mapper.selectList();

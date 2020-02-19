@@ -20,4 +20,8 @@ public class FieldDAOImpl implements FieldDAO {
 	public List<FieldVO> selectBoardField(int bid) {
 		return mapper.selectBoardField(bid);
 	}
+	@Override
+	public void registerUserField(int uid, int fid) {
+		mapper.registerUserField(uid, fid);
+	}
 }

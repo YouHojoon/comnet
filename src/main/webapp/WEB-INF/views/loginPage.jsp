@@ -34,7 +34,7 @@
 			<button id="login" type="submit" class="btn btn-primary">Login</button>
 		</div>
 		<div class="button">
-			<a href="#">회원가입</a>
+			<a href="/register">회원가입</a>
 		</div>
 		<div>
 			<a href="#">비밀번호 찾기</a>

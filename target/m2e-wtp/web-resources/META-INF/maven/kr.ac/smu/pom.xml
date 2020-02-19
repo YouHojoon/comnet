@@ -16,6 +16,12 @@
 		<org.slf4j-version>1.6.6</org.slf4j-version>
 	</properties>
 	<dependencies>
+		<!-- https://mvnrepository.com/artifact/com.sun.mail/javax.mail -->
+		<dependency>
+		    <groupId>com.sun.mail</groupId>
+		    <artifactId>javax.mail</artifactId>
+		    <version>1.6.2</version>
+		</dependency>	
 		<!-- https://mvnrepository.com/artifact/com.zaxxer/HikariCP -->
 		<dependency>
 			<groupId>com.zaxxer</groupId>
@@ -79,6 +85,12 @@
 			<groupId>org.springframework</groupId>
 			<artifactId>spring-jdbc</artifactId>
 			<version>${org.springframework-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.springframework/spring-context-support -->
+		<dependency>
+		    <groupId>org.springframework</groupId>
+		    <artifactId>spring-context-support</artifactId>
+		    <version>${org.springframework-version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework</groupId>
