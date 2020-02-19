@@ -151,7 +151,7 @@
     			$("#user-language").focus();
     			return;
     		}
-    		else if(!authString){
+    		else if(authString!=true){
     			//인증 확인
     			alert("이메일 인증을 해주세요.");
     			$("#auth-button").focus();
