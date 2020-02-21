@@ -3,11 +3,16 @@
   padding: 0;
 }
 body{
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: auto;
   text-align: center;
 }
+.register-form{
+	padding-top: 45px;
+}
+
 .project-list{
-	overflow-y: auto; 
+	padding-top: 45px;
 }
 .spinner-border{
 	display:none;
@@ -165,15 +170,12 @@ table > tbody > tr > th{
   font-weight: bold;
   position: absolute;
   width: 80%;
-  height: 92vh;
   text-align: center;
-  margin-top: 10px;
   left:10%;
+  padding-top: 55px;
   overflow-y: hidden;
 }
-.new > .register-form:hover{
-	overflow-y: auto;
-}
+
 .new > .register-form > label{
   display: block;
 }
@@ -532,8 +534,8 @@ table > tbody > tr > th{
   font-weight: bold;
   display: block;
   background-color: #0984e3;
-  position: absolute;
-  height: 120%;
+  position: fixed;
+  height: 100%;
   width: 0%;
   z-index: 5;
   text-align: center;
@@ -542,7 +544,7 @@ table > tbody > tr > th{
   opacity: 100;
 }
 .language{
-  height: 35%;
+  height: 42%;
 }
 .language >  .list-group{
   height: 90%;
@@ -576,9 +578,11 @@ nav{
   height: 0%;
 }
 header{
+  z-index: 10;
   height: 45px;
   background-color: #0984e3;
-  position: relative;
+  position: fixed;
+  width: 100%;
   text-align: center;
   line-height: 45px;
 }

@@ -5,7 +5,7 @@
     <mapper namespace="kr.ac.smu.cs.comnet.mapper.BoardMapper">
     	<select id="selectList" resultType="BoardVO">
     		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,
-    		(SELECT @rownum:=0)r		
+    		(SELECT @rownum:=0)r;
     	</select>
 		<insert id="register">
 			INSERT INTO Board(title, content, deadline, partner_limit, contact, reg_date, uid)
