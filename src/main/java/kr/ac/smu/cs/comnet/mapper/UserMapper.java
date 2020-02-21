@@ -7,5 +7,4 @@ public interface UserMapper {
 	
 	public UserVO select(String email);
 	
-	public int selectUid(String email);//user_field, user_language 등록을 위해 uid 반환
 }

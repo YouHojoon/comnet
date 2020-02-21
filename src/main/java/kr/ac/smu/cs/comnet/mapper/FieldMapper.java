@@ -12,4 +12,6 @@ public interface FieldMapper {
 	public List<FieldVO> selectBoardField(int bid);//프로젝트 영역 조회
 	
 	public void registerUserField(@Param("uid") int uid, @Param("fid") int fid);//user_field 등록
+	
+	public void registerBoardField(@Param("bid") int bid, @Param("fid") int fid);//board_field 등록
 }

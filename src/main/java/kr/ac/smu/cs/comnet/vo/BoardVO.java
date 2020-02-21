@@ -1,6 +1,7 @@
 package kr.ac.smu.cs.comnet.vo;
 
 import java.sql.Date;
+import java.util.Calendar;
 
 public class BoardVO {
 	private int rowNum;//±Û ¹øÈ£
@@ -11,7 +12,14 @@ public class BoardVO {
 	private Date deadline; 
 	private int partner_limit;
 	private String contact;
+	private String reg_date;
 	
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
 	public int getRowNum() {
 		return rowNum;
 	}

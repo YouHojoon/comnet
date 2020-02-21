@@ -6,6 +6,9 @@ body{
   overflow: hidden;
   text-align: center;
 }
+.project-list{
+	overflow-y: auto; 
+}
 .spinner-border{
 	display:none;
 }
@@ -34,7 +37,9 @@ body{
 @media (max-width: 510px){
 	#project-list > tbody > tr > td > label{
 		width: 53px!important;
-		font-size: 10px;
+	}
+	#project-list{
+	font-size: 10px;
 	}
 }
 #project-list > tbody > tr > td > label{
@@ -151,29 +156,32 @@ table > tbody > tr > th{
 .register-language > table{
   font-size: 13px;
 }
-#new > .register-form > #field-label{
+.new > .register-form > #field-label{
 	margin-top:8px;
 }
-#new > .register-form{
+.new > .register-form{
   overflow-x: hidden;
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   position: absolute;
   width: 80%;
-  height: 95vh;
+  height: 92vh;
   text-align: center;
   margin-top: 10px;
   left:10%;
-  overflow-y: auto;
+  overflow-y: hidden;
 }
-#new > .register-form > label{
+.new > .register-form:hover{
+	overflow-y: auto;
+}
+.new > .register-form > label{
   display: block;
 }
-#new > .register-form > .form-group {
+.new > .register-form > .form-group {
     width: 100%;
     display: inline-block;
 }
-#new > .register-form > .table {
+.new > .register-form > .table {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
@@ -565,7 +573,6 @@ a.list-group-item{
   color: white;
 }
 nav{
-  margin-top: 54px;
   height: 0%;
 }
 header{

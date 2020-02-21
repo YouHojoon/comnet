@@ -14,4 +14,8 @@
     		INSERT conn_uf
     		VALUES(#{uid},#{fid})
     	</insert>
+    	<insert id="registerBoardField">
+    		INSERT conn_bf
+    		VALUES(#{bid},#{fid})
+    	</insert>
     </mapper>

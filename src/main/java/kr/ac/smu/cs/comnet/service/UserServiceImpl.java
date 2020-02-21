@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
 	public void register(UserVO userVO, int[] user_field, int[] user_language) {
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
 		uDAO.register(userVO);
-		int uid=uDAO.selectUid(userVO.getEmail());
+		int uid=uDAO.select(userVO.getEmail()).getUid();
 		for(int fid : user_field)
 			fDAO.registerUserField(uid, fid);
 		for(int lid : user_language)

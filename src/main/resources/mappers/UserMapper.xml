@@ -10,7 +10,4 @@
 		<select id="select" resultType="UserVO">
 			SELECT * FROM User WHERE email=#{email}
 		</select>
-		<select id="selectUid" resultType="int">
-			SELECT uid FROM User WHERE email=#{email}
-		</select>
 	</mapper>

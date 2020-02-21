@@ -23,4 +23,8 @@ public class User extends org.springframework.security.core.userdetails.User{
 		super(userVO.getEmail(),userVO.getPassword(),new HashSet<GrantedAuthority>());//authority가 null이면 안되서 빈 Set을 주입
 		this.userVO=userVO;
 	}
+	public UserVO getUserVO() {
+		return userVO;
+	}
+	
 }

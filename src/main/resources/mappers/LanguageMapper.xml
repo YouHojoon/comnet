@@ -14,4 +14,8 @@
     		INSERT conn_ul
     		VALUES(#{uid},#{lid})
     	</insert>
+    	<insert id="registerBoardLanguage">
+    		INSERT conn_bl
+    		VALUES(#{bid},#{lid})
+    	</insert>
     </mapper>

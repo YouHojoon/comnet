@@ -20,7 +20,7 @@
       <div class="input-group mb-3">
         <input type="text" name="email" class="form-control" placeholder="학번">
         <div class="input-group-append">
-          <span class="input-group-text" id="basic-addon2">@sangmyung.kr</span>
+          <span class="input-group-text">@sangmyung.kr</span>
         </div>
       </div>
       <div class="form-group">
@@ -58,7 +58,7 @@
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input" name="field-check" type="checkbox" value="${field.fid}">
-                	<label class="form-check-label" for="defaultCheck1">
+                	<label class="form-check-label">
                   		${field.fname}
                 	</label>
                 </div>
@@ -67,7 +67,7 @@
         </tr>
       </table>
       <label id="field-label">관심 언어</label>
-      <table id="user-field" class="table table-borderless">
+      <table id="user-language" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="language" items="${languageList}">
@@ -80,7 +80,7 @@
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input"  name="language-check" type="checkbox" value="${language.lid}">
-                	<label class="form-check-label" for="defaultCheck1">
+                	<label class="form-check-label">
                   		${language.lname}
                 	</label>
             	</div>
@@ -159,12 +159,12 @@
     		}
     		var user_field=new Array();
     		var user_language=new Array();
-    		$("#user_field input").each(function(){
+    		$("#user-field input").each(function(){
     			if($(this).is(":checked")==true){
     				user_field.push($(this).val());
     			}
     		});
-    		$("#user_language input").each(function(){
+    		$("#user-language input").each(function(){
     			if($(this).is(":checked")==true){
     				user_language.push($(this).val());
     			}
@@ -173,9 +173,9 @@
     			type:"post",
     			url:"/register",
     			traditional:true,
-    			data:{email:$("input[name=email]").val(),password:$("input[name=password]").val()
-    				,name:$("input[name=name]").val(),phone:$("input[name=phone]").val(),
-    				memo:$("textarea[name=memo]").val(),user_field:user_field, user_language:user_language},
+    			data:{email:$("input[name=email]").val(), password:$("input[name=password]").val(),
+    			      name:$("input[name=name]").val(), phone:$("input[name=phone]").val(),
+    				  memo:$("textarea[name=memo]").val(), user_field:user_field, user_language:user_language},
     			success:function(){
     				location.href="/loginPage";
     			}

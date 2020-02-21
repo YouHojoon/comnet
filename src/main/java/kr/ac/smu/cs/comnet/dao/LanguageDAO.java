@@ -12,4 +12,6 @@ public interface LanguageDAO {
 	public List<LanguageVO> selectBoardLanguage(int bid);//프로젝트 모집 언어 조회
 	
 	public void regiserUserLanguage(int uid, int lid);//user_language 등록
+	
+	public void regiserBoardLanguage(int bid, int lid);//board_language 등록
 }

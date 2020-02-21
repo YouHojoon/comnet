@@ -1,5 +1,6 @@
 package kr.ac.smu.cs.comnet.dao;
 
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,5 +16,13 @@ public class BoardDAOImpl implements BoardDAO{
 	@Override
 	public List<BoardVO> selectList() {
 		return mapper.selectList();
+	}
+	@Override
+	public void register(BoardVO boardVO) {
+		mapper.register(boardVO);
+	}
+	@Override
+	public int select(String reg_date) {
+		return mapper.select(reg_date);
 	}
 }

@@ -1,6 +1,9 @@
 package kr.ac.smu.cs.comnet.service;
 
+import java.sql.Date;
+import java.sql.Timestamp;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -36,5 +39,15 @@ public class BoardServiceImpl implements BoardService{
 		long end=System.currentTimeMillis();
 		log.info(Long.toString(end-start));
 		return boardDTOList;
+	}
+	@Override
+	public void register(BoardVO boardVO, int[] board_field, int[] board_language) {
+		
+		boardVO.setReg_date(new Timestamp(System.currentTimeMillis()).toString());
+		bDAO.register(boardVO);
+		for(int fid : board_field)
+			fDAO.registerBoardField(bDAO.select(boardVO.getReg_date()), fid);
+		for(int lid : board_language)
+			lDAO.regiserBoardLanguage(bDAO.select(boardVO.getReg_date()), lid);
 	}
 }

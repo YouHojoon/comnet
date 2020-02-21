@@ -24,4 +24,8 @@ public class FieldDAOImpl implements FieldDAO {
 	public void registerUserField(int uid, int fid) {
 		mapper.registerUserField(uid, fid);
 	}
+	@Override
+	public void registerBoardField(int bid, int fid) {
+		mapper.registerBoardField(bid, fid);		
+	}
 }

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -10,15 +11,16 @@
 <link rel="stylesheet" href="\resources\grid.css" type="text/css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
-<title>Insert title here</title>
+<title>COMNET</title>
 </head>
-<body id="new">
+<body class="new">
 <header>
       <h1>COMNET</h1>
     </header>
     <form class="register-form" method="post">
+      	<input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
       <div class="form-group">
-        <input type="email" class="form-control" placeholder="프로젝트 제목">
+        <input type="text" id="title" class="form-control" placeholder="프로젝트 제목">
       </div>
       <label>마감기한</label>
       <div class="row">
@@ -45,7 +47,7 @@
         </div>
       </div>
       <label id="field-label">모집 분야</label>
-      <table id="user-field" class="table table-borderless">
+      <table id="board-field" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="field" items="${fieldList}">
@@ -67,7 +69,7 @@
         </tr>
       </table>
       <label id="field-label">모집 언어</label>
-      <table id="user-language" class="table table-borderless">
+      <table id="board-language" class="table table-borderless">
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="language" items="${languageList}">
@@ -90,28 +92,28 @@
       </table>
         <div class="form-group">
           <label>프로젝트 설명</label>
-          <textarea class="form-control" rows="3"></textarea>
+          <textarea id="content" class="form-control" rows="3"></textarea>
         </div>
         <div class="partner-limit">
 	    	<div class="form-group">
-          		<input type="email" class="form-control" placeholder="팀원제한(0입력시 무제한)">
+          		<input type="number" class="form-control" placeholder="팀원제한" id="partner-limit-input">
         	</div>
 	        <div class="partner-limit-check">
 		        <div class="recruit">
-		            <input class="form-check-input" type="checkbox" value="1" id="always">
+		            <input class="form-check-input" type="checkbox" value="1" id="unlimit">
 		              <label class="form-check-label">
-		                	팀원 무제한
+		                	제한없음
 		              </label>
 		        </div>
 	        </div>
         </div>
         <div class="form-group">
-	    	<input type="email" class="form-control" placeholder="연락처">
+	    	<input type="text" id="contact" class="form-control" placeholder="연락처">
 	    </div>
         <div>
-          <button type="button" class="btn btn-primary btn-lg">작성</button>
+          <button type="button" id="new" class="btn btn-primary btn-lg">작성</button>
         </div>
-        <button type="button" id="back" onclick="location.href='project.html'" class="btn btn-primary btn-sm">Back</button>
+        <button type="button" id="back" onclick="location.href='/board'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
       var Calander=new Date();
@@ -149,9 +151,89 @@
           $("#day").removeAttr("disabled");
         }
       });
-      $(".new").click(function(){
-    	  
-      })
+      $("#unlimit").click(function(){
+          if($("#unlimit").prop("checked")){
+            $("#partner-limit-input").attr("readonly","readonly");
+          }
+          else{
+        	  $("#partner-limit-input").removeAttr("readonly");
+          }
+        });
+      $("#new").click(function(){
+    	 
+    	var partner_limit_form=/^[1-9]+$/;
+    	if($("#title").val()==""){
+    		alert("제목을 입력해주세요.");
+    		$("#title").focus();
+    		return;
+    	}
+    	else if($("input:checkbox[name=field-check]:checked").length==0){
+  			alert("모집 분야를 하나 이상 선택해주세요.");
+  			$("#user-field").focus();
+  			return;
+  		}
+  		else if($("input:checkbox[name=language-check]:checked").length==0){
+  			alert("모집 언어를 하나 이상 선택해주세요.");
+  			$("#user-language").focus();
+  			return;
+  		}
+    	else if($("#content").val()==""){
+    		alert("내용을 입력해주세요.");
+    		$("#content").focus();
+    		return;
+    	}
+    	else if(!$("#unlimit").prop("checked") && !partner_limit_form.test($("#partner-limit-input").val())){
+    		alert("팀원 제한을 입력하거나 제한없음을 체크해주세요.");
+    		$("#partner-limit").focus();
+    		return;
+    	}
+    	else if($("#contact").val()==""){
+    		alert("연락처를 입력해주세요.");
+    		$("#contact").focus();
+    		return;
+    	}
+  		
+    	var board_field=new Array();
+  		var board_language=new Array();
+  		$("#board-field input").each(function(){
+  			if($(this).is(":checked")==true){
+  				board_field.push($(this).val());
+  			}
+  		});
+  		$("#board-language input").each(function(){
+  			if($(this).is(":checked")==true){
+  				board_language.push($(this).val());
+  			}
+  		});
+  		
+  		var partner_limit;
+  		if($("#unlimit").prop("checked")){
+  			partner_limit=0;
+  		}
+  		else{
+  			partner_limit=$("#partner-limit-input").val();
+  		}
+  		var deadline=new Date();
+  		if($("#always").prop("checked")){
+  			deadline.setYear(9999);
+  		}
+  		else{
+  			deadline.setYear($("#year").val());
+  	  		deadline.setMonth($("#month").val()-1);
+  	  		deadline.setDate($("#day").val());
+  		}
+  		
+  		$.ajax({
+  			type: "POST",
+  			url: "/board/new",
+  			traditional:true,
+  			data:{title: $("#title").val(), content: $("#content").val(), deadline: deadline.getFullYear()+"-"+deadline.getMonth()+"-"+deadline.getDate(), partner_limit: partner_limit, 
+  				uid: $("#uid").val(), contact: $("#contact").val(), board_field: board_field, board_language: board_language},
+  			success: function(){
+  				location.href="/board";
+  			}
+  		});
+      });
     </script>
 </body>
 </html>

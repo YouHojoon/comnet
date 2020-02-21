@@ -12,4 +12,6 @@ public interface FieldDAO {
 	public List<FieldVO> selectBoardField(int bid);//프로젝트 모집 분야 조회;
 	
 	public void registerUserField(int uid, int fid);//user_field 등록
+	
+	public void registerBoardField(int bid, int fid);//board_field 등록
 }

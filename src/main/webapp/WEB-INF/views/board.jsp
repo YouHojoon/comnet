@@ -36,7 +36,7 @@
 		</button>
 	</header>
 
-	<div>
+	<div class="project-list">
 	<!--사이드 메뉴 시작-->
 		<div class="sidemenu">
 			<div class="language">
@@ -83,32 +83,51 @@
 								<label><c:out value="${language.lname}"/></label>
 							</c:forEach>
 						</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.boardVO.deadline}"/></td>
-						<td>${board.boardVO.partner_limit}</td>
+						<td>
+							<c:choose>
+								<c:when test="${board.boardVO.deadline.year==8099}">
+									상시모집
+								</c:when>
+								<c:otherwise>
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${board.boardVO.deadline}"/>
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${board.boardVO.partner_limit==0}">
+									제한없음
+								</c:when>
+								<c:otherwise>
+									${board.boardVO.partner_limit}
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		<!--프로젝트 조회 끝-->
-	</div>
-	<button type="button" id="register" class="btn btn-default"
-		aria-label="Left Align">register</button>
+		<button type="button" id="register" class="btn btn-default"
+		onclick="location.href='/board/new'" aria-label="Left Align">register</button>
 	<!--페이징 처리 시작-->
-	<nav>
-		<ul class="pagination">
-			<li><a href="#" aria-label="Previous"> <span
-					aria-hidden="true">&laquo;</span>
-			</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
-		</ul>
-	</nav>
+		<nav>
+			<ul class="pagination">
+				<li><a href="#" aria-label="Previous"> <span
+						aria-hidden="true">&laquo;</span>
+				</a></li>
+				<li><a href="#">1</a></li>
+				<li><a href="#">2</a></li>
+				<li><a href="#">3</a></li>
+				<li><a href="#">4</a></li>
+				<li><a href="#">5</a></li>
+				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+				</a></li>
+			</ul>
+		</nav>
 	<!--페이징 처리 끝-->
+	</div>
+	
 	<!--알림 조회 모달-->
 	<div class="modal" id="message-modal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLongTitle" aria-hidden="true">
