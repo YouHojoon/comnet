@@ -18,4 +18,10 @@
     		INSERT conn_bf
     		VALUES(#{bid},#{fid})
     	</insert>
+    	<select id="selectConn_bfList" resultType="Conn_bfVO">
+    		SELECT * FROM conn_bf ORDER BY bid ASC
+    	</select>
+    	<select id="select" resultType="FieldVO">
+    		SELECT * FROM Field WHERE fid=#{fid}
+    	</select>
     </mapper>

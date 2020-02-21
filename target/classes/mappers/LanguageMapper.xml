@@ -6,10 +6,6 @@
     	<select id="selectList" resultType="LanguageVO">
     		SELECT * FROM Language
     	</select>
-    	<select id="selectBoardLanguage" resultType="LanguageVO">
-    		SELECT Language.lid, lname FROM Language, conn_bl
-			WHERE conn_bl.bid=#{bid} AND conn_bl.lid=Language.lid
-    	</select>
     	<insert id="registerUserLanguage">
     		INSERT conn_ul
     		VALUES(#{uid},#{lid})
@@ -18,4 +14,10 @@
     		INSERT conn_bl
     		VALUES(#{bid},#{lid})
     	</insert>
+    	<select id="selectConn_blList" resultType="Conn_blVO">
+    		SELECT * FROM conn_bl ORDER BY bid ASC
+    	</select>
+    	<select id="select" resultType="LanguageVO">
+    		SELECT * FROM Language WHERE lid=#{lid}
+    	</select>
     </mapper>

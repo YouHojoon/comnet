@@ -4,14 +4,17 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import kr.ac.smu.cs.comnet.vo.Conn_blVO;
 import kr.ac.smu.cs.comnet.vo.LanguageVO;
 
 public interface LanguageDAO {
 	public List<LanguageVO> selectList();//언어 전체 조회
 	
-	public List<LanguageVO> selectBoardLanguage(int bid);//프로젝트 모집 언어 조회
-	
 	public void regiserUserLanguage(int uid, int lid);//user_language 등록
 	
 	public void regiserBoardLanguage(int bid, int lid);//board_language 등록
+	
+	public List<Conn_blVO> selectConn_blList();//DB접속 시간을 줄이기 위해 한번에  bid로 오름차순 정렬해 반환
+	
+	public LanguageVO select(int lid);//언어 반환
 }
