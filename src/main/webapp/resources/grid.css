@@ -460,7 +460,7 @@ table > tbody > tr > th{
 
 	}
 }
-@media(max-width:600px){
+@media(max-width:670px){
 	.register-form > .table > tbody > tr > th{
 		padding-left: 0!important;
     	padding-right: 0!important;

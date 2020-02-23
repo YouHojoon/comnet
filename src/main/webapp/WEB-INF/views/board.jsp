@@ -176,12 +176,8 @@
 		if(startPage==null)
 			startPage=1;
 		pagination();
-		$("th[id=rowNum]").parent().css("display","none");
-			$("th[id=rowNum]").filter(function(){
-					return $(this).text() <= 15 * startPage * startPage && $(this).text() >= (startPage-1) * 15 + 1;
-				}).parent().css("display","table-row");
-
-			$(window).resize(function(){
+		
+			$(window).resize(function(){//창 크기를 줄이거나 늘릴 때
 				if($(".sidemenu").width() > 0){
 					if($(window).width() > 960){
 						$(".sidemenu").css("width","15%");
@@ -194,7 +190,7 @@
 					}
 				}
 			});
-		function pageMove(page){
+		function pageMove(page){//페이지 옮길 때 실행
 			startPage=page;
 			pagination();
 		}
@@ -207,15 +203,22 @@
 			$(".list-group > a:contains(" + search + ")").css('display', 'block');
 		});
 		window.onbeforeunload = function() {
-			sessionStorage.setItem("page",$("#active").text());
+			sessionStorage.setItem("page",$(".active > a").text());
 		}
-		function pagination(){
+		function pagination(){//페이징 처리
+			$("th[id=rowNum]").parent().css("display","none");
+			$("th[id=rowNum]").filter(function(){
+					return $(this).text() <= 15 * startPage * startPage && $(this).text() >= (startPage-1) * 15 + 1;
+					//페이지 범위 사이에 있는 것만 보이게
+			}).parent().css("display","table-row");
+			
 			$(".pagination").html("");
 			var endPage = Math.ceil(total / 15.0);
 			var realStartPage= Math.ceil(startPage / 10.0);
 			var realEndPage=Math.ceil(startPage / 10.0) * 10;
 			if(realEndPage > endPage)
 				realEndPage=endPage;
+			//페이지 버튼생성
 			if(realEndPage > 10)
 				$(".pagination").append("<li><a aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>")
 			for(var i=realStartPage; i<=realEndPage; i++){
@@ -227,7 +230,7 @@
 			if(realEndPage != endPage)
 				$(".pagination").append("<li><a aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>")
 		}
-		function showMenu() {
+		function showMenu() {//사이드 메뉴 크기 결정
 			if($(window).width() > 960){
 				$(".sidemenu").animate({
 					width: "15%"
