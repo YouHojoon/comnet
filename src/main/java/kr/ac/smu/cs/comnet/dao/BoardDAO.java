@@ -1,6 +1,5 @@
 package kr.ac.smu.cs.comnet.dao;
 
-import java.sql.Date;
 import java.util.List;
 
 import kr.ac.smu.cs.comnet.vo.BoardVO;

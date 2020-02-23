@@ -53,9 +53,9 @@ public class DefaultController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/board")
 	public void board(Model model) {
-		List<BoardDTO> boardList = bService.selectList();
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
+		List<BoardDTO> boardList = bService.selectList();
 		model.addAttribute("boardList",boardList);
 		model.addAttribute("total",boardList.size());
 	}

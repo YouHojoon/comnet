@@ -3,21 +3,29 @@ package kr.ac.smu.cs.comnet.dao;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.Cache;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Repository;
 
 import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
 import kr.ac.smu.cs.comnet.vo.Conn_blVO;
 import kr.ac.smu.cs.comnet.vo.LanguageVO;
 
+
 @Repository
 public class LanguageDAOImpl implements LanguageDAO{
 	@Autowired
 	private LanguageMapper mapper;
-	
+	@Autowired
+	EhCacheCacheManager ecache;
 	@Override
 	public List<LanguageVO> selectList() {
-		return mapper.selectList();
+		List<LanguageVO> languageList = mapper.selectList();
+		Cache languageCache= ecache.getCache("LanguageCache");
+		languageList.stream().forEach(languageVO -> 
+		languageCache.put(languageVO.getLid(), languageVO));
+		return languageList;
 	}
 	@Override
 	public void regiserUserLanguage(int uid, int lid) {

@@ -2,8 +2,6 @@ package kr.ac.smu.cs.comnet.dao;
 
 import java.util.List;
 
-import org.apache.ibatis.annotations.Param;
-
 import kr.ac.smu.cs.comnet.vo.Conn_bfVO;
 import kr.ac.smu.cs.comnet.vo.FieldVO;
 
