@@ -25,7 +25,7 @@ public class FieldDAOImpl implements FieldDAO {
 		List<FieldVO> fieldList=mapper.selectList();
 		Cache fieldCache=ehcache.getCache("FieldCache");
 		fieldList.stream().forEach(fieldVO -> 
-		fieldCache.put(fieldVO.getFid(), fieldVO));
+		fieldCache.put(fieldVO.getFid(), fieldVO));//캐시에 fieldVO 삽입
 		return fieldList;
 	}
 	@Override

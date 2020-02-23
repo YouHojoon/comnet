@@ -192,7 +192,7 @@
 			});
 		function pageMove(page){//페이지 옮길 때 실행
 			startPage=page;
-			$("header").focus();
+			$("#project-list").focus();
 			pagination();
 		}
 		$("#message").click(function() {

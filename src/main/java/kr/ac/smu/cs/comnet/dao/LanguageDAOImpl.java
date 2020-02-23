@@ -24,7 +24,7 @@ public class LanguageDAOImpl implements LanguageDAO{
 		List<LanguageVO> languageList = mapper.selectList();
 		Cache languageCache= ecache.getCache("LanguageCache");
 		languageList.stream().forEach(languageVO -> 
-		languageCache.put(languageVO.getLid(), languageVO));
+		languageCache.put(languageVO.getLid(), languageVO));//캐시에 LanguageVO 삽입
 		return languageList;
 	}
 	@Override
