@@ -192,6 +192,7 @@
 			});
 		function pageMove(page){//페이지 옮길 때 실행
 			startPage=page;
+			$("header").focus();
 			pagination();
 		}
 		$("#message").click(function() {
@@ -208,19 +209,19 @@
 		function pagination(){//페이징 처리
 			$("th[id=rowNum]").parent().css("display","none");
 			$("th[id=rowNum]").filter(function(){
-					return $(this).text() <= 15 * startPage * startPage && $(this).text() >= (startPage-1) * 15 + 1;
+					return $(this).text() <= 15 * startPage && $(this).text() >= (startPage-1) * 15 + 1;
 					//페이지 범위 사이에 있는 것만 보이게
 			}).parent().css("display","table-row");
 			
 			$(".pagination").html("");
 			var endPage = Math.ceil(total / 15.0);
-			var realStartPage= Math.ceil(startPage / 10.0);
 			var realEndPage=Math.ceil(startPage / 10.0) * 10;
+			var realStartPage= realEndPage-9;
 			if(realEndPage > endPage)
 				realEndPage=endPage;
 			//페이지 버튼생성
 			if(realEndPage > 10)
-				$(".pagination").append("<li><a aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>")
+				$(".pagination").append("<li><a aria-label='Previous' onclick='pageMove("+ (realStartPage - 1) +")'><span aria-hidden='true'>&laquo;</span></a></li>")
 			for(var i=realStartPage; i<=realEndPage; i++){
 				if(i == startPage)
 					$(".pagination").append("<li class='active'><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
@@ -228,7 +229,7 @@
 					$(".pagination").append("<li><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
 			}
 			if(realEndPage != endPage)
-				$(".pagination").append("<li><a aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>")
+				$(".pagination").append("<li><a aria-label='Next' onclick='pageMove("+ (realEndPage + 1) +")'><span aria-hidden='true'>&raquo;</span></a></li>")
 		}
 		function showMenu() {//사이드 메뉴 크기 결정
 			if($(window).width() > 960){
