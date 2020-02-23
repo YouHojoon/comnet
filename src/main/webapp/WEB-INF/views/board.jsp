@@ -42,7 +42,7 @@
 			<div class="language">
 				<label class="menu-label">분야</label>
 				<div class="list-group">
-					<c:forEach var="field" items="${fieldList}">
+					<c:forEach var="field" items="${fieldList}" >
 						<a class="list-group-item">${field.fname}</a>
 					</c:forEach>
 				</div>
@@ -60,6 +60,7 @@
 		</div>
 		<!--사이드 메뉴 끝-->
 		<!--프로젝트 조회 시작-->
+		<input type="hidden" id="total" value="${total}">
 		<table id="project-list" class="table table-hover">
 			<thead>
 				<tr>
@@ -72,8 +73,8 @@
 			</thead>
 			<tbody>
 				<c:forEach var="board" items="${boardList}">
-					<tr>
-						<th scope="row">${board.boardVO.rowNum}</th>
+					<tr id="board">
+						<th id="rowNum" scope="row">${board.boardVO.rowNum}</th>
 						<td>${board.boardVO.title}</td>
 						<td class="requirement">
 							<c:forEach var="field" items="${board.board_field}">
@@ -113,16 +114,8 @@
 	<!--페이징 처리 시작-->
 		<nav>
 			<ul class="pagination">
-				<li><a href="#" aria-label="Previous"> <span
-						aria-hidden="true">&laquo;</span>
-				</a></li>
-				<li><a href="#">1</a></li>
-				<li><a href="#">2</a></li>
-				<li><a href="#">3</a></li>
-				<li><a href="#">4</a></li>
-				<li><a href="#">5</a></li>
-				<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-				</a></li>
+				
+				
 			</ul>
 		</nav>
 	<!--페이징 처리 끝-->
@@ -178,7 +171,16 @@
 	</div>
 	<footer id="test"> Create by YouHoJoon </footer>
 	<script type="text/javascript">
-		
+		var total=$("#total").val();
+		var startPage=sessionStorage.getItem("page");
+		if(startPage==null)
+			startPage=1;
+		pagination();
+		$("th[id=rowNum]").parent().css("display","none");
+			$("th[id=rowNum]").filter(function(){
+					return $(this).text() <= 15 * startPage * startPage && $(this).text() >= (startPage-1) * 15 + 1;
+				}).parent().css("display","table-row");
+
 			$(window).resize(function(){
 				if($(".sidemenu").width() > 0){
 					if($(window).width() > 960){
@@ -192,15 +194,39 @@
 					}
 				}
 			});
-		
+		function pageMove(page){
+			startPage=page;
+			pagination();
+		}
 		$("#message").click(function() {
 			$("#message-modal").modal("show");
 		});
 		$("#search-input").keyup(function() {
 			var search = $("#search-input").val();
-			$("a").css('display', 'none');
-			$("a:contains(" + search + ")").css('display', 'block');
+			$(".list-group > a").css('display', 'none');
+			$(".list-group > a:contains(" + search + ")").css('display', 'block');
 		});
+		window.onbeforeunload = function() {
+			sessionStorage.setItem("page",$("#active").text());
+		}
+		function pagination(){
+			$(".pagination").html("");
+			var endPage = Math.ceil(total / 15.0);
+			var realStartPage= Math.ceil(startPage / 10.0);
+			var realEndPage=Math.ceil(startPage / 10.0) * 10;
+			if(realEndPage > endPage)
+				realEndPage=endPage;
+			if(realEndPage > 10)
+				$(".pagination").append("<li><a aria-label='Previous'><span aria-hidden='true'>&laquo;</span></a></li>")
+			for(var i=realStartPage; i<=realEndPage; i++){
+				if(i == startPage)
+					$(".pagination").append("<li class='active'><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
+				else
+					$(".pagination").append("<li><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
+			}
+			if(realEndPage != endPage)
+				$(".pagination").append("<li><a aria-label='Next'><span aria-hidden='true'>&raquo;</span></a></li>")
+		}
 		function showMenu() {
 			if($(window).width() > 960){
 				$(".sidemenu").animate({

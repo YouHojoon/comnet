@@ -1,8 +1,8 @@
 package kr.ac.smu.cs.comnet.vo;
 
 public class Conn_bfVO {
-	int bid;
-	int fid;
+	private int bid;
+	private int fid;
 	public int getBid() {
 		return bid;
 	}

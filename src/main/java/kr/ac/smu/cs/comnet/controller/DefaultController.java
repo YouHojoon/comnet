@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
@@ -39,7 +40,7 @@ public class DefaultController {
 	private BoardService bService;
 	@Autowired
 	private UserService uService;
-	@GetMapping("/loginPage")
+	@GetMapping("/")
 	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto, 
 			HttpServletResponse response) {
 		if (auto != null) {
@@ -52,9 +53,11 @@ public class DefaultController {
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/board")
 	public void board(Model model) {
+		List<BoardDTO> boardList = bService.selectList();
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		model.addAttribute("boardList",bService.selectList());
+		model.addAttribute("boardList",boardList);
+		model.addAttribute("total",boardList.size());
 	}
 	@GetMapping("/register")
 	public void register(Model model) {

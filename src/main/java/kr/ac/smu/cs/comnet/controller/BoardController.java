@@ -7,6 +7,7 @@ import javax.xml.crypto.Data;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -22,14 +23,15 @@ import kr.ac.smu.cs.comnet.service.LanguageService;
 import kr.ac.smu.cs.comnet.vo.BoardVO;
 
 @Controller
+@PreAuthorize("isAuthenticated()")
 @RequestMapping("/board")
 public class BoardController {
 	@Autowired
-	FieldService fService;
+	private FieldService fService;
 	@Autowired
-	LanguageService lService;
+	private LanguageService lService;
 	@Autowired
-	BoardService bService;
+	private BoardService bService;
 	@InitBinder
 	public void dateBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
