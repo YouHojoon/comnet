@@ -36,24 +36,24 @@ public class BoardServiceImpl implements BoardService{
 		long start=System.currentTimeMillis();
 		List<BoardVO> boardList=bDAO.selectList();
 		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();//O(n)만큼 걸려서 데이터가 많아지면 시간 오래 걸림
-		List<Conn_bfVO> field_list=new ArrayList<Conn_bfVO>();
-		List<Conn_blVO> language_list=new ArrayList<Conn_blVO>();
-		field_list=fDAO.selectConn_bfList();
-		language_list=lDAO.selectConn_blList();
+		List<Conn_bfVO> fieldList=new ArrayList<Conn_bfVO>();
+		List<Conn_blVO> languageList=new ArrayList<Conn_blVO>();
+		fieldList=fDAO.selectConn_bfList();
+		languageList=lDAO.selectConn_blList();
 		int i=0, q=0;
 		for(BoardVO boardVO : boardList) {
 			int bid=boardVO.getBid();
 			List<FieldVO> board_field=new ArrayList<FieldVO>();
 			List<LanguageVO> board_language=new ArrayList<LanguageVO>();
-			for(; i<field_list.size(); i++) {
-				Conn_bfVO conn_bfVO= field_list.get(i);
+			for(; i<fieldList.size(); i++) {
+				Conn_bfVO conn_bfVO= fieldList.get(i);
 				if(conn_bfVO.getBid()==bid) 
 					board_field.add(fDAO.select(conn_bfVO.getFid()));
 				else
 					break;//프로젝트 모집 분야가 끝나면 탈출
 			}
-			for(; q<language_list.size(); q++) {
-				Conn_blVO conn_blVO= language_list.get(q);
+			for(; q<languageList.size(); q++) {
+				Conn_blVO conn_blVO= languageList.get(q);
 				if(conn_blVO.getBid()==bid)
 					board_language.add(lDAO.select(conn_blVO.getLid()));
 				else
