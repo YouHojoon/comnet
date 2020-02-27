@@ -9,9 +9,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.ac.smu.cs.comnet.dao.BoardDAO;
-import kr.ac.smu.cs.comnet.dao.FieldDAO;
-import kr.ac.smu.cs.comnet.dao.LanguageDAO;
+import kr.ac.smu.cs.comnet.mapper.BoardMapper;
+import kr.ac.smu.cs.comnet.mapper.FieldMapper;
+import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.vo.BoardVO;
 import kr.ac.smu.cs.comnet.vo.Conn_bfVO;
@@ -22,21 +22,21 @@ import kr.ac.smu.cs.comnet.vo.LanguageVO;
 @Service
 public class BoardServiceImpl implements BoardService{
 	@Autowired
-	private BoardDAO bDAO;
+	private BoardMapper bMapper;
 	@Autowired
-	private FieldDAO fDAO;
+	private FieldMapper fMapper;
 	@Autowired
-	private LanguageDAO lDAO;
+	private LanguageMapper lMapper;
 	private Logger log=LoggerFactory.getLogger(BoardServiceImpl.class);
 	@Override
 	public List<BoardDTO> selectList() {
 		long start=System.currentTimeMillis();
-		List<BoardVO> boardList=bDAO.selectList();
+		List<BoardVO> boardList=bMapper.selectList();
 		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();//O(n)만큼 걸려서 데이터가 많아지면 시간 오래 걸림
 		List<Conn_bfVO> fieldList=new ArrayList<Conn_bfVO>();
 		List<Conn_blVO> languageList=new ArrayList<Conn_blVO>();
-		fieldList=fDAO.selectConn_bfList();
-		languageList=lDAO.selectConn_blList();
+		fieldList=fMapper.selectConn_bfList();
+		languageList=lMapper.selectConn_blList();
 		int i=0, q=0;
 		for(BoardVO boardVO : boardList) {
 			int bid=boardVO.getBid();
@@ -45,14 +45,14 @@ public class BoardServiceImpl implements BoardService{
 			for(; i<fieldList.size(); i++) {
 				Conn_bfVO conn_bfVO= fieldList.get(i);
 				if(conn_bfVO.getBid()==bid) 
-					board_field.add(fDAO.select(conn_bfVO.getFid()));
+					board_field.add(fMapper.select(conn_bfVO.getFid()));
 				else
 					break;//프로젝트 모집 분야가 끝나면 탈출
 			}
 			for(; q<languageList.size(); q++) {
 				Conn_blVO conn_blVO= languageList.get(q);
 				if(conn_blVO.getBid()==bid)
-					board_language.add(lDAO.select(conn_blVO.getLid()));
+					board_language.add(lMapper.select(conn_blVO.getLid()));
 				else
 					break;//프로젝트 모집 언어가 끝나면 탈출
 			}
@@ -65,10 +65,10 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public void register(BoardVO boardVO, int[] board_field, int[] board_language) {
 		boardVO.setReg_date(new Timestamp(System.currentTimeMillis()).toString());
-		bDAO.register(boardVO);
+		bMapper.register(boardVO);
 		for(int fid : board_field)
-			fDAO.registerBoardField(bDAO.select(boardVO.getReg_date()), fid);
+			fMapper.registerBoardField(bMapper.select(boardVO.getReg_date()), fid);
 		for(int lid : board_language)
-			lDAO.regiserBoardLanguage(bDAO.select(boardVO.getReg_date()), lid);
+			lMapper.regiserBoardLanguage(bMapper.select(boardVO.getReg_date()), lid);
 	}
 }

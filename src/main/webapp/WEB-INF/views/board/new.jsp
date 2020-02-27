@@ -208,7 +208,7 @@
   		
   		var partner_limit;
   		if($("#unlimit").prop("checked")){
-  			partner_limit=0;
+  			partner_limit=999;
   		}
   		else{
   			partner_limit=$("#partner-limit-input").val();

@@ -1,16 +1,15 @@
-package kr.ac.smu.cs.comnet.dao;
+package kr.ac.smu.cs.comnet.mapper;
 
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.cache.annotation.Cacheable;
-import org.springframework.stereotype.Repository;
 
 import kr.ac.smu.cs.comnet.vo.Conn_blVO;
 import kr.ac.smu.cs.comnet.vo.LanguageVO;
 
-
-public interface LanguageDAO {
+public interface LanguageMapper {
+	
 	public List<LanguageVO> selectList();//언어 전체 조회
 	
 	public void regiserUserLanguage(@Param("uid") int uid,@Param("lid") int lid);//user_language 등록
@@ -21,4 +20,5 @@ public interface LanguageDAO {
 	
 	@Cacheable("LanguageCache")
 	public LanguageVO select(int lid);//언어 반환
+	
 }

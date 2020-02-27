@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="kr.ac.smu.cs.comnet.dao.FieldDAO">
+    <mapper namespace="kr.ac.smu.cs.comnet.mapper.FieldMapper">
     	<select id="selectList" resultType="FieldVO">
     		SELECT * FROM Field
     	</select>
