@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="kr.ac.smu.cs.comnet.mapper.BoardMapper">
+    <mapper namespace="kr.ac.smu.cs.comnet.dao.BoardDAO">
     	<select id="selectList" resultType="BoardVO">
     		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,
     		(SELECT @rownum:=0)r;

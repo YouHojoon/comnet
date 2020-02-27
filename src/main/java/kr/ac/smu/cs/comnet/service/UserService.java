@@ -1,7 +1,5 @@
 package kr.ac.smu.cs.comnet.service;
 
-import org.springframework.http.HttpStatus;
-
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 public interface UserService {
