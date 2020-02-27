@@ -96,7 +96,7 @@
         </div>
         <div class="partner-limit">
 	    	<div class="form-group">
-          		<input type="number" class="form-control" placeholder="팀원제한" id="partner-limit-input">
+          		<input type="text" class="form-control" placeholder="팀원제한" id="partner-limit-input">
         	</div>
 	        <div class="partner-limit-check">
 		        <div class="recruit">
@@ -117,16 +117,15 @@
     </form>
     <script type="text/javascript">
       var Calander=new Date();
+      var current= new Date();
       $("#year").append("<option selected value="+Calander.getFullYear()+">"+Calander.getFullYear()+"년"+"</option>");
       var nextYear=Calander.getFullYear()+1;
       $("#year").append("<option value="+nextYear+">"+nextYear+"년"+"</option>");
       makeMonth();
       makeDay();
-      $("#day option[value="+new Date().getDate()+"]").attr("selected","selected");
       //마감기한 달력 생성
       function makeMonth(){//달 생성
     	 var str="";
-    	 var current= new Date()
     	 Calander.setFullYear($("#year").val());
     	 if($("#year").val()!=current.getFullYear())
     		 Calander.setMonth(0);
@@ -135,13 +134,15 @@
     	 for(var i=Calander.getMonth()+1; i<=12; i++)
        	 	str+="<option value="+i+">"+i+"월"+"</option>";
          $("#month").html(str);
-         $("#month option[value="+(Calander.getMonth()+1)+"]").attr("selected","selected");
          makeDay();
       }
       function makeDay(){//일 생성
     	  var str="";
           Calander.setMonth($("#month").val()-1);
-          Calander.setDate(1);
+          if($("#year").val()==current.getFullYear() && $("#month").val()==current.getMonth()+1)
+          	Calander.setDate(current.getDate());
+          else
+        	Calander.setDate(1);
           do {
             var date=Calander.getDate();
             str+="<option value="+date+">"+date+"일"+"</option>";
@@ -237,7 +238,7 @@
   			type: "POST",
   			url: "/board/new",
   			traditional:true,
-  			data:{title: $("#title").val(), content: $("#content").val(), deadline: deadline.getFullYear()+"-"+deadline.getMonth()+"-"+deadline.getDate(), partner_limit: partner_limit, 
+  			data:{title: $("#title").val(), content: $("#content").val(), deadline: deadline.getFullYear()+"-"+(deadline.getMonth()+1)+"-"+deadline.getDate(), partner_limit: partner_limit, 
   				uid: $("#uid").val(), contact: $("#contact").val(), board_field: board_field, board_language: board_language},
   			success: function(){
   				location.href="/board";

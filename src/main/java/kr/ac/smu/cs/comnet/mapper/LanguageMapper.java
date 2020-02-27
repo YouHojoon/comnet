@@ -14,7 +14,7 @@ public interface LanguageMapper {
 	
 	public void regiserUserLanguage(@Param("uid") int uid,@Param("lid") int lid);//user_language 등록
 	
-	public void regiserBoardLanguage(@Param("bid") int bid,@Param("lid") int lid);//board_language 등록
+	public void registerBoardLanguage(@Param("bid") int bid,@Param("lid") int lid);//board_language 등록
 	
 	public List<Conn_blVO> selectConn_blList();//DB접속 시간을 줄이기 위해 한번에  bid로 오름차순 정렬해 반환
 	

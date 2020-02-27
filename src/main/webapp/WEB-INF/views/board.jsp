@@ -96,7 +96,7 @@
 						</td>
 						<td>
 							<c:choose>
-								<c:when test="${board.boardVO.partner_limit==0}">
+								<c:when test="${board.boardVO.partner_limit==999}">
 									제한없음
 								</c:when>
 								<c:otherwise>

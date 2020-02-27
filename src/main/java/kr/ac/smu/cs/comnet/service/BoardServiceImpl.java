@@ -69,6 +69,6 @@ public class BoardServiceImpl implements BoardService{
 		for(int fid : board_field)
 			fMapper.registerBoardField(bMapper.select(boardVO.getReg_date()), fid);
 		for(int lid : board_language)
-			lMapper.regiserBoardLanguage(bMapper.select(boardVO.getReg_date()), lid);
+			lMapper.registerBoardLanguage(bMapper.select(boardVO.getReg_date()), lid);
 	}
 }
