@@ -25,7 +25,7 @@
       <label>마감기한</label>
       <div class="row">
         <div class="col">
-          <select class="form-control" onchange="makeDay()" id="year">
+          <select class="form-control" onchange="makeMonth()" id="year">
           </select>
         </div>
         <div class="col">
@@ -120,16 +120,26 @@
       $("#year").append("<option selected value="+Calander.getFullYear()+">"+Calander.getFullYear()+"년"+"</option>");
       var nextYear=Calander.getFullYear()+1;
       $("#year").append("<option value="+nextYear+">"+nextYear+"년"+"</option>");
-      for(var i=Calander.getMonth()+1; i<=12; i++){
-    	  $("#month").append("<option value="+i+">"+i+"월"+"</option>");
+      makeMonth();
+      makeDay();
+      $("#day option[value="+new Date().getDate()+"]").attr("selected","selected");
+      //마감기한 달력 생성
+      function makeMonth(){//달 생성
+    	 var str="";
+    	 var current= new Date()
+    	 Calander.setFullYear($("#year").val());
+    	 if($("#year").val()!=current.getFullYear())
+    		 Calander.setMonth(0);
+    	 else
+    		 Calander.setMonth(current.getMonth());
+    	 for(var i=Calander.getMonth()+1; i<=12; i++)
+       	 	str+="<option value="+i+">"+i+"월"+"</option>";
+         $("#month").html(str);
+         $("#month option[value="+(Calander.getMonth()+1)+"]").attr("selected","selected");
+         makeDay();
       }
-     $("#month option[value="+(new Date().getMonth()+1)+"]").attr("selected","selected");
-     makeDay();
-     $("#day option[value="+new Date().getDate()+"]").attr("selected","selected");
-     //마감기한 달력 생성
       function makeDay(){//일 생성
     	  var str="";
-          Calander.setYear($("#year").val());
           Calander.setMonth($("#month").val()-1);
           Calander.setDate(1);
           do {
@@ -215,10 +225,10 @@
   		}
   		var deadline=new Date();
   		if($("#always").prop("checked")){
-  			deadline.setYear(9999);
+  			deadline.setFullYear(9999);
   		}
   		else{
-  			deadline.setYear($("#year").val());
+  			deadline.setFullYear($("#year").val());
   	  		deadline.setMonth($("#month").val()-1);
   	  		deadline.setDate($("#day").val());
   		}
