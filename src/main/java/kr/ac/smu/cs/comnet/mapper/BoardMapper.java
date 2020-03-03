@@ -2,6 +2,8 @@ package kr.ac.smu.cs.comnet.mapper;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import kr.ac.smu.cs.comnet.vo.BoardVO;
 
 public interface BoardMapper {
@@ -11,4 +13,7 @@ public interface BoardMapper {
 	public void register(BoardVO boardVO);//프로젝트 등록
 	
 	public int select(String reg_date);//board_field, board_langueage 등록할때 bid가 필요해서
+	
+	public List<BoardVO> selectSuitableList(@Param("fieldList") List<Integer> fieldList, 
+			@Param("languageList") List<Integer> languageList);//선택한 요건에 맞는 프로젝트 조회
 }

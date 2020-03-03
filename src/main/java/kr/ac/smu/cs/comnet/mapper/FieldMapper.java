@@ -21,4 +21,5 @@ public interface FieldMapper {
 	@Cacheable("FieldCache")
 	public FieldVO select(int fid);//영역 반환
 	
+	public List<Conn_bfVO> selectSuitableConn_bfList(@Param("bidList") List<Integer> bidList);//적합한 conn_bf반환
 }

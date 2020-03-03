@@ -4,7 +4,9 @@ import java.util.List;
 
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.taglibs.standard.tag.common.core.ForEachSupport;
 import org.slf4j.Logger;
@@ -21,6 +23,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.SessionAttribute;
 
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
@@ -57,7 +60,23 @@ public class DefaultController {
 		model.addAttribute("languageList", lService.selectList());
 		List<BoardDTO> boardList = bService.selectList();
 		model.addAttribute("boardList",boardList);
-		model.addAttribute("total",boardList.size());
+		if(boardList!=null)
+			model.addAttribute("total",boardList.size());
+		else
+			model.addAttribute("total",0);
+	}
+	
+	@PostMapping("/board")
+	public void board(@RequestParam(name = "fieldList", required = false) List<Integer> fieldList ,
+			@RequestParam(name = "languageList", required = false) List<Integer> languageList, Model model){
+		model.addAttribute("fieldList", fService.selectList());
+		model.addAttribute("languageList", lService.selectList());
+		List<BoardDTO> boardList = bService.selectSuitableList(fieldList, languageList);
+		model.addAttribute("boardList",boardList);
+		if(boardList!=null)
+			model.addAttribute("total",boardList.size());
+		else
+			model.addAttribute("total",0);
 	}
 	@GetMapping("/register")
 	public void register(Model model) {

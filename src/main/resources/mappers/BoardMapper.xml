@@ -14,4 +14,36 @@
 		<select id="select" resultType="int">
 			SELECT bid FROM Board where reg_date=#{reg_date}
 		</select>
+		<select id="selectSuitableList" resultType="BoardVO">
+    		SELECT DISTINCT Board.* FROM Board, conn_bf, conn_bl
+    		<choose>
+    			<when test="languageList.size()>0 and fieldList.size()>0">
+	    			WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN 
+					<foreach item="fid" collection="fieldList" open="(" close=")" separator=",">
+						#{fid}
+					</foreach>
+						   )
+					OR (conn_bl.bid=Board.bid AND conn_bl.lid IN
+					<foreach item="lid" collection="languageList" open="(" close=")" separator=",">
+						#{lid}
+					</foreach>
+						  )
+    			</when>
+    			<when test="fieldList.size()>0">
+	    			WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN 
+					<foreach item="fid" collection="fieldList" open="(" close=")" separator=",">
+						#{fid}
+					</foreach>
+						   )
+    			</when>
+    			<when test="languageList.size()>0">
+	    			WHERE (conn_bl.bid=Board.bid AND conn_bl.lid IN
+					<foreach item="lid" collection="languageList" open="(" close=")" separator=",">
+						#{lid}
+					</foreach>
+						  )
+    			</when>
+    		</choose>
+			GROUP BY Board.bid
+    	</select>
     </mapper>

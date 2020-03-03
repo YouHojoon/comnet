@@ -20,4 +20,11 @@
     	<select id="select" resultType="LanguageVO">
     		SELECT * FROM Language WHERE lid=#{lid}
     	</select>
+    	<select id="selectSuitableConn_blList" resultType="Conn_blVO">
+    		SELECT * FROM conn_bl WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    		ORDER BY bid ASC 
+    	</select>
     </mapper>

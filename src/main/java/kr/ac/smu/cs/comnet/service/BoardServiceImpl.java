@@ -32,25 +32,27 @@ public class BoardServiceImpl implements BoardService{
 	public List<BoardDTO> selectList() {
 		long start=System.currentTimeMillis();
 		List<BoardVO> boardList=bMapper.selectList();
+		if(boardList.size()==0)//프로젝트가 없으면 null 반환
+			return null;
 		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();//O(n)만큼 걸려서 데이터가 많아지면 시간 오래 걸림
-		List<Conn_bfVO> fieldList=new ArrayList<Conn_bfVO>();
-		List<Conn_blVO> languageList=new ArrayList<Conn_blVO>();
-		fieldList=fMapper.selectConn_bfList();
-		languageList=lMapper.selectConn_blList();
+		List<Conn_bfVO> conn_bfList=new ArrayList<Conn_bfVO>();
+		List<Conn_blVO> conn_blList=new ArrayList<Conn_blVO>();
+		conn_bfList=fMapper.selectConn_bfList();
+		conn_blList=lMapper.selectConn_blList();
 		int i=0, q=0;
 		for(BoardVO boardVO : boardList) {
 			int bid=boardVO.getBid();
 			List<FieldVO> board_field=new ArrayList<FieldVO>();
 			List<LanguageVO> board_language=new ArrayList<LanguageVO>();
-			for(; i<fieldList.size(); i++) {
-				Conn_bfVO conn_bfVO= fieldList.get(i);
+			for(; i<conn_bfList.size(); i++) {
+				Conn_bfVO conn_bfVO= conn_bfList.get(i);
 				if(conn_bfVO.getBid()==bid) 
 					board_field.add(fMapper.select(conn_bfVO.getFid()));
 				else
 					break;//프로젝트 모집 분야가 끝나면 탈출
 			}
-			for(; q<languageList.size(); q++) {
-				Conn_blVO conn_blVO= languageList.get(q);
+			for(; q<conn_blList.size(); q++) {
+				Conn_blVO conn_blVO= conn_blList.get(q);
 				if(conn_blVO.getBid()==bid)
 					board_language.add(lMapper.select(conn_blVO.getLid()));
 				else
@@ -70,5 +72,47 @@ public class BoardServiceImpl implements BoardService{
 			fMapper.registerBoardField(bMapper.select(boardVO.getReg_date()), fid);
 		for(int lid : board_language)
 			lMapper.registerBoardLanguage(bMapper.select(boardVO.getReg_date()), lid);
+	}
+	@Override
+	public List<BoardDTO> selectSuitableList(List<Integer> fieldList, List<Integer> languageList) {
+		long start=System.currentTimeMillis();
+		List<BoardVO> boardList=bMapper.selectSuitableList(fieldList, languageList);
+		if(boardList.size()==0)//프로젝트가 없으면 null 반환
+			return null;
+		List<Integer> bidList=new ArrayList<Integer>();
+		List<BoardDTO> boardDTOList=new ArrayList<BoardDTO>();//O(n)만큼 걸려서 데이터가 많아지면 시간 오래 걸림
+		List<Conn_bfVO> conn_bfList=new ArrayList<Conn_bfVO>();
+		List<Conn_blVO> conn_blList=new ArrayList<Conn_blVO>();
+		int i=0, q=0, rowNum=1;
+		for(BoardVO boardVO : boardList) { 
+			bidList.add(boardVO.getBid());
+			boardVO.setRowNum(rowNum);
+			rowNum++;
+		}	
+		conn_bfList=fMapper.selectSuitableConn_bfList(bidList);
+		conn_blList=lMapper.selectSuitableConn_blList(bidList);
+		for(BoardVO boardVO : boardList) {
+			int bid=boardVO.getBid();
+			List<FieldVO> board_field=new ArrayList<FieldVO>();
+			List<LanguageVO> board_language=new ArrayList<LanguageVO>();
+			for(; i<conn_bfList.size(); i++) {
+				Conn_bfVO conn_bfVO= conn_bfList.get(i);
+				if(conn_bfVO.getBid()==bid) 
+					board_field.add(fMapper.select(conn_bfVO.getFid()));
+				else
+					break;//프로젝트 모집 분야가 끝나면 탈출
+			}
+			for(; q<conn_blList.size(); q++) {
+				Conn_blVO conn_blVO= conn_blList.get(q);
+				if(conn_blVO.getBid()==bid)
+					board_language.add(lMapper.select(conn_blVO.getLid()));
+				else
+					break;//프로젝트 모집 언어가 끝나면 탈출
+			}
+			boardDTOList.add(new BoardDTO(boardVO, board_field, board_language));
+		}
+		long end=System.currentTimeMillis();
+		log.info(Long.toString(end-start));
+		return boardDTOList;
 	}
 }

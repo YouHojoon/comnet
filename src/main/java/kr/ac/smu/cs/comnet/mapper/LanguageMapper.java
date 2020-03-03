@@ -21,4 +21,5 @@ public interface LanguageMapper {
 	@Cacheable("LanguageCache")
 	public LanguageVO select(int lid);//언어 반환
 	
+	public List<Conn_blVO> selectSuitableConn_blList(@Param("bidList") List<Integer> bidList);//적합한 conn_bl반환
 }

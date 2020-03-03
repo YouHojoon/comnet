@@ -20,4 +20,12 @@
     	<select id="select" resultType="FieldVO">
     		SELECT * FROM Field WHERE fid=#{fid}
     	</select>
+    	<select id="selectSuitableConn_bfList" resultType="Conn_bfVO">
+    		SELECT * FROM conn_bf WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    		ORDER BY bid ASC 
+    	</select>
+    	
     </mapper>

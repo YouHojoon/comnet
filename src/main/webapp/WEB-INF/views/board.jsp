@@ -41,17 +41,17 @@
 		<div class="sidemenu">
 			<div class="language">
 				<label class="menu-label">분야</label>
-				<div class="list-group">
+				<div id="field-list" class="list-group">
 					<c:forEach var="field" items="${fieldList}" >
-						<a class="list-group-item">${field.fname}</a>
+						<a class="list-group-item" id="${field.fid}">${field.fname}</a>
 					</c:forEach>
 				</div>
 			</div>
 			<div class="language">
 				<label class="menu-label">언어</label>
-				<div class="list-group">
+				<div id="language-list" class="list-group">
 					<c:forEach var="language" items="${languageList}">
-						<a class="list-group-item">${language.lname}</a>
+						<a class="list-group-item" id="${language.lid}">${language.lname}</a>
 					</c:forEach>
 				</div>
 			</div>
@@ -176,8 +176,10 @@
 		if(startPage==null)
 			startPage=1;
 		pagination();
-		
-			$(window).resize(function(){//창 크기를 줄이거나 늘릴 때
+		$("a").click(function(){
+			$(this).toggleClass("active");
+		});
+		$(window).resize(function(){//창 크기를 줄이거나 늘릴 때
 				if($(".sidemenu").width() > 0){
 					if($(window).width() > 960){
 						$(".sidemenu").css("width","15%");
@@ -189,12 +191,34 @@
 						$(".sidemenu").css("width","30%");
 					}
 				}
+		});
+		$("#save").click(function(){//원하는 요건의 프로젝트 조회
+			var fieldList=new Array();
+			var languageList=new Array();
+			$("#field-list a").each(function(){
+				if($(this).hasClass("active"))
+					fieldList.push($(this).attr("id"));
 			});
-		function pageMove(page){//페이지 옮길 때 실행
-			startPage=page;
-			$('html').scrollTop(0);
-			pagination();
-		}
+			$("#language-list a").each(function(){
+				if($(this).hasClass("active"))
+					languageList.push($(this).attr("id"));
+			});
+			var form = document.createElement("form");
+			form.setAttribute("method","POST");
+			form.setAttribute("action","/board");
+			var fieldInput= document.createElement("input");
+			fieldInput.setAttribute("name","fieldList");
+			fieldInput.setAttribute("value",fieldList);
+			fieldInput.setAttribute("type","hidden");
+			form.appendChild(fieldInput);
+			var languageInput= document.createElement("input");
+			languageInput.setAttribute("name","languageList");
+			languageInput.setAttribute("value",languageList);
+			languageInput.setAttribute("type","hidden");
+			form.appendChild(languageInput);
+			document.body.appendChild(form);
+			form.submit();
+		});
 		$("#message").click(function() {
 			$("#message-modal").modal("show");
 		});
@@ -203,8 +227,10 @@
 			$(".list-group > a").css('display', 'none');
 			$(".list-group > a:contains(" + search + ")").css('display', 'block');
 		});
-		window.onbeforeunload = function() {
-			sessionStorage.setItem("page",$(".active > a").text());
+		function pageMove(page){//페이지 옮길 때 실행
+			startPage=page;
+			$('html').scrollTop(0);
+			pagination();
 		}
 		function pagination(){//페이징 처리
 			$("th[id=rowNum]").parent().css("display","none");
@@ -212,7 +238,6 @@
 					return $(this).text() <= 15 * startPage && $(this).text() >= (startPage-1) * 15 + 1;
 					//페이지 범위 사이에 있는 것만 보이게
 			}).parent().css("display","table-row");
-			
 			$(".pagination").html("");
 			var endPage = Math.ceil(total / 15.0);
 			var realEndPage=Math.ceil(startPage / 10.0) * 10;

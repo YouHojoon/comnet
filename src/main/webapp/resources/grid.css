@@ -573,7 +573,7 @@ table > tbody > tr > th{
   border-color: #0984e3;
   background-color: #0984e3;
 }
-.sidemenu > .language > .list-group > .list-group-item:hover{
+.sidemenu > .language > .list-group > .list-group-item:hover, .sidemenu > .language > .list-group > .list-group-item.active{
   color: black;
   background-color: white;
   border-color: white;
