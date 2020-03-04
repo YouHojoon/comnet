@@ -14,6 +14,6 @@ public interface BoardMapper {
 	
 	public int select(String reg_date);//board_field, board_langueage 등록할때 bid가 필요해서
 	
-	public List<BoardVO> selectSuitableList(@Param("fieldList") List<Integer> fieldList, 
-			@Param("languageList") List<Integer> languageList);//선택한 요건에 맞는 프로젝트 조회
+	public List<BoardVO> selectSuitableList(@Param("selectFieldList") List<Integer> selectFieldList, 
+			@Param("selectLanguageList") List<Integer> selectLanguageList);//선택한 요건에 맞는 프로젝트 조회
 }

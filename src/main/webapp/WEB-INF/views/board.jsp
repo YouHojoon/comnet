@@ -38,6 +38,22 @@
 
 	<div class="project-list">
 	<!--사이드 메뉴 시작-->
+		<!--사용자 선택 영역-->
+		<div id="select-field">
+			<c:if test="${selectFieldList!=null}">
+				<c:forEach items="${selectFieldList}" var="selectField">
+					<input type="hidden" value="${selectField}">
+				</c:forEach>
+			</c:if>
+		</div>
+		<!--사용자 선택 언어-->
+		<div id="select-language">
+			<c:if test="${selectLanguageList!=null}">
+				<c:forEach items="${selectLanguageList}" var="selectLanguage">
+					<input type="hidden" value="${selectLanguage}">
+				</c:forEach>
+			</c:if>
+		</div>
 		<div class="sidemenu">
 			<div class="language">
 				<label class="menu-label">분야</label>
@@ -176,6 +192,12 @@
 		if(startPage==null)
 			startPage=1;
 		pagination();
+		$("#select-field input").each(function(){
+			$("#field-list > a[id="+$(this).val()+"]").addClass("active");
+		});
+		$("#select-language input").each(function(){
+			$("#language-list > a[id="+$(this).val()+"]").addClass("active");
+		});
 		$("a").click(function(){
 			$(this).toggleClass("active");
 		});
@@ -193,27 +215,27 @@
 				}
 		});
 		$("#save").click(function(){//원하는 요건의 프로젝트 조회
-			var fieldList=new Array();
-			var languageList=new Array();
+			var selectFieldList=new Array();
+			var selectLanguageList=new Array();
 			$("#field-list a").each(function(){
 				if($(this).hasClass("active"))
-					fieldList.push($(this).attr("id"));
+					selectFieldList.push($(this).attr("id"));
 			});
 			$("#language-list a").each(function(){
 				if($(this).hasClass("active"))
-					languageList.push($(this).attr("id"));
+					selectLanguageList.push($(this).attr("id"));
 			});
 			var form = document.createElement("form");
 			form.setAttribute("method","POST");
 			form.setAttribute("action","/board");
 			var fieldInput= document.createElement("input");
-			fieldInput.setAttribute("name","fieldList");
-			fieldInput.setAttribute("value",fieldList);
+			fieldInput.setAttribute("name","selectFieldList");
+			fieldInput.setAttribute("value",selectFieldList);
 			fieldInput.setAttribute("type","hidden");
 			form.appendChild(fieldInput);
 			var languageInput= document.createElement("input");
-			languageInput.setAttribute("name","languageList");
-			languageInput.setAttribute("value",languageList);
+			languageInput.setAttribute("name","selectLanguageList");
+			languageInput.setAttribute("value",selectLanguageList);
 			languageInput.setAttribute("type","hidden");
 			form.appendChild(languageInput);
 			document.body.appendChild(form);

@@ -2,19 +2,15 @@ package kr.ac.smu.cs.comnet.controller;
 
 import java.util.List;
 
-import javax.mail.internet.MimeMessage;
+
+
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.taglibs.standard.tag.common.core.ForEachSupport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.mail.javamail.JavaMailSenderImpl;
-import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,7 +19,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
@@ -33,6 +29,7 @@ import kr.ac.smu.cs.comnet.service.UserService;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Controller
+@SessionAttributes({"selectFieldList", "selectLanguageList"})
 public class DefaultController {
 	Logger log=LoggerFactory.getLogger(DefaultController.class);
 	@Autowired
@@ -55,28 +52,31 @@ public class DefaultController {
 	}
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/board")
-	public void board(Model model) {
+	public void board(Model model,HttpSession session) {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<BoardDTO> boardList = bService.selectList();
+		//List<BoardDTO> boardList = bService.selectList();
+		List<BoardDTO> boardList = bService.selectSuitableList((List<Integer>)session.getAttribute("selectFieldList"), (List<Integer>)session.getAttribute("selectLanguageList"));
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());
 		else
 			model.addAttribute("total",0);
 	}
-	
+	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/board")
-	public void board(@RequestParam(name = "fieldList", required = false) List<Integer> fieldList ,
-			@RequestParam(name = "languageList", required = false) List<Integer> languageList, Model model){
+	public void board(@RequestParam(name = "selectFieldList", required = false) List<Integer> selectFieldList ,
+			@RequestParam(name = "selectLanguageList", required = false) List<Integer> selectLanguageList, Model model){
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<BoardDTO> boardList = bService.selectSuitableList(fieldList, languageList);
+		List<BoardDTO> boardList = bService.selectSuitableList(selectFieldList, selectLanguageList);
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());
 		else
 			model.addAttribute("total",0);
+		model.addAttribute("selectFieldList", selectFieldList);//사용자 선택 영역 표시와 상세 조회 후 Back 버튼 눌었을 때를 위해 세션으로 유지
+		model.addAttribute("selectLanguageList", selectLanguageList);//사용자 선택 영역 표시와 상세 조회 후 Back 버튼 눌었을 때를 위해 세션으로 유지
 	}
 	@GetMapping("/register")
 	public void register(Model model) {
