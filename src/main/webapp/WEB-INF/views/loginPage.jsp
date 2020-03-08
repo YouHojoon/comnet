@@ -23,7 +23,7 @@
 			<input name="username" type="text" class="form-control" placeholder="학번"
 				pattern="20(1|2)[0-9]\d{5}" required>
 			<div class="input-group-append">
-				<span class="input-group-text" id="basic-addon2">@sangmyung.kr</span>
+				<span class="input-group-text">@sangmyung.kr</span>
 			</div>
 		</div>
 		<div>

@@ -6,12 +6,28 @@
     	<select id="selectList" resultType="FieldVO">
     		SELECT * FROM Field
     	</select>
-    	<select id="selectBoardField" resultType="FieldVO">
-    		SELECT Field.fid, fname FROM Field, conn_bf
-    		WHERE conn_bf.bid=#{bid} AND conn_bf.fid=Field.fid
-    	</select>
     	<insert id="registerUserField">
     		INSERT conn_uf
     		VALUES(#{uid},#{fid})
     	</insert>
+    	<insert id="registerBoardField">
+    		INSERT conn_bf
+    		VALUES(#{bid},#{fid})
+    	</insert>
+    	<select id="selectConn_bfList" resultType="Conn_bfVO">
+    		SELECT * FROM conn_bf ORDER BY bid ASC
+    	</select>
+    	<select id="select" resultType="FieldVO">
+    		SELECT * FROM Field WHERE fid=#{fid}
+    	</select>
+    	<select id="selectSuitableConn_bfList" resultType="Conn_bfVO">
+    		SELECT * FROM conn_bf WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    		ORDER BY bid ASC 
+    	</select>
+    	<select id="selectConn_bf" resultType="Conn_bfVO">
+    		SELECT * FROM conn_bf WHERE bid=#{bid}
+    	</select>
     </mapper>

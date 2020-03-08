@@ -3,27 +3,24 @@ package kr.ac.smu.cs.comnet.service;
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 
-import kr.ac.smu.cs.comnet.dao.FieldDAO;
-import kr.ac.smu.cs.comnet.dao.LanguageDAO;
-import kr.ac.smu.cs.comnet.dao.UserDAO;
+import kr.ac.smu.cs.comnet.mapper.FieldMapper;
+import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
+import kr.ac.smu.cs.comnet.mapper.UserMapper;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Service
 public class UserServiceImpl implements UserService{
 	@Autowired
-	private UserDAO uDAO;
+	private UserMapper uMapper;
 	@Autowired
-	private FieldDAO fDAO;
+	private FieldMapper fMapper;
 	@Autowired
-	private LanguageDAO lDAO;
+	private LanguageMapper lMapper;
 	@Autowired
 	private PasswordEncoder bcryptPasswordEncoder;
 	@Autowired
@@ -31,16 +28,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void register(UserVO userVO, int[] user_field, int[] user_language) {
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
-		uDAO.register(userVO);
-		int uid=uDAO.selectUid(userVO.getEmail());
+		uMapper.register(userVO);
+		int uid=uMapper.selectByEmail(userVO.getEmail()).getUid();
 		for(int fid : user_field)
-			fDAO.registerUserField(uid, fid);
+			fMapper.registerUserField(uid, fid);
 		for(int lid : user_language)
-			lDAO.regiserUserLanguage(uid, lid);
+			lMapper.regiserUserLanguage(uid, lid);
 	}
 	@Override
 	public String auth(String email) {
-		if(uDAO.select(email)!=null) {
+		if(uMapper.selectByEmail(email)!=null) {
 			return "duplication";//email ม฿บน
 		}
 		StringBuffer authString=new StringBuffer();
@@ -56,5 +53,9 @@ public class UserServiceImpl implements UserService{
 			javaMailSender.send(authMail);
 		}catch(Exception e) {e.printStackTrace();}
 		return authString.toString();
+	}
+	@Override
+	public UserVO select(int uid) {
+		return uMapper.select(uid);
 	}
 }

@@ -4,7 +4,50 @@
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
     <mapper namespace="kr.ac.smu.cs.comnet.mapper.BoardMapper">
     	<select id="selectList" resultType="BoardVO">
-    		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,(SELECT @rownum:=0)r		
+    		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,
+    		(SELECT @rownum:=0)r;
     	</select>
-
+		<insert id="register">
+			INSERT INTO Board(title, content, deadline, partner_limit, contact, reg_date, uid)
+			VALUES(#{title}, #{content}, #{deadline}, #{partner_limit}, #{contact}, #{reg_date}, #{uid})
+		</insert>
+		<select id="selectBid" resultType="int">
+			SELECT bid FROM Board where reg_date=#{reg_date}
+		</select>
+		<select id="selectSuitableList" resultType="BoardVO">
+    		SELECT Board.* FROM Board, conn_bf, conn_bl
+    		
+    		<choose>
+    			<when test="selectLanguageList!=null and selectFieldList!=null and selectLanguageList.size()>0 and selectFieldList.size()>0">
+	    			WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN 
+					<foreach item="fid" collection="selectFieldList" open="(" close=")" separator=",">
+						#{fid}
+					</foreach>
+						   )
+					OR (conn_bl.bid=Board.bid AND conn_bl.lid IN
+					<foreach item="lid" collection="selectLanguageList" open="(" close=")" separator=",">
+						#{lid}
+					</foreach>
+						  )
+    			</when>
+    			<when test="selectFieldList!=null and selectFieldList.size()>0">
+	    			WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN 
+					<foreach item="fid" collection="selectFieldList" open="(" close=")" separator=",">
+						#{fid}
+					</foreach>
+						   )
+    			</when>
+    			<when test="selectLanguageList!=null and selectLanguageList.size()>0">
+	    			WHERE (conn_bl.bid=Board.bid AND conn_bl.lid IN
+					<foreach item="lid" collection="selectLanguageList" open="(" close=")" separator=",">
+						#{lid}
+					</foreach>
+						  )
+    			</when>
+    		</choose>
+			GROUP BY Board.bid
+    	</select>
+    	<select id="select" resultType="BoardVO">
+    		SELECT * FROM Board WHERE bid=#{bid}
+    	</select>
     </mapper>

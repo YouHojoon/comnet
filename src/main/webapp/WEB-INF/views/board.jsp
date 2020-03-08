@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -36,22 +36,38 @@
 		</button>
 	</header>
 
-	<div>
+	<div class="project-list">
 	<!--사이드 메뉴 시작-->
+		<!--사용자 선택 영역-->
+		<div id="select-field">
+			<c:if test="${selectFieldList!=null}">
+				<c:forEach items="${selectFieldList}" var="selectField">
+					<input type="hidden" value="${selectField}">
+				</c:forEach>
+			</c:if>
+		</div>
+		<!--사용자 선택 언어-->
+		<div id="select-language">
+			<c:if test="${selectLanguageList!=null}">
+				<c:forEach items="${selectLanguageList}" var="selectLanguage">
+					<input type="hidden" value="${selectLanguage}">
+				</c:forEach>
+			</c:if>
+		</div>
 		<div class="sidemenu">
 			<div class="language">
 				<label class="menu-label">분야</label>
-				<div class="list-group">
-					<c:forEach var="field" items="${fieldList}">
-						<a class="list-group-item">${field.fname}</a>
+				<div id="field-list" class="list-group">
+					<c:forEach var="field" items="${fieldList}" >
+						<a class="list-group-item" id="${field.fid}">${field.fname}</a>
 					</c:forEach>
 				</div>
 			</div>
 			<div class="language">
 				<label class="menu-label">언어</label>
-				<div class="list-group">
+				<div id="language-list" class="list-group">
 					<c:forEach var="language" items="${languageList}">
-						<a class="list-group-item">${language.lname}</a>
+						<a class="list-group-item" id="${language.lid}">${language.lname}</a>
 					</c:forEach>
 				</div>
 			</div>
@@ -60,6 +76,7 @@
 		</div>
 		<!--사이드 메뉴 끝-->
 		<!--프로젝트 조회 시작-->
+		<input type="hidden" id="total" value="${total}">
 		<table id="project-list" class="table table-hover">
 			<thead>
 				<tr>
@@ -72,43 +89,54 @@
 			</thead>
 			<tbody>
 				<c:forEach var="board" items="${boardList}">
-					<tr>
-						<th scope="row">${board.boardVO.rowNum}</th>
-						<td>${board.boardVO.title}</td>
+					<tr id="board">
+						<th id="rowNum" scope="row">${board.boardVO.rowNum}</th>
+						<td><a onclick="keepPage()" href="/board/view?bid=${board.boardVO.bid}">${board.boardVO.title}</a></td>
 						<td class="requirement">
-							<c:forEach var="field" items="${board.board_field}">
+							<c:forEach var="field" items="${board.boardField}">
 								<label><c:out value="${field.fname}"/></label>
 							</c:forEach>
-							<c:forEach var="language" items="${board.board_language}">
+							<c:forEach var="language" items="${board.boardLanguage}">
 								<label><c:out value="${language.lname}"/></label>
 							</c:forEach>
 						</td>
-						<td><fmt:formatDate pattern="yyyy-MM-dd" value="${board.boardVO.deadline}"/></td>
-						<td>${board.boardVO.partner_limit}</td>
+						<td>
+							<c:choose>
+								<c:when test="${board.boardVO.deadline.year==8099}">
+									상시모집
+								</c:when>
+								<c:otherwise>
+									<fmt:formatDate pattern="yyyy-MM-dd" value="${board.boardVO.deadline}"/>
+								</c:otherwise>
+							</c:choose>
+						</td>
+						<td>
+							<c:choose>
+								<c:when test="${board.boardVO.partner_limit==999}">
+									제한없음
+								</c:when>
+								<c:otherwise>
+									${board.boardVO.partner_limit}
+								</c:otherwise>
+							</c:choose>
+						</td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		<!--프로젝트 조회 끝-->
-	</div>
-	<button type="button" id="register" class="btn btn-default"
-		aria-label="Left Align">register</button>
+		<button type="button" id="register" class="btn btn-default"
+		onclick="location.href='/board/new'" aria-label="Left Align">register</button>
 	<!--페이징 처리 시작-->
-	<nav>
-		<ul class="pagination">
-			<li><a href="#" aria-label="Previous"> <span
-					aria-hidden="true">&laquo;</span>
-			</a></li>
-			<li><a href="#">1</a></li>
-			<li><a href="#">2</a></li>
-			<li><a href="#">3</a></li>
-			<li><a href="#">4</a></li>
-			<li><a href="#">5</a></li>
-			<li><a href="#" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
-		</ul>
-	</nav>
+		<nav>
+			<ul class="pagination">
+				
+				
+			</ul>
+		</nav>
 	<!--페이징 처리 끝-->
+	</div>
+	
 	<!--알림 조회 모달-->
 	<div class="modal" id="message-modal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -159,8 +187,23 @@
 	</div>
 	<footer id="test"> Create by YouHoJoon </footer>
 	<script type="text/javascript">
+		var total=$("#total").val();
+		var startPage=sessionStorage.getItem("page");
+		if(startPage==null)
+			startPage=1;
+		sessionStorage.removeItem("page");
+		pagination();
+		$("#select-field input").each(function(){
+			$("#field-list > a[id="+$(this).val()+"]").addClass("active");
+		});
+		$("#select-language input").each(function(){
+			$("#language-list > a[id="+$(this).val()+"]").addClass("active");
+		});
+		$(".list-group > a").click(function(){
+			$(this).toggleClass("active");
+		});
 		
-			$(window).resize(function(){
+		$(window).resize(function(){//창 크기를 줄이거나 늘릴 때
 				if($(".sidemenu").width() > 0){
 					if($(window).width() > 960){
 						$(".sidemenu").css("width","15%");
@@ -172,17 +215,75 @@
 						$(".sidemenu").css("width","30%");
 					}
 				}
+		});
+		$("#save").click(function(){//원하는 요건의 프로젝트 조회
+			var selectFieldList=new Array();
+			var selectLanguageList=new Array();
+			$("#field-list a").each(function(){
+				if($(this).hasClass("active"))
+					selectFieldList.push($(this).attr("id"));
 			});
-		
+			$("#language-list a").each(function(){
+				if($(this).hasClass("active"))
+					selectLanguageList.push($(this).attr("id"));
+			});
+			var form = document.createElement("form");
+			form.setAttribute("method","POST");
+			form.setAttribute("action","/board");
+			var fieldInput= document.createElement("input");
+			fieldInput.setAttribute("name","selectFieldList");
+			fieldInput.setAttribute("value",selectFieldList);
+			fieldInput.setAttribute("type","hidden");
+			form.appendChild(fieldInput);
+			var languageInput= document.createElement("input");
+			languageInput.setAttribute("name","selectLanguageList");
+			languageInput.setAttribute("value",selectLanguageList);
+			languageInput.setAttribute("type","hidden");
+			form.appendChild(languageInput);
+			document.body.appendChild(form);
+			form.submit();
+		});
 		$("#message").click(function() {
 			$("#message-modal").modal("show");
 		});
 		$("#search-input").keyup(function() {
 			var search = $("#search-input").val();
-			$("a").css('display', 'none');
-			$("a:contains(" + search + ")").css('display', 'block');
+			$(".list-group > a").css('display', 'none');
+			$(".list-group > a:contains(" + search + ")").css('display', 'block');
 		});
-		function showMenu() {
+		function keepPage(){//프로젝트 상세 조회 시 페이지 유지를 위해 세션 처리
+			sessionStorage.setItem("page",$("li[class=active] > a").text());
+		}
+		function pageMove(page){//페이지 옮길 때 실행
+			startPage=page;
+			$('html').scrollTop(0);
+			pagination();
+		}
+		function pagination(){//페이징 처리
+			$("th[id=rowNum]").parent().css("display","none");
+			$("th[id=rowNum]").filter(function(){
+					return $(this).text() <= 15 * startPage && $(this).text() >= (startPage-1) * 15 + 1;
+					//페이지 범위 사이에 있는 것만 보이게
+			}).parent().css("display","table-row");
+			$(".pagination").html("");
+			var endPage = Math.ceil(total / 15.0);
+			var realEndPage=Math.ceil(startPage / 10.0) * 10;
+			var realStartPage= realEndPage-9;
+			if(realEndPage > endPage)
+				realEndPage=endPage;
+			//페이지 버튼생성
+			if(realEndPage > 10)
+				$(".pagination").append("<li><a aria-label='Previous' onclick='pageMove("+ (realStartPage - 1) +")'><span aria-hidden='true'>&laquo;</span></a></li>")
+			for(var i=realStartPage; i<=realEndPage; i++){
+				if(i == startPage)
+					$(".pagination").append("<li class='active'><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
+				else
+					$(".pagination").append("<li><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
+			}
+			if(realEndPage != endPage)
+				$(".pagination").append("<li><a aria-label='Next' onclick='pageMove("+ (realEndPage + 1) +")'><span aria-hidden='true'>&raquo;</span></a></li>")
+		}
+		function showMenu() {//사이드 메뉴 크기 결정
 			if($(window).width() > 960){
 				$(".sidemenu").animate({
 					width: "15%"

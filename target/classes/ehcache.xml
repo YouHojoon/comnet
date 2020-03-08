@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ehcache xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://ehcache.org/ehcache.xsd"
+         updateCheck="true">
+         <diskStore path="java.io.tmpdir"/>
+          
+         <cache name="FieldCache" eternal="true" 
+         maxElementsInMemory="9"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LFU"
+         />
+         
+         <cache name="LanguageCache" eternal="true" 
+         maxElementsInMemory="10"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LFU"
+         />
+         
+</ehcache>

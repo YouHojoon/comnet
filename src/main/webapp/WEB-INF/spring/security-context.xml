@@ -7,7 +7,7 @@
 	<bean id="bcryptPasswordEncoder" class="org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder"/>
 	<bean id="UserDetailsService" class="kr.ac.smu.cs.comnet.security.UserDetailService"/>
 	<security:http>
-		<security:form-login default-target-url="/board" login-page="/loginPage"/>
+		<security:form-login default-target-url="/board" login-page="/"/>
 		<security:csrf disabled="true"/>
 		<security:remember-me key="auto" token-validity-seconds="2592000"/>
 	</security:http>

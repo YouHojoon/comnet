@@ -1,13 +1,8 @@
 package kr.ac.smu.cs.comnet.security;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collector;
 
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 public class User extends org.springframework.security.core.userdetails.User{
@@ -23,4 +18,8 @@ public class User extends org.springframework.security.core.userdetails.User{
 		super(userVO.getEmail(),userVO.getPassword(),new HashSet<GrantedAuthority>());//authority가 null이면 안되서 빈 Set을 주입
 		this.userVO=userVO;
 	}
+	public UserVO getUserVO() {
+		return userVO;
+	}
+	
 }

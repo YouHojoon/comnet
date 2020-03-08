@@ -10,6 +10,8 @@
          	 <typeAlias alias="LanguageVO" type="kr.ac.smu.cs.comnet.vo.LanguageVO"/>
          	 <typeAlias alias="UserVO" type="kr.ac.smu.cs.comnet.vo.UserVO"/>
          	 <typeAlias alias="BoardVO" type="kr.ac.smu.cs.comnet.vo.BoardVO"/>
+         	 <typeAlias alias="Conn_bfVO" type="kr.ac.smu.cs.comnet.vo.Conn_bfVO"/>
+         	 <typeAlias alias="Conn_blVO" type="kr.ac.smu.cs.comnet.vo.Conn_blVO"/>
          </typeAliases>
 
         
