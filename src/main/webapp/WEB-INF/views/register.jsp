@@ -157,8 +157,8 @@
     			$("#auth-button").focus();
     			return;
     		}
-    		var user_field=new Array();
-    		var user_language=new Array();
+    		var userField=new Array();
+    		var userLanguage=new Array();
     		$("#user-field input").each(function(){
     			if($(this).is(":checked")==true){
     				user_field.push($(this).val());
@@ -175,7 +175,7 @@
     			traditional:true,
     			data:{email:$("input[name=email]").val(), password:$("input[name=password]").val(),
     			      name:$("input[name=name]").val(), phone:$("input[name=phone]").val(),
-    				  memo:$("textarea[name=memo]").val(), user_field:user_field, user_language:user_language},
+    				  memo:$("textarea[name=memo]").val(), userField:userField, userLanguage:userLanguage},
     			success:function(){
     				location.href="/loginPage";
     			}

@@ -65,12 +65,12 @@ public class BoardServiceImpl implements BoardService{
 		return boardDTOList;
 	}
 	@Override
-	public void register(BoardVO boardVO, int[] board_field, int[] board_language) {
+	public void register(BoardVO boardVO, int[] boardField, int[] boardLanguage) {
 		boardVO.setReg_date(new Timestamp(System.currentTimeMillis()).toString());
 		bMapper.register(boardVO);
-		for(int fid : board_field)
+		for(int fid : boardField)
 			fMapper.registerBoardField(bMapper.selectBid(boardVO.getReg_date()), fid);
-		for(int lid : board_language)
+		for(int lid : boardLanguage)
 			lMapper.registerBoardLanguage(bMapper.selectBid(boardVO.getReg_date()), lid);
 	}
 	@Override
@@ -135,6 +135,16 @@ public class BoardServiceImpl implements BoardService{
 				break;//프로젝트 모집 언어가 끝나면 탈출
 		}
 		return new BoardDTO(board, boardField, boardLanguage);
-		
 	}
+	@Override
+	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage) {
+		bMapper.update(boardVO);
+		int bid = boardVO.getBid();
+		fMapper.deleteConn_bf(bid);
+		lMapper.deleteConn_bl(bid);
+		for(int fid : boardField)
+			fMapper.registerBoardField(bid,fid);
+		for(int lid : boardLanguage)
+			lMapper.registerBoardLanguage(bid,lid);	
+		}
 }

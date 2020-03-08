@@ -19,10 +19,30 @@
     </header>
     <form class="register-form">
       	<input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
+      	<!--수정하려는 글의 현재 영역과 언어 선택을 위해 설정 -->
+      	<div id="fid">
+	      	<c:forEach var="field" items="${board.boardField }">
+	      		<input type="hidden" value="${field.fid}">
+	      	</c:forEach>
+      	</div>
+      	<div id=lid>
+	      	<c:forEach var="language" items="${board.boardLanguage}">
+	      		<input type="hidden" value="${language.lid}">
+	      	</c:forEach>
+      	</div>
+      	
+      	<input id="bid" type="hidden" value="${board.boardVO.bid}">
+      	
       <div class="form-group">
-        <input type="text" id="title" class="form-control" placeholder="프로젝트 제목">
+        <input type="text" id="title" class="form-control" placeholder="프로젝트 제목" value="${board.boardVO.title}">
       </div>
       <label>마감기한</label>
+      
+      <!--수정하려는 글의 현재 마감기한 선택을 위해 설정 -->
+      <input id="current-year" type="hidden" value="${board.boardVO.deadline.year}">
+      <input id="current-month" type="hidden" value="${board.boardVO.deadline.month}">
+      <input id="current-date" type="hidden" value="${board.boardVO.deadline.date}">
+      
       <div class="row">
         <div class="col">
           <select class="form-control" onchange="makeMonth()" id="year">
@@ -92,11 +112,11 @@
       </table>
         <div class="form-group">
           <label>프로젝트 설명</label>
-          <textarea id="content" class="form-control" rows="3"></textarea>
+          <textarea id="content" class="form-control" rows="3">${board.boardVO.content}</textarea>
         </div>
         <div class="partner-limit">
 	    	<div class="form-group">
-          		<input type="text" class="form-control" placeholder="팀원제한(최대 999명)" id="partner-limit-input">
+          		<input type="text" class="form-control" placeholder="팀원제한(최대 999명)" id="partner-limit-input" value="${board.boardVO.partner_limit}">
         	</div>
 	        <div class="partner-limit-check">
 		        <div class="recruit">
@@ -108,12 +128,12 @@
 	        </div>
         </div>
         <div class="form-group">
-	    	<input type="text" id="contact" class="form-control" placeholder="연락처">
+	    	<input type="text" id="contact" class="form-control" placeholder="연락처" value="${board.boardVO.contact}">
 	    </div>
         <div>
-          <button type="button" id="new" class="btn btn-primary btn-lg">작성</button>
+          <button type="button" id="update" class="btn btn-primary btn-lg">수정</button>
         </div>
-        <button type="button" id="back" onclick="location.href='/board'" class="btn btn-primary btn-sm">Back</button>
+        <button type="button" id="back" onclick="location.href='/board/view?bid=${board.boardVO.bid}'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
       var Calander=new Date();
@@ -123,7 +143,29 @@
       $("#year").append("<option value="+nextYear+">"+nextYear+"년"+"</option>");
       makeMonth();
       makeDay();
+      if($("#current-year").val()==8099){
+    	  $("#year").attr("disabled","true");
+          $("#month").attr("disabled","true");
+          $("#day").attr("disabled","true");
+          $("#always").attr("checked","checked");
+      }
+      else
+      	$("#year option[value="+($("#current-year").val()+1900)+"]").attr("selected","selected");
+      $("#month option[value="+($("#current-month").val()+1)+"]").attr("selected","selected");
+      $("#day option[value="+$("#current-date").val()+"]").attr("selected","selected");
+      if($("#partner-limit-input").val()==999){
+    	  $("#partner-limit-input").attr("readonly","readonly");
+    	  $("#unlimit").attr("checked","checked");
+      }
+    	 
       //마감기한 달력 생성
+      $("#fid input").each(function(){
+    	  $("#board-field input[value="+$(this).val()+"]").attr("checked","checked");
+      });
+      $("#lid input").each(function(){
+    	  $("#board-language input[value="+$(this).val()+"]").attr("checked","checked");
+      });
+
       function makeMonth(){//달 생성
     	 var str="";
     	 Calander.setFullYear($("#year").val());
@@ -170,8 +212,7 @@
         	  $("#partner-limit-input").removeAttr("readonly");
           }
         });
-      $("#new").click(function(){
-    	 
+      $("#update").click(function(){
     	var partner_limit_form=/^[1-9]{1,3}$/;
     	if($("#title").val()==""){
     		alert("제목을 입력해주세요.");
@@ -203,26 +244,24 @@
     		$("#contact").focus();
     		return;
     	}
-  		
     	var boardField=new Array();
   		var boardLanguage=new Array();
   		$("#board-field input").each(function(){
   			if($(this).is(":checked")==true){
-  				boardField.push($(this).val());
+  				boardField.push(Number($(this).val()));
   			}
   		});
   		$("#board-language input").each(function(){
   			if($(this).is(":checked")==true){
-  				boardLanguage.push($(this).val());
+  				boardLanguage.push(Number($(this).val()));
   			}
   		});
-  		
   		var partner_limit;
   		if($("#unlimit").prop("checked")){
   			partner_limit=999;
   		}
   		else{
-  			partner_limit=$("#partner-limit-input").val();
+  			partner_limit=Number($("#partner-limit-input").val());
   		}
   		var deadline=new Date();
   		if($("#always").prop("checked")){
@@ -233,15 +272,18 @@
   	  		deadline.setMonth($("#month").val()-1);
   	  		deadline.setDate($("#day").val());
   		}
-  		
+		var data={title: $("#title").val(), content: $("#content").val(), deadline: deadline.getFullYear()+"-"+(deadline.getMonth()+1)+"-"+deadline.getDate(), 
+  				partner_limit: partner_limit, uid: Number($("#uid").val()), contact: $("#contact").val(), boardField: boardField, boardLanguage: boardLanguage};
   		$.ajax({
-  			type: "POST",
-  			url: "/board/new",
-  			traditional:true,
-  			data:{title: $("#title").val(), content: $("#content").val(), deadline: deadline.getFullYear()+"-"+(deadline.getMonth()+1)+"-"+deadline.getDate(), partner_limit: partner_limit, 
-  				uid: $("#uid").val(), contact: $("#contact").val(), boardField: boardField, boardLanguage: boardLanguage},
-  			success: function(){
-  				location.href="/board";
+  			type: "PUT",
+  			url: "/mypage/myproject?bid="+$("#bid").val(),
+  			//traditional:true,
+  			data:JSON.stringify(data),
+  			contentType:"application/json",
+  			dataType: "JSON",
+  			success: function(data){
+  				if(data==1)
+  					location.href="/board/view?bid="+$("#bid").val();
   			}
   		});
       });

@@ -30,4 +30,7 @@
     	<select id="selectConn_bf" resultType="Conn_bfVO">
     		SELECT * FROM conn_bf WHERE bid=#{bid}
     	</select>
+    	<delete id="deleteConn_bf">
+    		DELETE FROM conn_bf WHERE bid=#{bid}
+    	</delete>
     </mapper>

@@ -26,13 +26,13 @@ public class UserServiceImpl implements UserService{
 	@Autowired
 	private JavaMailSender javaMailSender;
 	@Override
-	public void register(UserVO userVO, int[] user_field, int[] user_language) {
+	public void register(UserVO userVO, int[] userField, int[] userLanguage) {
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
 		uMapper.register(userVO);
 		int uid=uMapper.selectByEmail(userVO.getEmail()).getUid();
-		for(int fid : user_field)
+		for(int fid : userField)
 			fMapper.registerUserField(uid, fid);
-		for(int lid : user_language)
+		for(int lid : userLanguage)
 			lMapper.regiserUserLanguage(uid, lid);
 	}
 	@Override

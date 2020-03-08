@@ -3,6 +3,8 @@ package kr.ac.smu.cs.comnet.mapper;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 
 import kr.ac.smu.cs.comnet.vo.BoardVO;
 
@@ -17,5 +19,9 @@ public interface BoardMapper {
 	public List<BoardVO> selectSuitableList(@Param("selectFieldList") List<Integer> selectFieldList, 
 			@Param("selectLanguageList") List<Integer> selectLanguageList);//선택한 요건에 맞는 프로젝트 조회
 	
+	@Cacheable("BoardCache")
 	public BoardVO select(int bid);//프로젝트 상세 조회
+	
+	@CacheEvict(cacheNames = "BoardCache" , allEntries = true)//프로젝트 수정을 하면 캐시 삭제
+	public void update(BoardVO boardVO);//프로젝트 수정
 }

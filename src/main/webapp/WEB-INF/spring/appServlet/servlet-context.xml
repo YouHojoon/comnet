@@ -22,7 +22,12 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/mypage/myproject"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.MypageInterceptor"/>
+		</interceptor>
+	</interceptors>
 	<context:component-scan base-package="kr.ac.smu.cs.comnet.controller" />
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>
 	

@@ -50,4 +50,8 @@
     	<select id="select" resultType="BoardVO">
     		SELECT * FROM Board WHERE bid=#{bid}
     	</select>
+    	<update id="update">
+    		UPDATE Board SET title=#{title}, content=#{content}, deadline=#{deadline}, partner_limit=#{partner_limit}, contact=#{contact}
+    		WHERE bid=#{bid}
+    	</update>
     </mapper>

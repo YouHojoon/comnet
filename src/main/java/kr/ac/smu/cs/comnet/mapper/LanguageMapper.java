@@ -24,4 +24,6 @@ public interface LanguageMapper {
 	public List<Conn_blVO> selectSuitableConn_blList(@Param("bidList") List<Integer> bidList);//적합한 conn_bl반환
 	
 	public List<Conn_blVO> selectConn_bl(int bid);//프로젝트 하나의 conn_bl 반환
+	
+	public void deleteConn_bl(int bid);//프로젝트의 conn_bl 제거
 }
