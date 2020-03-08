@@ -1,5 +1,6 @@
 package kr.ac.smu.cs.comnet.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 
@@ -93,8 +94,15 @@ public class DefaultController {
 		return uService.auth(email);
 	}
 	@PostMapping("/register")
-	public void register(UserVO userVO, @RequestParam("user_field") int[] user_field, @RequestParam("user_language")int[] user_language) {
+	public void register(UserVO userVO, @RequestParam("user_field") int[] user_field, 
+			@RequestParam("user_language")int[] user_language, @CookieValue(name = "remember-me", required = false) Cookie auto,
+			HttpServletResponse response) throws IOException{
 		uService.register(userVO,user_field,user_language);
+		if (auto != null) //로그인 되어 있다면 회원가입 페이지로 들어가지 못하게 막음
+			response.sendRedirect("/board");
 		
 	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/mypage")
+	public void mypage() {}
 }

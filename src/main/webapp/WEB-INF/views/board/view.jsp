@@ -13,7 +13,7 @@
     <script src="\resources\jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
-    <title></title>
+    <title>COMNET</title>
   </head>
   <body id="view">
     <header>
@@ -47,7 +47,7 @@
 		  </c:forEach>
         </div>
         <div class="form-group">
-          <textarea class="form-control" readonly rows="5"></textarea>
+          <textarea class="form-control" readonly rows="5" >${board.boardVO.content}</textarea>
         </div>
         <table class="table">
           <thead>
@@ -61,7 +61,7 @@
             <tr>
               <th scope="row">2016****</th>
               <td>유호준</td>
-              <td>
+              <td class="ability">
                 <label>서버</label>
 	            <label>자바</label>
 	            <label>서버</label>
@@ -134,7 +134,7 @@
 	              <tr>
 	                <th scope="row">2016****</th>
 	                <td>유호준</td>
-	                <td>
+	                <td class="ability">
 	                  <label>서버</label>
 	                  <label>자바</label>
 	                  <label>서버</label>

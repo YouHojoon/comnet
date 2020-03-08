@@ -25,7 +25,7 @@
 			<span class="glyphicon glyphicon-align-justify" aria-hidden="true"></span>
 		</button>
 		<h1>COMNET</h1>
-		<button type="button" id="right" onclick="location.href='mypage.html'"
+		<button type="button" id="right" onclick="location.href='/mypage'"
 			class="btn btn-default" aria-label="Left Align">
 			<span class="glyphicon glyphicon-user" aria-hidden="true"></span>
 		</button>

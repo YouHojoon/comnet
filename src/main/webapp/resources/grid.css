@@ -312,6 +312,12 @@ table > tbody > tr > th{
   border-radius: 10px;
   background-size: cover;
 }
+.project-body > table > tbody > tr > .ability{
+	width: 50%;
+}
+.volunteer-list > table > tbody > tr > .ability{
+	width: 39%;
+}
 .project-body > table {
   width: 90%;
   margin-left: auto;
@@ -394,7 +400,7 @@ table > tbody > tr > th{
 
 .mypage{
   text-align: center;
-  margin-top: 5%;
+  padding-top: 75px;
 }
 .menu{
   width: 70%;
@@ -416,6 +422,12 @@ table > tbody > tr > th{
   font-size: 40px;
   font-weight: bold;
 }
+@media(max-width: 590px){
+	.name > h1{
+	  font-size: 25px;
+	}
+}
+
 .menu:hover{
   background-color: white;
   border-color: #0984e3;
@@ -427,6 +439,12 @@ table > tbody > tr > th{
 #back{
   margin-top: 10px;
 }
+@media(max-width: 475px){
+	.pagination>li>a{
+		padding: 6px 8px;
+	}
+}
+
 #user-register{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
