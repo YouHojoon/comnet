@@ -22,4 +22,6 @@ public interface FieldMapper {
 	public FieldVO select(int fid);//영역 반환
 	
 	public List<Conn_bfVO> selectSuitableConn_bfList(@Param("bidList") List<Integer> bidList);//적합한 conn_bf반환
+	
+	public List<Conn_bfVO> selectConn_bf(int bid);//프로젝트 하나의 conn_bf 반환
 }

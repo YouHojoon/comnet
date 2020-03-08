@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
+import kr.ac.smu.cs.comnet.service.UserService;
 import kr.ac.smu.cs.comnet.vo.BoardVO;
 
 @Controller
@@ -30,6 +32,8 @@ public class BoardController {
 	private LanguageService lService;
 	@Autowired
 	private BoardService bService;
+	@Autowired
+	private UserService uService;
 	@InitBinder
 	public void dateBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -43,5 +47,11 @@ public class BoardController {
 	@PostMapping("/new")
 	public void newBoard(BoardVO boardVO, @RequestParam("board_field") int[] board_field, @RequestParam("board_language") int[] board_language) {
 		bService.register(boardVO, board_field, board_language);
+	}
+	@GetMapping("/view")
+	public void view(@RequestParam("bid") int bid, Model model) {
+		BoardDTO board = bService.select(bid);
+		model.addAttribute("board", board);
+		model.addAttribute("owner", uService.select(board.getBoardVO().getUid()));
 	}
 }

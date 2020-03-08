@@ -201,11 +201,7 @@ table > tbody > tr > th{
 }
 
 #project{
-  height: 93vh;
-  overflow-y: hidden;
-}
-#project:hover{
-  overflow-y: auto;
+  padding-top: 45px;
 }
 #view{
   font-family: 'Noto Sans KR', sans-serif;
@@ -234,7 +230,6 @@ table > tbody > tr > th{
 }
 .field-language{
   margin-top: 5px;
-  text-align: left;
   word-spacing: 15px;
   width: 90%;
   display: inline-block;
@@ -321,6 +316,21 @@ table > tbody > tr > th{
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+@media(max-width: 480px){
+	.project-body > table {
+	  font-size: 10px;
+	}
+	.project-body > table > tbody > tr > td > label{
+	  width: 55px;
+	}
+	.volunteer-list > table > tbody > tr > td > label{
+	  width: 55px;
+	
+	}
+	.volunteer-list > table {
+	  font-size: 10px;
+	}
 }
 .project-body > table > thead > tr > th{
   text-align: center;

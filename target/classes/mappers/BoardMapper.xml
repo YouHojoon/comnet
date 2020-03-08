@@ -11,7 +11,7 @@
 			INSERT INTO Board(title, content, deadline, partner_limit, contact, reg_date, uid)
 			VALUES(#{title}, #{content}, #{deadline}, #{partner_limit}, #{contact}, #{reg_date}, #{uid})
 		</insert>
-		<select id="select" resultType="int">
+		<select id="selectBid" resultType="int">
 			SELECT bid FROM Board where reg_date=#{reg_date}
 		</select>
 		<select id="selectSuitableList" resultType="BoardVO">
@@ -19,7 +19,6 @@
     		
     		<choose>
     			<when test="selectLanguageList!=null and selectFieldList!=null and selectLanguageList.size()>0 and selectFieldList.size()>0">
-	    			
 	    			WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN 
 					<foreach item="fid" collection="selectFieldList" open="(" close=")" separator=",">
 						#{fid}
@@ -47,5 +46,8 @@
     			</when>
     		</choose>
 			GROUP BY Board.bid
+    	</select>
+    	<select id="select" resultType="BoardVO">
+    		SELECT * FROM Board WHERE bid=#{bid}
     	</select>
     </mapper>

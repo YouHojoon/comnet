@@ -15,7 +15,7 @@ public class UserDetailService implements UserDetailsService{
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserVO user=mapper.select(username);
+		UserVO user=mapper.selectByEmail(username);
 		return user == null ? null : new User(user);
 	}
 }

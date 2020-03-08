@@ -7,7 +7,10 @@
 			INSERT INTO User(email,name,password,memo,phone)
 			VALUES(#{email},#{name},#{password},#{memo},#{phone})
 		</insert>
-		<select id="select" resultType="UserVO">
+		<select id="selectByEmail" resultType="UserVO">
 			SELECT * FROM User WHERE email=#{email}
+		</select>
+		<select id="select" resultType="UserVO">
+			SELECT * FROM User WHERE uid=#{uid}
 		</select>
 	</mapper>

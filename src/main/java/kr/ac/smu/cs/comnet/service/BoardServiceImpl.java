@@ -42,23 +42,23 @@ public class BoardServiceImpl implements BoardService{
 		int i=0, q=0;
 		for(BoardVO boardVO : boardList) {
 			int bid=boardVO.getBid();
-			List<FieldVO> board_field=new ArrayList<FieldVO>();
-			List<LanguageVO> board_language=new ArrayList<LanguageVO>();
+			List<FieldVO> boardField=new ArrayList<FieldVO>();
+			List<LanguageVO> boardLanguage=new ArrayList<LanguageVO>();
 			for(; i<conn_bfList.size(); i++) {
 				Conn_bfVO conn_bfVO= conn_bfList.get(i);
 				if(conn_bfVO.getBid()==bid) 
-					board_field.add(fMapper.select(conn_bfVO.getFid()));
+					boardField.add(fMapper.select(conn_bfVO.getFid()));
 				else
 					break;//프로젝트 모집 분야가 끝나면 탈출
 			}
 			for(; q<conn_blList.size(); q++) {
 				Conn_blVO conn_blVO= conn_blList.get(q);
 				if(conn_blVO.getBid()==bid)
-					board_language.add(lMapper.select(conn_blVO.getLid()));
+					boardLanguage.add(lMapper.select(conn_blVO.getLid()));
 				else
 					break;//프로젝트 모집 언어가 끝나면 탈출
 			}
-			boardDTOList.add(new BoardDTO(boardVO, board_field, board_language));
+			boardDTOList.add(new BoardDTO(boardVO, boardField, boardLanguage));
 		}
 		long end=System.currentTimeMillis();
 		log.info(Long.toString(end-start));
@@ -69,9 +69,9 @@ public class BoardServiceImpl implements BoardService{
 		boardVO.setReg_date(new Timestamp(System.currentTimeMillis()).toString());
 		bMapper.register(boardVO);
 		for(int fid : board_field)
-			fMapper.registerBoardField(bMapper.select(boardVO.getReg_date()), fid);
+			fMapper.registerBoardField(bMapper.selectBid(boardVO.getReg_date()), fid);
 		for(int lid : board_language)
-			lMapper.registerBoardLanguage(bMapper.select(boardVO.getReg_date()), lid);
+			lMapper.registerBoardLanguage(bMapper.selectBid(boardVO.getReg_date()), lid);
 	}
 	@Override
 	public List<BoardDTO> selectSuitableList(List<Integer> fieldList, List<Integer> languageList) {
@@ -114,5 +114,27 @@ public class BoardServiceImpl implements BoardService{
 		long end=System.currentTimeMillis();
 		log.info(Long.toString(end-start));
 		return boardDTOList;
+	}
+	@Override
+	public BoardDTO select(int bid) {
+		BoardVO board = bMapper.select(bid);
+		List<Conn_bfVO> conn_bfList = fMapper.selectConn_bf(board.getBid());
+		List<Conn_blVO> conn_blList = lMapper.selectConn_bl(board.getBid());
+		List<FieldVO> boardField=new ArrayList<FieldVO>();
+		List<LanguageVO> boardLanguage=new ArrayList<LanguageVO>();
+		for(Conn_bfVO conn_bfVO : conn_bfList) {
+			if(conn_bfVO.getBid()==bid) 
+				boardField.add(fMapper.select(conn_bfVO.getFid()));
+			else
+				break;//프로젝트 모집 분야가 끝나면 탈출
+		}
+		for(Conn_blVO conn_blVO : conn_blList) {
+			if(conn_blVO.getBid()==bid)
+				boardLanguage.add(lMapper.select(conn_blVO.getLid()));
+			else
+				break;//프로젝트 모집 언어가 끝나면 탈출
+		}
+		return new BoardDTO(board, boardField, boardLanguage);
+		
 	}
 }

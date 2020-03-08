@@ -14,4 +14,6 @@ public interface BoardService {
 	public void register(BoardVO boardVO, int[] board_field, int[] board_language);//프로젝트 등록
 	
 	public List<BoardDTO> selectSuitableList(List<Integer> fieldList, List<Integer> languageList);//원하는 요건의 프로젝트 조회
+	
+	public BoardDTO select(int bid);//프로젝트 상세 조회
 }

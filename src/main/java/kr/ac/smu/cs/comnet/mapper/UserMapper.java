@@ -6,5 +6,7 @@ public interface UserMapper {
 	
 	public void register(UserVO userVO);//회원가입
 	
-	public UserVO select(String email);
+	public UserVO selectByEmail(String email);
+	
+	public UserVO select(int uid);
 }

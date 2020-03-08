@@ -27,5 +27,7 @@
     		</foreach>
     		ORDER BY bid ASC 
     	</select>
-    	
+    	<select id="selectConn_bf" resultType="Conn_bfVO">
+    		SELECT * FROM conn_bf WHERE bid=#{bid}
+    	</select>
     </mapper>

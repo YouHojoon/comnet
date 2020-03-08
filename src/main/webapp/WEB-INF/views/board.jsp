@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -91,12 +91,12 @@
 				<c:forEach var="board" items="${boardList}">
 					<tr id="board">
 						<th id="rowNum" scope="row">${board.boardVO.rowNum}</th>
-						<td>${board.boardVO.title}</td>
+						<td><a onclick="keepPage()" href="/board/view?bid=${board.boardVO.bid}">${board.boardVO.title}</a></td>
 						<td class="requirement">
-							<c:forEach var="field" items="${board.board_field}">
+							<c:forEach var="field" items="${board.boardField}">
 								<label><c:out value="${field.fname}"/></label>
 							</c:forEach>
-							<c:forEach var="language" items="${board.board_language}">
+							<c:forEach var="language" items="${board.boardLanguage}">
 								<label><c:out value="${language.lname}"/></label>
 							</c:forEach>
 						</td>
@@ -191,6 +191,7 @@
 		var startPage=sessionStorage.getItem("page");
 		if(startPage==null)
 			startPage=1;
+		sessionStorage.removeItem("page");
 		pagination();
 		$("#select-field input").each(function(){
 			$("#field-list > a[id="+$(this).val()+"]").addClass("active");
@@ -198,9 +199,10 @@
 		$("#select-language input").each(function(){
 			$("#language-list > a[id="+$(this).val()+"]").addClass("active");
 		});
-		$("a").click(function(){
+		$(".list-group > a").click(function(){
 			$(this).toggleClass("active");
 		});
+		
 		$(window).resize(function(){//창 크기를 줄이거나 늘릴 때
 				if($(".sidemenu").width() > 0){
 					if($(window).width() > 960){
@@ -249,6 +251,9 @@
 			$(".list-group > a").css('display', 'none');
 			$(".list-group > a:contains(" + search + ")").css('display', 'block');
 		});
+		function keepPage(){//프로젝트 상세 조회 시 페이지 유지를 위해 세션 처리
+			sessionStorage.setItem("page",$("li[class=active] > a").text());
+		}
 		function pageMove(page){//페이지 옮길 때 실행
 			startPage=page;
 			$('html').scrollTop(0);

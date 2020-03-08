@@ -29,7 +29,7 @@ public class UserServiceImpl implements UserService{
 	public void register(UserVO userVO, int[] user_field, int[] user_language) {
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
 		uMapper.register(userVO);
-		int uid=uMapper.select(userVO.getEmail()).getUid();
+		int uid=uMapper.selectByEmail(userVO.getEmail()).getUid();
 		for(int fid : user_field)
 			fMapper.registerUserField(uid, fid);
 		for(int lid : user_language)
@@ -37,7 +37,7 @@ public class UserServiceImpl implements UserService{
 	}
 	@Override
 	public String auth(String email) {
-		if(uMapper.select(email)!=null) {
+		if(uMapper.selectByEmail(email)!=null) {
 			return "duplication";//email ม฿บน
 		}
 		StringBuffer authString=new StringBuffer();
@@ -53,5 +53,9 @@ public class UserServiceImpl implements UserService{
 			javaMailSender.send(authMail);
 		}catch(Exception e) {e.printStackTrace();}
 		return authString.toString();
+	}
+	@Override
+	public UserVO select(int uid) {
+		return uMapper.select(uid);
 	}
 }

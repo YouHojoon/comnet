@@ -8,13 +8,13 @@ import kr.ac.smu.cs.comnet.vo.LanguageVO;
 
 public class BoardDTO {
 	private BoardVO boardVO;
-	private List<FieldVO> board_field;
-	private List<LanguageVO> board_language;
-	public BoardDTO(BoardVO boardVO, List<FieldVO> board_field, 
-			List<LanguageVO> board_language) {
+	private List<FieldVO> boardField;
+	private List<LanguageVO> boardLanguage;
+	public BoardDTO(BoardVO boardVO, List<FieldVO> boardField, 
+			List<LanguageVO> boardLanguage) {
 		this.boardVO=boardVO;
-		this.board_field=board_field;
-		this.board_language=board_language;
+		this.boardField=boardField;
+		this.boardLanguage=boardLanguage;
 	}
 	public BoardVO getBoardVO() {
 		return boardVO;
@@ -22,17 +22,16 @@ public class BoardDTO {
 	public void setBoardVO(BoardVO boardVO) {
 		this.boardVO = boardVO;
 	}
-	public List<FieldVO> getBoard_field() {
-		return board_field;
+	public List<FieldVO> getBoardField() {
+		return boardField;
 	}
-	public void setBoard_field(List<FieldVO> board_field) {
-		this.board_field = board_field;
+	public void setBoardField(List<FieldVO> boardField) {
+		this.boardField = boardField;
 	}
-	public List<LanguageVO> getBoard_language() {
-		return board_language;
+	public List<LanguageVO> getBoardLanguage() {
+		return boardLanguage;
 	}
-	public void setBoard_language(List<LanguageVO> board_language) {
-		this.board_language = board_language;
+	public void setBoardLanguage(List<LanguageVO> boardLanguage) {
+		this.boardLanguage = boardLanguage;
 	}
-	
 }
