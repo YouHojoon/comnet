@@ -60,7 +60,7 @@ public class DefaultController {
 		List<Integer> selectLanguageList= (List<Integer>)session.getAttribute("selectLanguageList");
 		List<BoardDTO> boardList= null;
 		if(selectFieldList != null || selectLanguageList != null) 
-			boardList = bService.selectSuitableList(selectFieldList, selectLanguageList);
+			boardList = bService.selectSuitableBoard(selectFieldList, selectLanguageList);
 		else
 			boardList = bService.selectList();
 		model.addAttribute("boardList",boardList);
@@ -75,7 +75,7 @@ public class DefaultController {
 			@RequestParam(name = "selectLanguageList", required = false) List<Integer> selectLanguageList, Model model){
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<BoardDTO> boardList = bService.selectSuitableList(selectFieldList, selectLanguageList);
+		List<BoardDTO> boardList = bService.selectSuitableBoard(selectFieldList, selectLanguageList);
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());

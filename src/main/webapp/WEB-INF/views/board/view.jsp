@@ -118,7 +118,7 @@
           </tfoot>
         </table>
         <sec:authentication var="uid" property='principal.userVO.uid'/>
-        <c:if test="${uid==owner.uid}">
+        <c:if test="${uid==owner.uid}"><!--나의 글이면 지원자 목록 조회-->
         	<div class="volunteer-list">
 	          <h1>지원자</h1>
 	          <table class="table">
@@ -210,22 +210,37 @@
 	            </tbody>
 	          </table>
         	</div>
-        </c:if>
-        
+        </c:if>  
       </div>
-      
       <div class="project-foot">
 	      <c:choose>
-	      	<c:when test="${uid==owner.uid}">
-	      		<button type="button" class="volunteer">수정</button>
-          		<button type="button" class="volunteer">삭제</button>
+	      	<c:when test="${uid==owner.uid}"><!--나의 글이면 수정,삭제 버튼 조회-->
+	      		<button type="button" onclick="location.href='/mypage/myproject?bid=${board.boardVO.bid}'" class="volunteer">수정</button>
+          		<button type="button" id="delete" class="volunteer">삭제</button>
 	      	</c:when>
 	      	<c:otherwise>
 	      		<button type="button" class="volunteer">지원</button>
 	      	</c:otherwise>
 	      </c:choose>
       </div>
-      
     </div>
+    <input id="bid" type="hidden" value="${board.boardVO.bid}">
+    <script type="text/javascript">
+    	$("#delete").click(function(){
+    		var check=confirm("정말로 삭제하시겠습니까?");
+    		if(check){
+    			$.ajax({
+        			type:"DELETE",
+        			url:"/mypage/myproject?bid="+$("#bid").val(),
+        			success: function(data){
+        				if(data==1)
+        					location.href="/board"
+        			}
+        		});
+    		}
+    		else
+    			return;
+    	});
+    </script>
   </body>
 </html>

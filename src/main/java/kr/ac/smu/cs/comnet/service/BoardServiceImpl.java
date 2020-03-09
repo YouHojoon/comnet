@@ -74,9 +74,9 @@ public class BoardServiceImpl implements BoardService{
 			lMapper.registerBoardLanguage(bMapper.selectBid(boardVO.getReg_date()), lid);
 	}
 	@Override
-	public List<BoardDTO> selectSuitableList(List<Integer> fieldList, List<Integer> languageList) {
+	public List<BoardDTO> selectSuitableBoard(List<Integer> fieldList, List<Integer> languageList) {
 		long start=System.currentTimeMillis();
-		List<BoardVO> boardList=bMapper.selectSuitableList(fieldList, languageList);
+		List<BoardVO> boardList=bMapper.selectSuitableBoard(fieldList, languageList);
 		if(boardList.size()==0)//프로젝트가 없으면 null 반환
 			return null;
 		List<Integer> bidList=new ArrayList<Integer>();
@@ -147,4 +147,10 @@ public class BoardServiceImpl implements BoardService{
 		for(int lid : boardLanguage)
 			lMapper.registerBoardLanguage(bid,lid);	
 		}
+	@Override
+	public void delete(int bid) {
+		fMapper.deleteConn_bf(bid);
+		lMapper.deleteConn_bl(bid);
+		bMapper.delete(bid);
+	}
 }

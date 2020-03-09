@@ -24,5 +24,4 @@ public class FieldServiceImpl implements FieldService{
 				-> cache.put(fieldVO.getFid(), fieldVO));//캐시에 영역 삽입
 		return fieldList;
 	}
-	
 }

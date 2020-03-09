@@ -28,12 +28,12 @@ public class MypageInterceptor implements HandlerInterceptor{
 			if(c.getName().equals("remember-me")) {
 				Decoder decoder = Base64.getDecoder();
 				email= new String(decoder.decode(c.getValue()),"UTF-8");
-				email=email.substring(0,email.indexOf(":"));
+				email=email.substring(0,email.indexOf(":"));//쿠키에서 email을 가져옴 ex:201611011
 			}
 		}
 		if(bMapper.select(Integer.parseInt(request.getParameter("bid"))).getUid() != uMapper.selectByEmail(email).getUid()) {
 			response.sendRedirect("/board/view?bid="+Integer.parseInt(request.getParameter("bid")));
-			return false;
+			return false;//만약 자신의 게시물이 아닌 것을 접근 시에 게시물 상세조회로 돌아감
 		}
 		return true;
 	}

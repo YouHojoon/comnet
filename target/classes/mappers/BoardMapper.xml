@@ -14,7 +14,7 @@
 		<select id="selectBid" resultType="int">
 			SELECT bid FROM Board where reg_date=#{reg_date}
 		</select>
-		<select id="selectSuitableList" resultType="BoardVO">
+		<select id="selectSuitableBoard" resultType="BoardVO">
     		SELECT Board.* FROM Board, conn_bf, conn_bl
     		
     		<choose>
@@ -54,4 +54,7 @@
     		UPDATE Board SET title=#{title}, content=#{content}, deadline=#{deadline}, partner_limit=#{partner_limit}, contact=#{contact}
     		WHERE bid=#{bid}
     	</update>
+    	<delete id="delete">
+    		DELETE FROM Board WHERE bid=#{bid}
+    	</delete>
     </mapper>

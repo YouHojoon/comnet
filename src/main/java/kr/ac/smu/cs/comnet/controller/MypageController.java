@@ -2,15 +2,14 @@ package kr.ac.smu.cs.comnet.controller;
 
 import java.sql.Date;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import org.springframework.web.bind.annotation.PutMapping;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
-import com.google.protobuf.TextFormat.ParseException;
 
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
@@ -50,5 +47,10 @@ public class MypageController {
 				(String)json.get("content"),date,(int)json.get("partner_limit"),(String)json.get("contact"));
 		bService.update(boardVO, (List<Integer>)json.get("boardField"), (List<Integer>)json.get("boardLanguage"));
 		return 1;//반환 없으면 ajax success가 실행이 안되서 1반환
+	}
+	@DeleteMapping("/myproject")
+	public @ResponseBody int delete(@RequestParam("bid") int bid) {
+		bService.delete(bid);
+		return 1;
 	}
 }
