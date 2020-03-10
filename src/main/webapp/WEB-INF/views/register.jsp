@@ -211,6 +211,7 @@
     			alert("인증 성공");
     			$("input[name=email]").attr("readonly","readonly");
     			$("#auth-input").attr("readonly","readonly");
+    			$("#auth-button").attr("disabled","disabled");
     			authString=true;
     		}
     		else{

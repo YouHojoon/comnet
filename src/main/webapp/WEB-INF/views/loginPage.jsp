@@ -37,7 +37,7 @@
 			<a href="/register">회원가입</a>
 		</div>
 		<div>
-			<a href="#">비밀번호 찾기</a>
+			<a href="/findpw">비밀번호 찾기</a>
 		</div>
 		<input type="hidden" name="remember-me" value="true">
 	</form>

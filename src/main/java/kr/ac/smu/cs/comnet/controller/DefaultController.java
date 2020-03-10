@@ -2,22 +2,25 @@ package kr.ac.smu.cs.comnet.controller;
 
 import java.io.IOException;
 import java.util.List;
-
-
+import java.util.Map;
 
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -90,8 +93,9 @@ public class DefaultController {
 		model.addAttribute("languageList", lService.selectList());
 	}
 	@GetMapping("/auth")
-	public @ResponseBody String auth(@RequestParam("email") String email) {
-		return uService.auth(email);
+	public @ResponseBody String auth(@RequestParam("email") String email, HttpServletRequest request) {
+		String requestUrl=request.getHeader("referer");
+		return uService.auth(email,requestUrl.substring(requestUrl.indexOf("/")));
 	}
 	@PostMapping("/register")
 	public void register(UserVO userVO, @RequestParam("userField") int[] userField, 
@@ -106,4 +110,11 @@ public class DefaultController {
 	@GetMapping("/mypage")
 	public void mypage(Model model) {}
 	
+	@GetMapping("findpw")
+	public void findpw() {}
+	
+	@PatchMapping("findpw")
+	public @ResponseBody void findpw(@RequestBody Map<String, String> json) {
+		uService.changePassword(json.get("email"), json.get("password"));
+	}
 }

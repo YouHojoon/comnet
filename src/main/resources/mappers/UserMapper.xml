@@ -13,4 +13,7 @@
 		<select id="select" resultType="UserVO">
 			SELECT * FROM User WHERE uid=#{uid}
 		</select>
+		<update id="changePassword">
+			UPDATE User SET password=#{password} WHERE email=#{email} 
+		</update>
 	</mapper>

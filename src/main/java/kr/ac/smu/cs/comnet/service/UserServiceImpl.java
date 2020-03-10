@@ -36,9 +36,12 @@ public class UserServiceImpl implements UserService{
 			lMapper.regiserUserLanguage(uid, lid);
 	}
 	@Override
-	public String auth(String email) {
-		if(uMapper.selectByEmail(email)!=null) {
+	public String auth(String email, String requestUrl) {
+		if(requestUrl.equals("/register") && uMapper.selectByEmail(email)!=null) {
 			return "duplication";//email ม฿บน
+		}
+		else if(requestUrl.equals("/findpw") && uMapper.selectByEmail(email)==null) {
+			return "no";
 		}
 		StringBuffer authString=new StringBuffer();
 		for(int i=0; i<6; i++) 
@@ -57,5 +60,9 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public UserVO select(int uid) {
 		return uMapper.select(uid);
+	}
+	@Override
+	public void changePassword(String email, String password) {
+		uMapper.changePassword(email, bcryptPasswordEncoder.encode(password));
 	}
 }
