@@ -13,12 +13,11 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import kr.ac.smu.cs.comnet.mapper.BoardMapper;
 import kr.ac.smu.cs.comnet.mapper.UserMapper;
 
-public class MypageInterceptor implements HandlerInterceptor{
+public class OwnershipCheckInterceptor implements HandlerInterceptor{
 	@Autowired
 	private BoardMapper bMapper;
 	@Autowired
 	private UserMapper uMapper;
-	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {

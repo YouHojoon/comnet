@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
@@ -34,23 +35,14 @@ public class MypageController {
 	@Autowired
 	private LanguageService lService;
 	@GetMapping("/myproject")
-	public void update(@RequestParam("bid") int bid, Model model) {
-		model.addAttribute("board", bService.select(bid));
-		model.addAttribute("fieldList",fService.selectList());
+	public void myproject(@RequestParam("uid") int uid, Model model) {
+		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-	}
-	@PutMapping("/myproject")
-	public @ResponseBody int update(@RequestParam("bid") int bid, @RequestBody Map<String, Object> json) throws java.text.ParseException {
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
-		Date date= new Date(sdf.parse((String)json.get("deadline")).getTime());
-		BoardVO boardVO= new BoardVO(bid,(int)json.get("uid"),(String)json.get("title"),
-				(String)json.get("content"),date,(int)json.get("partner_limit"),(String)json.get("contact"));
-		bService.update(boardVO, (List<Integer>)json.get("boardField"), (List<Integer>)json.get("boardLanguage"));
-		return 1;//반환 없으면 ajax success가 실행이 안되서 1반환
-	}
-	@DeleteMapping("/myproject")
-	public @ResponseBody int delete(@RequestParam("bid") int bid) {
-		bService.delete(bid);
-		return 1;
+		List<BoardDTO> boardList= bService.selectMyProject(uid);
+		model.addAttribute("boardList",boardList);
+		if(boardList!=null)
+			model.addAttribute("total",boardList.size());
+		else
+			model.addAttribute("total",0);
 	}
 }

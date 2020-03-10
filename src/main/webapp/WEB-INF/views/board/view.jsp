@@ -231,10 +231,9 @@
     		if(check){
     			$.ajax({
         			type:"DELETE",
-        			url:"/mypage/myproject?bid="+$("#bid").val(),
+        			url:"/board/delete?bid="+$("#bid").val(),
         			success: function(data){
-        				if(data==1)
-        					location.href="/board"
+        					location.href=data;
         			}
         		});
     		}

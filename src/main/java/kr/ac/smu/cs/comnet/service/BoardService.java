@@ -20,4 +20,6 @@ public interface BoardService {
 	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage);//프로젝트 수정
 
 	public void delete(int bid);//프로젝트 삭제
+	
+	public List<BoardDTO> selectMyProject(int uid);//나의 프로젝트 조회
 }

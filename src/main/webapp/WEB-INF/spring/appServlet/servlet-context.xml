@@ -24,8 +24,9 @@
 	</beans:bean>
 	<interceptors>
 		<interceptor>
-			<mapping path="/mypage/myproject"/>
-			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.MypageInterceptor"/>
+			<mapping path="/board/update"/>
+			<mapping path="/board/delete"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.OwnershipCheckInterceptor"/>
 		</interceptor>
 	</interceptors>
 	<context:component-scan base-package="kr.ac.smu.cs.comnet.controller" />

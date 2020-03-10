@@ -21,14 +21,14 @@
 	<form action="/login" method="post" class="login">
 		<div class="input-group mb-3">
 			<input name="username" type="text" class="form-control" placeholder="학번"
-				pattern="20(1|2)[0-9]\d{5}" required>
+				pattern="20(1|2)[0-9]\d{5}" required title="201600000">
 			<div class="input-group-append">
 				<span class="input-group-text">@sangmyung.kr</span>
 			</div>
 		</div>
 		<div>
 			<input type="password" id="password" name="password" class="form-control"
-				placeholder="비밀번호">
+				placeholder="비밀번호" required>
 		</div>
 		<div class="button">
 			<button id="login" type="submit" class="btn btn-primary">Login</button>

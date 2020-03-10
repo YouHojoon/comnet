@@ -193,10 +193,10 @@
 			startPage=1;
 		sessionStorage.removeItem("page");
 		pagination();
-		$("#select-field input").each(function(){
+		$("#select-field input").each(function(){//선택 영역 표시
 			$("#field-list > a[id="+$(this).val()+"]").addClass("active");
 		});
-		$("#select-language input").each(function(){
+		$("#select-language input").each(function(){//선택 언어 표시
 			$("#language-list > a[id="+$(this).val()+"]").addClass("active");
 		});
 		$(".list-group > a").click(function(){
@@ -246,7 +246,7 @@
 		$("#message").click(function() {
 			$("#message-modal").modal("show");
 		});
-		$("#search-input").keyup(function() {
+		$("#search-input").keyup(function() {//언어 검색
 			var search = $("#search-input").val();
 			$(".list-group > a").css('display', 'none');
 			$(".list-group > a:contains(" + search + ")").css('display', 'block');

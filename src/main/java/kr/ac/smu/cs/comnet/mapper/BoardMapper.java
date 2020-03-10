@@ -26,4 +26,6 @@ public interface BoardMapper {
 	public void update(BoardVO boardVO);//프로젝트 수정
 	
 	public void delete(int bid);//프로젝트 삭제
+	
+	public List<BoardVO> selectMyProject(int uid);//나의 프로젝트 조회
 }

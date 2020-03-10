@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -19,6 +20,7 @@
       </button>
       <h1>COMNET</h1>
     </header>
+    <sec:authentication var="uid" property="principal.userVO.uid"/>
     <div class="mypage">
       <div class="menu">
         <div class="name">
@@ -26,7 +28,7 @@
         </div>
       </div>
       <div class="menu">
-        <div class="name">
+        <div class="name" onclick="location.href='/mypage/myproject?uid=${uid}'">
           <h1 class="display-4">나의 프로젝트</h1>
         </div>
       </div>
@@ -36,10 +38,21 @@
         </div>
       </div>
       <div class="menu">
-        <div class="name">
+        <div class="name" id="logout">
           <h1 class="display-4">로그아웃</h1>
         </div>
       </div>
     </div>
+    <script type="text/javascript">
+    	$("#logout").click(function(){
+    		$.ajax({
+    			type: "POST",
+    			url: "/logout",
+    			success: function(){
+    				location.href="/";
+    			}
+    		});
+    	});
+    </script>
   </body>
 </html>

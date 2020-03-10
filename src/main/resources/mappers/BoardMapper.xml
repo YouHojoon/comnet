@@ -57,4 +57,8 @@
     	<delete id="delete">
     		DELETE FROM Board WHERE bid=#{bid}
     	</delete>
+    	<select id="selectMyProject" resultType="BoardVO">
+    		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,
+    		(SELECT @rownum:=0)r WHERE uid=#{uid};
+    	</select>
     </mapper>
