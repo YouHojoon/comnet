@@ -9,8 +9,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -50,7 +48,7 @@ public class BoardController {
 	private BoardService bService;
 	@Autowired
 	private UserService uService;
-	private Logger log = LoggerFactory.getLogger(BoardController.class);
+	
 	@InitBinder
 	public void dateBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -71,7 +69,7 @@ public class BoardController {
 		BoardDTO board = bService.select(bid);
 		model.addAttribute("board", board);
 		model.addAttribute("owner", uService.select(board.getBoardVO().getUid()));
-		model.addAttribute("redirectUrl",redirectUrl.substring(redirectUrl.indexOf("/")));
+		model.addAttribute("redirectUrl",redirectUrl.substring(21));
 	}
 	@GetMapping("/update")
 	public void update(@RequestParam("bid") int bid, Model model) {

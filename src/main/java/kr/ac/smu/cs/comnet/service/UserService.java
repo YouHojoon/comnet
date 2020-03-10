@@ -1,6 +1,5 @@
 package kr.ac.smu.cs.comnet.service;
 
-import org.apache.ibatis.annotations.Param;
 
 import kr.ac.smu.cs.comnet.vo.UserVO;
 

@@ -14,10 +14,12 @@ import kr.ac.smu.cs.comnet.mapper.BoardMapper;
 import kr.ac.smu.cs.comnet.mapper.UserMapper;
 
 public class OwnershipCheckInterceptor implements HandlerInterceptor{
+	
 	@Autowired
 	private BoardMapper bMapper;
 	@Autowired
 	private UserMapper uMapper;
+	
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
@@ -31,8 +33,8 @@ public class OwnershipCheckInterceptor implements HandlerInterceptor{
 			}
 		}
 		if(bMapper.select(Integer.parseInt(request.getParameter("bid"))).getUid() != uMapper.selectByEmail(email).getUid()) {
-			response.sendRedirect("/board/view?bid="+Integer.parseInt(request.getParameter("bid")));
-			return false;//만약 자신의 게시물이 아닌 것을 접근 시에 게시물 상세조회로 돌아감
+			response.sendRedirect("/board");//쿠키의 User의 uid와 수정할 프로젝트의 uid가 다르면 프로젝트 조회 페이지로
+			return false;
 		}
 		return true;
 	}

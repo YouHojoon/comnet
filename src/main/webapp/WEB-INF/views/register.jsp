@@ -93,7 +93,7 @@
         <textarea name="memo" class="form-control" rows="3"></textarea>
       </div>
       <button type="button" id="register" class="btn btn-primary btn-lg">회원가입</button>
-      <button type="button" id="back" onclick="location.href='/loginPage'" class="btn btn-primary btn-sm">Back</button>
+      <button type="button" id="back" onclick="location.href='/'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
     	var authString;

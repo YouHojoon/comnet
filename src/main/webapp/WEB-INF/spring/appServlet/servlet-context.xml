@@ -28,6 +28,10 @@
 			<mapping path="/board/delete"/>
 			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.OwnershipCheckInterceptor"/>
 		</interceptor>
+		<interceptor>
+			<mapping path="/findpw"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.ChangePasswordInterceptor"/>
+		</interceptor>
 	</interceptors>
 	<context:component-scan base-package="kr.ac.smu.cs.comnet.controller" />
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>

@@ -15,7 +15,7 @@
 </head>
   <body>
     <header>
-      <button type="button" id="left" class="btn btn-default" onclick="/board'" aria-label="Left Align">
+      <button type="button" id="left" class="btn btn-default" onclick="location.href='/board'" aria-label="Left Align">
         <span class="glyphicon glyphicon-arrow-left" aria-hidden="true"></span>
       </button>
       <h1>COMNET</h1>
