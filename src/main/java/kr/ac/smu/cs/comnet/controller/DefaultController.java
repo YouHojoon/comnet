@@ -61,8 +61,8 @@ public class DefaultController {
 		List<Integer> selectFieldList = (List<Integer>)session.getAttribute("selectFieldList");
 		List<Integer> selectLanguageList= (List<Integer>)session.getAttribute("selectLanguageList");
 		List<BoardDTO> boardList= null;
-		if(selectFieldList != null || selectLanguageList != null) 
-			boardList = bService.selectSuitableBoard(selectFieldList, selectLanguageList);
+		if(selectFieldList != null || selectLanguageList != null) //언어나 영역이 선택되어 있을 시에
+			boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);
 		else
 			boardList = bService.selectList();
 		model.addAttribute("boardList",boardList);
@@ -77,7 +77,7 @@ public class DefaultController {
 			@RequestParam(name = "selectLanguageList", required = false) List<Integer> selectLanguageList, Model model){
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<BoardDTO> boardList = bService.selectSuitableBoard(selectFieldList, selectLanguageList);
+		List<BoardDTO> boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());

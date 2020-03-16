@@ -14,7 +14,7 @@
 		<select id="selectBid" resultType="int">
 			SELECT bid FROM Board where reg_date=#{reg_date}
 		</select>
-		<select id="selectSuitableBoard" resultType="BoardVO">
+		<select id="selectSuitableBoardList" resultType="BoardVO">
     		SELECT Board.* FROM Board, conn_bf, conn_bl
     		
     		<choose>
@@ -57,7 +57,7 @@
     	<delete id="delete">
     		DELETE FROM Board WHERE bid=#{bid}
     	</delete>
-    	<select id="selectMyProject" resultType="BoardVO">
+    	<select id="selectMyProjectList" resultType="BoardVO">
     		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,
     		(SELECT @rownum:=0)r WHERE uid=#{uid};
     	</select>

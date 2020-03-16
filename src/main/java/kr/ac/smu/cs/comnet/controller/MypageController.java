@@ -33,7 +33,7 @@ public class MypageController {
 	public void myproject(@RequestParam("uid") int uid, Model model) {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<BoardDTO> boardList= bService.selectMyProject(uid);
+		List<BoardDTO> boardList= bService.selectMyProjectList(uid);
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());

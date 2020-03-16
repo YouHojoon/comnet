@@ -74,9 +74,9 @@ public class BoardServiceImpl implements BoardService{
 			lMapper.registerBoardLanguage(bMapper.selectBid(boardVO.getReg_date()), lid);
 	}
 	@Override
-	public List<BoardDTO> selectSuitableBoard(List<Integer> fieldList, List<Integer> languageList) {
+	public List<BoardDTO> selectSuitableBoardList(List<Integer> fieldList, List<Integer> languageList) {
 		long start=System.currentTimeMillis();
-		List<BoardVO> boardList=bMapper.selectSuitableBoard(fieldList, languageList);
+		List<BoardVO> boardList=bMapper.selectSuitableBoardList(fieldList, languageList);
 		if(boardList.size()==0)//프로젝트가 없으면 null 반환
 			return null;
 		List<Integer> bidList=new ArrayList<Integer>();
@@ -118,8 +118,8 @@ public class BoardServiceImpl implements BoardService{
 	@Override
 	public BoardDTO select(int bid) {
 		BoardVO board = bMapper.select(bid);
-		List<Conn_bfVO> conn_bfList = fMapper.selectConn_bf(board.getBid());
-		List<Conn_blVO> conn_blList = lMapper.selectConn_bl(board.getBid());
+		List<Conn_bfVO> conn_bfList = fMapper.selectBoardConn_bfList(board.getBid());
+		List<Conn_blVO> conn_blList = lMapper.selectBoardConn_blList(board.getBid());
 		List<FieldVO> boardField=new ArrayList<FieldVO>();
 		List<LanguageVO> boardLanguage=new ArrayList<LanguageVO>();
 		for(Conn_bfVO conn_bfVO : conn_bfList) {
@@ -154,9 +154,9 @@ public class BoardServiceImpl implements BoardService{
 		bMapper.delete(bid);
 	}
 	@Override
-	public List<BoardDTO> selectMyProject(int uid) {
+	public List<BoardDTO> selectMyProjectList(int uid) {
 		long start=System.currentTimeMillis();
-		List<BoardVO> boardList=bMapper.selectMyProject(uid);
+		List<BoardVO> boardList=bMapper.selectMyProjectList(uid);
 		if(boardList.size()==0)//프로젝트가 없으면 null 반환
 			return null;
 		List<Integer> bidList=new ArrayList<Integer>();

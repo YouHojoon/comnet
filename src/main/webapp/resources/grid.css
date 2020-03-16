@@ -207,11 +207,6 @@ table > tbody > tr > th{
 #project{
   padding-top: 45px;
 }
-#view{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: bold;
-  text-align: center;
-}
 .volunteer{
   color: white;
   background-color: #0984e3;
@@ -449,11 +444,10 @@ table > tbody > tr > th{
 	}
 }
 
-#user-register{
+#user-register, #view{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   text-align: center;
-  overflow-y: auto;
 }
 .register-form > #register{
   float: none;

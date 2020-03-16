@@ -27,7 +27,7 @@
     		</foreach>
     		ORDER BY bid ASC 
     	</select>
-    	<select id="selectConn_bl" resultType="Conn_blVO">
+    	<select id="selectBoardConn_blList" resultType="Conn_blVO">
     		SELECT * FROM conn_bl WHERE bid=#{bid}
     	</select>
     	<delete id="deleteConn_bl">
