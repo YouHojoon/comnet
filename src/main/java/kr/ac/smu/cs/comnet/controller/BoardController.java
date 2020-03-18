@@ -84,7 +84,7 @@ public class BoardController {
 		Date date= new Date(sdf.parse((String)json.get("deadline")).getTime());
 		BoardVO boardVO= new BoardVO(bid,(int)json.get("uid"),(String)json.get("title"),
 				(String)json.get("content"),date,(int)json.get("partner_limit"),(String)json.get("contact"));
-		bService.update(boardVO, (List<Integer>)json.get("boardField"), (List<Integer>)json.get("boardLanguage"));
+		bService.update(boardVO, (int[])json.get("boardField"), (int[])json.get("boardLanguage"));
 		String redirectUrl=session.getAttribute("redirectUrl").toString();
 		sessionStatus.setComplete();
 		return redirectUrl;//요청했던 url전송

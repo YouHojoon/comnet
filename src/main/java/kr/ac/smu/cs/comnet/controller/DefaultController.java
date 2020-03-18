@@ -58,8 +58,8 @@ public class DefaultController {
 	public void board(Model model,HttpSession session) {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<Integer> selectFieldList = (List<Integer>)session.getAttribute("selectFieldList");
-		List<Integer> selectLanguageList= (List<Integer>)session.getAttribute("selectLanguageList");
+		int[] selectFieldList = (int[])session.getAttribute("selectFieldList");
+		int[] selectLanguageList= (int[])session.getAttribute("selectLanguageList");
 		List<BoardDTO> boardList= null;
 		if(selectFieldList != null || selectLanguageList != null) //언어나 영역이 선택되어 있을 시에
 			boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);
@@ -73,8 +73,8 @@ public class DefaultController {
 	}
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/board")
-	public void board(@RequestParam(name = "selectFieldList", required = false) List<Integer> selectFieldList ,
-			@RequestParam(name = "selectLanguageList", required = false) List<Integer> selectLanguageList, Model model){
+	public void board(@RequestParam(name = "selectFieldList", required = false) int[] selectFieldList ,
+			@RequestParam(name = "selectLanguageList", required = false) int[] selectLanguageList, Model model){
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
 		List<BoardDTO> boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);

@@ -16,8 +16,8 @@ public interface BoardMapper {
 	
 	public int selectBid(String reg_date);//board_field, board_langueage 등록할때 bid가 필요해서
 	
-	public List<BoardVO> selectSuitableBoardList(@Param("selectFieldList") List<Integer> selectFieldList, 
-			@Param("selectLanguageList") List<Integer> selectLanguageList);//선택한 요건에 맞는 프로젝트 조회
+	public List<BoardVO> selectSuitableBoardList(@Param("selectFieldList") int[] selectFieldList, 
+			@Param("selectLanguageList") int[] selectLanguageList);//선택한 요건에 맞는 프로젝트 조회
 	
 	@Cacheable("BoardCache")//프로젝트 작성자 확인을 하면서 조회를 해 중복 조회를 막기 위해 캐시를 사용
 	public BoardVO select(int bid);//프로젝트 상세 조회

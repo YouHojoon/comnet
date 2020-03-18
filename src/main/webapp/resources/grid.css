@@ -58,15 +58,7 @@ body{
 	font-size: 10px;
 	}
 }
-#project-list > tbody > tr > td > label{
-	text-align: center;
-    width: 75px;
-    background-color: #0984e3;
-    color: white;
-    border-radius: 10px;
-    background-size: cover;
-    overflow-x: auto;
-}
+
 .alarm{
   display: inline-block;
   color: white;
@@ -85,12 +77,7 @@ body{
   position: relative;
   right: 135%;
 }
-table > thead > tr > th{
-  text-align: center;
-}
-table > tbody > tr > th{
-  text-align: center;
-}
+
 .modal-header{
   font-family: 'Black Han Sans',cursive;
   background-color: #0984e3;
@@ -166,10 +153,7 @@ table > tbody > tr > th{
 .register-field{
   margin-top: 20px;
 }
-.register-field > table{
-  font-size: 13px;
-}
-.register-language > table{
+.register-field > table, .register-language > table{
   font-size: 13px;
 }
 .new > .register-form > #field-label{
@@ -233,14 +217,7 @@ table > tbody > tr > th{
   width: 90%;
   display: inline-block;
 }
-.field-language > label{
-  text-align: center;
-  width: 75px;
-  background-color: #0984e3;
-  color: white;
-  border-radius: 10px;
-  background-size: cover;
-}
+
 .volunteer-list > h1{
   font-family: 'Black Han Sans',cursive;
   margin: 0;
@@ -248,10 +225,15 @@ table > tbody > tr > th{
   line-height: 1.4;
   margin-top: -15px;
 }
-.volunteer-list > table > tfoot > tr > th{
+.project-body > table > thead > tr > th, .project-body > table > tbody > tr > th,
+.project-body > table > tfoot > tr > th, .volunteer-list > table > tbody > tr > th,
+.volunteer-list > table > tfoot > tr > th, .volunteer-list > table > thead > tr > th,
+.register-form > .table > tbody > tr > th > .from-check, table > thead > tr > th,
+table > tbody > tr > th{
   text-align: center;
 }
-.volunteer-list > table > tbody > tr > td > label{
+#project-list > tbody > tr > td > label, .field-language > label,
+.project-body > table > tbody > tr > td > label, .volunteer-list > table > tbody > tr > td > label{
   text-align: center;
   width: 75px;
   background-color: #0984e3;
@@ -260,20 +242,7 @@ table > tbody > tr > th{
   background-size: cover;
 
 }
-.volunteer-list > table {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.volunteer-list > table > thead > tr > th{
-  text-align: center;
-}
-.volunteer-list > table > tbody > tr > th{
-  text-align: center;
-}
-.project-body > table > tfoot > tr > th{
-  text-align: center;
-}
+
 .approval{
   height: 25px;
   background-color: #5cb85c;
@@ -303,21 +272,14 @@ table > tbody > tr > th{
 .project-body{
   margin-bottom: -15px;
 }
-.project-body > table > tbody > tr > td > label{
-  text-align: center;
-  width: 75px;
-  background-color: #0984e3;
-  color: white;
-  border-radius: 10px;
-  background-size: cover;
-}
+
 .project-body > table > tbody > tr > .ability{
 	width: 50%;
 }
 .volunteer-list > table > tbody > tr > .ability{
 	width: 39%;
 }
-.project-body > table {
+.project-body > table, .volunteer-list > table {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
@@ -337,12 +299,7 @@ table > tbody > tr > th{
 	  font-size: 10px;
 	}
 }
-.project-body > table > thead > tr > th{
-  text-align: center;
-}
-.project-body > table > tbody > tr > th{
-  text-align: center;
-}
+
 .project-body > .form-group > .form-control{
   display: inline-block;
   width: 90%;
@@ -355,16 +312,17 @@ table > tbody > tr > th{
 .leader{
   margin-left:5%;
   float: left;
+  font-weight: bold;
 }
 .deadline{
   float: right;
   margin-right:5%;
+  font-weight: bold;
 }
 #project > h1{
   font-family: 'Black Han Sans',cursive;
   margin: 0;
   padding: 0;
-
   line-height: 1.4;
 }
 #info{
@@ -379,9 +337,6 @@ table > tbody > tr > th{
   padding: 0;
   line-height: 1.4;
 }
-#info >.{
-  margin-top: -15px;
-}
 #info >.register-form > .form-group{
   width: 100%;
 }
@@ -395,8 +350,6 @@ table > tbody > tr > th{
 #memo-form{
   margin-bottom: 10px;
 }
-
-
 .mypage{
   text-align: center;
   padding-top: 75px;
@@ -426,7 +379,6 @@ table > tbody > tr > th{
 	  font-size: 25px;
 	}
 }
-
 .menu:hover{
   background-color: white;
   border-color: #0984e3;
@@ -497,9 +449,6 @@ table > tbody > tr > th{
 }
 .register-form > .table > tbody > tr > th{
 	text-align: left;
-}
-.register-form > .table > tbody > tr > th > .from-check{
-	text-align: center;
 }
 .register-form > .table{
   width: 80%;

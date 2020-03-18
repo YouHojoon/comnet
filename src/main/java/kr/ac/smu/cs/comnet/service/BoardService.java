@@ -13,11 +13,11 @@ public interface BoardService {
 	
 	public void register(BoardVO boardVO, int[] boardField, int[] boardLanguage);//프로젝트 등록
 	
-	public List<BoardDTO> selectSuitableBoardList(List<Integer> fieldList, List<Integer> languageList);//원하는 요건의 프로젝트 조회
+	public List<BoardDTO> selectSuitableBoardList(int[] fieldList, int[] languageList);//원하는 요건의 프로젝트 조회
 	
 	public BoardDTO select(int bid);//프로젝트 상세 조회
 	
-	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage);//프로젝트 수정
+	public void update(BoardVO boardVO, int[] boardField, int[] boardLanguage);//프로젝트 수정
 
 	public void delete(int bid);//프로젝트 삭제
 	
