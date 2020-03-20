@@ -15,12 +15,10 @@ public class ChangePasswordInterceptor implements HandlerInterceptor {
 		String requestUrl = request.getHeader("referer");
 		if(request.getMethod().equals("GET"))
 			return true;
-		else if(request.getMethod().equals("PATCH") && requestUrl.substring(21).equals("/findpw"))
+		else if(request.getMethod().equals("PATCH") && (requestUrl.substring(21).equals("/findpw") 
+				|| requestUrl.substring(21).contains("/mypage/info")))
 				return true;
-		else {//다른 경로로 접근 시도 시 로그인 페이지로
-			response.sendRedirect("/");
-			return false;
-		}
-			
+		else 
+			return false;			
 	}
 }

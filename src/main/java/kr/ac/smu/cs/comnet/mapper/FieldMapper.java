@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.cache.annotation.Cacheable;
 
 import kr.ac.smu.cs.comnet.vo.Conn_bfVO;
+import kr.ac.smu.cs.comnet.vo.Conn_ufVO;
 import kr.ac.smu.cs.comnet.vo.FieldVO;
 
 public interface FieldMapper {
@@ -27,4 +28,8 @@ public interface FieldMapper {
 	public LinkedList<Conn_bfVO> selectBoardConn_bfList(int bid);//프로젝트 하나의 conn_bf 반환
 	
 	public void deleteConn_bf(int bid);//프로젝트의 conn_bf 제거
+	
+	public List<Conn_ufVO> selectUserField(int uid);//유저의  conn_uf 반환
+	
+	public void deleteConn_uf(int uid);//유저의 conn_uf 제거
 }

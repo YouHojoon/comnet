@@ -25,7 +25,7 @@
       	</button>
 		<h1>COMNET</h1>
 	</header>
-
+	
 	<div class="project-list">
 		<!--프로젝트 조회 시작-->
 		<input type="hidden" id="total" value="${total}">

@@ -277,12 +277,10 @@
   		$.ajax({
   			type: "PUT",
   			url: "/board/update?bid="+$("#bid").val(),
-  			//traditional:true,
   			data:JSON.stringify(data),
   			contentType:"application/json",
-  			dataType: "JSON",
-  			success: function(data){
-  					location.href=data;
+  			success: function(){
+  				location.href="/board/view?bid="+$("#bid").val();
   			}
   		});
       });

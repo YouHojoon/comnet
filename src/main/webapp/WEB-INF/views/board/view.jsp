@@ -215,7 +215,7 @@
       <div class="project-foot">
 	      <c:choose>
 	      	<c:when test="${uid==owner.uid}"><!--나의 글이면 수정,삭제 버튼 조회-->
-	      		<button type="button" onclick="location.href='/mypage/myproject?bid=${board.boardVO.bid}'" class="volunteer">수정</button>
+	      		<button type="button" onclick="location.href='/board/update?bid=${board.boardVO.bid}'" class="volunteer">수정</button>
           		<button type="button" id="delete" class="volunteer">삭제</button>
 	      	</c:when>
 	      	<c:otherwise>

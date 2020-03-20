@@ -23,7 +23,7 @@
     <sec:authentication var="uid" property="principal.userVO.uid"/>
     <div class="mypage">
       <div class="menu">
-        <div class="name">
+        <div class="name" onclick="location.href='/mypage/info?uid=${uid}'">
           <h1 class="display-4">정보 수정</h1>
         </div>
       </div>

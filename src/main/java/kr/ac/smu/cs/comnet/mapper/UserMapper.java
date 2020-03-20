@@ -13,4 +13,6 @@ public interface UserMapper {
 	public UserVO select(int uid);//uid로 유저 찾기
 	
 	public void changePassword(@Param("email") String email, @Param("password") String password);//비밀번호 변경
+	
+	public void update(UserVO userVO);//유저 정보 수정
 }

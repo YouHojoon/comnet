@@ -12,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -109,10 +110,10 @@ public class DefaultController {
 	@GetMapping("/mypage")
 	public void mypage(Model model) {}
 	
-	@GetMapping("findpw")
+	@GetMapping("/findpw")
 	public void findpw() {}
 	
-	@PatchMapping("findpw")
+	@PatchMapping("/findpw")
 	public @ResponseBody void findpw(@RequestBody Map<String, String> json) {
 		uService.changePassword(json.get("email"), json.get("password"));
 	}

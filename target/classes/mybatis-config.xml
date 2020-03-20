@@ -12,6 +12,8 @@
          	 <typeAlias alias="BoardVO" type="kr.ac.smu.cs.comnet.vo.BoardVO"/>
          	 <typeAlias alias="Conn_bfVO" type="kr.ac.smu.cs.comnet.vo.Conn_bfVO"/>
          	 <typeAlias alias="Conn_blVO" type="kr.ac.smu.cs.comnet.vo.Conn_blVO"/>
+         	 <typeAlias alias="Conn_ufVO" type="kr.ac.smu.cs.comnet.vo.Conn_ufVO"/>
+         	 <typeAlias alias="Conn_ulVO" type="kr.ac.smu.cs.comnet.vo.Conn_ulVO"/>
          </typeAliases>
 
         

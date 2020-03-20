@@ -17,7 +17,7 @@ public interface BoardService {
 	
 	public BoardDTO select(int bid);//프로젝트 상세 조회
 	
-	public void update(BoardVO boardVO, int[] boardField, int[] boardLanguage);//프로젝트 수정
+	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage);//프로젝트 수정
 
 	public void delete(int bid);//프로젝트 삭제
 	

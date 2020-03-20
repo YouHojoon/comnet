@@ -133,7 +133,7 @@ public class BoardServiceImpl implements BoardService{
 		return new BoardDTO(board, boardField, boardLanguage);
 	}
 	@Override
-	public void update(BoardVO boardVO, int[] boardField, int[] boardLanguage) {
+	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage) {
 		bMapper.update(boardVO);
 		int bid = boardVO.getBid();
 		fMapper.deleteConn_bf(bid);

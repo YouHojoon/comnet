@@ -7,6 +7,39 @@ body{
   overflow-y: auto;
   text-align: center;
 }
+#info #password{
+	width: calc(75%);
+    display: inline-block;
+    float: left;
+}
+#change-password{
+	width: calc(20%);
+    float: right;
+}
+@media(max-width: 740px){
+	#info #password{
+		width: calc(70%);
+	}
+	#change-password{
+		width: calc(25%); 
+	}
+}
+@media(max-width: 600px){
+	#info #password{
+		width: calc(65%);
+	}
+	#change-password{
+		width: calc(30%); 
+	}
+}
+@media(max-width: 495px){
+	#info #password{
+		width: calc(60%);
+	}
+	#change-password{
+		width: calc(35%); 
+	}
+}
 .password-check-auth > .input-group > .input-group-append > #auth-button{
 	border-top-right-radius: 0.25rem;
     border-bottom-right-radius: 0.25rem;
@@ -325,25 +358,6 @@ table > tbody > tr > th{
   padding: 0;
   line-height: 1.4;
 }
-#info{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: bold;
-  text-align: center;
-  overflow-y: auto;
-}
-#info > h1{
-  font-family: 'Black Han Sans',cursive;
-  margin: 0;
-  padding: 0;
-  line-height: 1.4;
-}
-#info >.register-form > .form-group{
-  width: 100%;
-}
-#info >.register-form > .form-group > .form-control{
-  display: inline-flex;
-  width: 80%;
-}
 #memo-label{
   display:block;
 }
@@ -395,13 +409,12 @@ table > tbody > tr > th{
 		padding: 6px 8px;
 	}
 }
-
-#user-register, #view{
+#user-register, #view, #info{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   text-align: center;
 }
-.register-form > #register{
+.register-form > #register, #update{
   float: none;
   display: flex;
   margin: auto;

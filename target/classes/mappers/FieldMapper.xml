@@ -33,4 +33,10 @@
     	<delete id="deleteConn_bf">
     		DELETE FROM conn_bf WHERE bid=#{bid}
     	</delete>
+    	<select id="selectUserField" resultType="Conn_ufVO">
+    		SELECT * FROM conn_uf WHERE uid=#{uid}
+    	</select>
+    	<delete id="deleteConn_uf">
+    		DELETE FROM conn_uf WHERE uid=#{uid}
+    	</delete>
     </mapper>

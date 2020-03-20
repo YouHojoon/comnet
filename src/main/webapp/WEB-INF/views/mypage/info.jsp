@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib uri="http://www.springframework.org/security/tags" prefix="sec"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,38 +13,44 @@
 <meta charset="UTF-8">
 <title>COMNET</title>
 </head>
-<body id="user-register">
+<body id="info">
     <header>
       <h1>COMNET</h1>
     </header>
+    <!--사용자 선택 영역-->
+		<div id="select-field">
+			<c:forEach items="${userField}" var="fid">
+				<input type="hidden" value="${fid.fid}">
+			</c:forEach>
+		</div>
+		<!--사용자 선택 언어-->
+		<div id="select-language">
+			<c:forEach items="${userLanguage}" var="lid">
+				<input type="hidden" value="${lid.lid}">
+			</c:forEach>
+		</div>
+    <input type="hidden" id="uid" value="${user.uid}">
     <form class="register-form">
       <div class="input-group mb-3">
-        <input type="text" name="email" class="form-control" placeholder="학번">
+        <input type="text" readonly="readonly" name="email" class="form-control" placeholder="학번" value="${user.email}">
         <div class="input-group-append">
           <span class="input-group-text">@sangmyung.kr</span>
         </div>
       </div>
       <div class="form-group">
-        <input type="text" name="name" class="form-control" placeholder="홍길동">
+        <input type="text" name="name" class="form-control" placeholder="홍길동" value="${user.name}">
       </div>
       <div class="form-group">
-        <input type="text" name="phone" class="form-control" placeholder="01011111111">
+        <input type="text" name="phone" class="form-control" placeholder="01011111111" value="${user.phone}">
       </div>
       <div class="form-group">
-        <input type="password" name="password" class="form-control" placeholder="비밀번호">
+        <input id="password" type="password" name="password" class="form-control" placeholder="비밀번호">
+  		<button type="button" id="change-password" class="btn btn-primary">비밀번호 변경</button>
       </div>
       <div class="form-group">
         <input type="password" id="password-check" class="form-control" placeholder="비밀번호 확인">
       </div>
-      <div class="auth">
-        <div class="form-group">
-          <input type="text" id="auth-input" class="form-control" placeholder="인증문자">
-          <button type="button" onclick="auth()" id="auth-button" class="btn btn-primary">인증</button>
-          <div class="spinner-border text-primary" role="status">
-  			<span class="sr-only">Loading...</span>
-		  </div>
-        </div>
-      </div>
+    
       <label id="field-label">관심 분야</label>
       <table id="user-field" class="table table-borderless">
         <tr>
@@ -90,28 +97,22 @@
       </table>
       <div class="form-group">
         <label id="memo-label">메모</label>
-        <textarea name="memo" class="form-control" rows="3"></textarea>
+        <textarea name="memo" class="form-control" rows="3">${user.memo}</textarea>
       </div>
-      <button type="button" id="register" class="btn btn-primary btn-lg">회원가입</button>
-      <button type="button" id="back" onclick="location.href='/'" class="btn btn-primary btn-sm">Back</button>
+      <button type="button" id="update" class="btn btn-primary btn-lg">수정</button>
+      <button type="button" id="back" onclick="location.href='/mypage'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
-    	var authString;
-    	var emailForm=/^20(1|2)\d{6}$/;
+	    $("#select-field input").each(function(){//선택 영역 표시
+			$("#user-field input[value="+$(this).val()+"]").attr("checked","checked");
+		});
+		$("#select-language input").each(function(){//선택 언어 표시
+			$("#user-language input[value="+$(this).val()+"]").attr("checked","checked");
+		});
     	var phoneForm=/^01(0|1)\d{8}$/;
-    	$("#register").click(function(){
+    	$("#update").click(function(){
     		//입력 확인
-    		if($("input[name=email]").val()==""){
-    			alert("학번을 입력해주세요.");
-    			$("input[name=email]").focus();
-    			return;
-    		}
-    		else if(emailForm.test($("input[name=email]").val())==false){
-    			alert("학번을 올바르게 입력해주세요.");
-    			$("input[name=email]").focus();
-    			return;
-    		}
-    		else if($("input[name=name]").val()==""){
+    		if($("input[name=name]").val()==""){
     			alert("이름을 입력해주세요.");
     			$("input[name=name]").focus();
     			return;
@@ -126,7 +127,43 @@
     			$("input[name=email]").focus();
     			return;
     		}
-    		else if($("input[name=password]").val()==""){
+    		else if($("input:checkbox[name=field-check]:checked").length==0){
+    			alert("관심 분야를 하나 이상 선택해주세요.");
+    			$("#user-field").focus();
+    			return;
+    		}
+    		else if($("input:checkbox[name=language-check]:checked").length==0){
+    			alert("관심 언어를 하나 이상 선택해주세요.");
+    			$("#user-language").focus();
+    			return;
+    		}
+    		var userField=new Array();
+    		var userLanguage=new Array();
+    		$("#user-field input").each(function(){
+    			if($(this).is(":checked")==true){
+    				userField.push(Number($(this).val()));
+    			}
+    		});
+    		$("#user-language input").each(function(){
+    			if($(this).is(":checked")==true){
+    				userLanguage.push(Number($(this).val()));
+    			}
+    		});
+    		var data={email:$("input[name=email]").val(), name:$("input[name=name]").val(),
+                  phone:$("input[name=phone]").val(), memo:$("textarea[name=memo]").val(),
+                  userField:userField, userLanguage:userLanguage};
+    		$.ajax({
+    			type:"PUT",
+    			url:"/mypage/info?uid="+$("#uid").val(),
+    			data:JSON.stringify(data),
+    			contentType:"application/json",
+    			success:function(){
+    				location.href="/mypage";
+    			}
+    		});
+    	});
+    	$("#change-password").click(function(){
+    		if($("input[name=password]").val()==""){
     			alert("비밀번호를 입력해주세요.");
     			$("input[name=password]").focus();
     			return;
@@ -141,84 +178,17 @@
     			$("#password-check").focus();
     			return;
     		}
-    		else if($("input:checkbox[name=field-check]:checked").length==0){
-    			alert("관심 분야를 하나 이상 선택해주세요.");
-    			$("#user-field").focus();
-    			return;
-    		}
-    		else if($("input:checkbox[name=language-check]:checked").length==0){
-    			alert("관심 언어를 하나 이상 선택해주세요.");
-    			$("#user-language").focus();
-    			return;
-    		}
-    		else if(authString!=true){
-    			//인증 확인
-    			alert("이메일 인증을 해주세요.");
-    			$("#auth-button").focus();
-    			return;
-    		}
-    		var userField=new Array();
-    		var userLanguage=new Array();
-    		$("#user-field input").each(function(){
-    			if($(this).is(":checked")==true){
-    				userField.push($(this).val());
-    			}
-    		});
-    		$("#user-language input").each(function(){
-    			if($(this).is(":checked")==true){
-    				userLanguage.push($(this).val());
-    			}
-    		});
+    		var data={eamil:$("input[name=email]").val(), password:$("input[name=password]").val()};
     		$.ajax({
-    			type:"POST",
-    			url:"/register",
-    			traditional:true,
-    			data:{email:$("input[name=email]").val(), password:$("input[name=password]").val(),
-    			      name:$("input[name=name]").val(), phone:$("input[name=phone]").val(),
-    				  memo:$("textarea[name=memo]").val(), userField:userField, userLanguage:userLanguage},
+    			type:"PATCH",
+    			url:"/findpw",
+    			data:JSON.stringify(data),
+    			contentType:"application/json",
     			success:function(){
-    				location.href="/loginPage";
+    				location.href="/mypage";
     			}
     		});
     	});
-    	function auth(){//인증메일 전송
-    		if($("input[name=email]").val()==""){
-    			alert("Email을 입력해주세요.");
-    			return;
-    		}
-    		$("#auth-button").css("display","none");
-    		$(".spinner-border").css("display","inline-block");
-    		$.ajax({
-    			type:"GET",
-    			url:"/auth?email="+$("input[name=email]").val(),
-    			success:function(data){
-    				if(data==="duplication"){
-    					alert("이미 아이디가 존재합니다.");
-    					$("input[name=email]").focus();
-    				}
-    				else{
-    					authString=data;
-        				alert("인증 메일이 전송되었습니다.");
-        				$("#auth-button").attr("onclick","check()");
-    				}
-    				$(".spinner-border").css("display","none");
-    				$("#auth-button").css("display","inline-block");
-    			}
-    		});
-    	}
-    	function check(){//인증메일 확인
-    		if(authString===$("#auth-input").val()){
-    			alert("인증 성공");
-    			$("input[name=email]").attr("readonly","readonly");
-    			$("#auth-input").attr("readonly","readonly");
-    			$("#auth-button").attr("disabled","disabled");
-    			authString=true;
-    		}
-    		else{
-    			alert("인증 실패");
-    			$("#auth-button").attr("onclick","auth()");
-    		}
-    	}
     </script>
   </body>
 </html>

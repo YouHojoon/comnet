@@ -1,5 +1,7 @@
 package kr.ac.smu.cs.comnet.service;
 
+import java.util.List;
+
 import javax.mail.internet.MimeMessage;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -7,6 +9,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
 
 import kr.ac.smu.cs.comnet.mapper.FieldMapper;
 import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
@@ -33,7 +36,7 @@ public class UserServiceImpl implements UserService{
 		for(int fid : userField)
 			fMapper.registerUserField(uid, fid);
 		for(int lid : userLanguage)
-			lMapper.regiserUserLanguage(uid, lid);
+			lMapper.registerUserLanguage(uid, lid);
 	}
 	@Override
 	public String auth(String email, String requestUrl) {
@@ -64,5 +67,16 @@ public class UserServiceImpl implements UserService{
 	@Override
 	public void changePassword(String email, String password) {
 		uMapper.changePassword(email, bcryptPasswordEncoder.encode(password));
+	}
+	@Override
+	public void update(UserVO userVO, List<Integer> userField, List<Integer> userLanguage) {
+		uMapper.update(userVO);
+		int uid=userVO.getUid();
+		fMapper.deleteConn_uf(uid);
+		lMapper.deleteConn_ul(uid);
+		for(int fid: userField)
+			fMapper.registerUserField(uid, fid);
+		for(int lid: userLanguage)
+			lMapper.registerUserLanguage(uid, lid);
 	}
 }

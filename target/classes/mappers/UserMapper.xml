@@ -16,4 +16,8 @@
 		<update id="changePassword">
 			UPDATE User SET password=#{password} WHERE email=#{email} 
 		</update>
+		<update id="update">
+			UPDATE User SET email=#{email}, name=#{name}, memo=#{memo}, phone=#{phone}
+			WHERE uid=#{uid}
+		</update>
 	</mapper>

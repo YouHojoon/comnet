@@ -9,6 +9,8 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
+import jdk.internal.org.jline.utils.Log;
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
@@ -48,7 +51,7 @@ public class BoardController {
 	private BoardService bService;
 	@Autowired
 	private UserService uService;
-	
+	Logger log= LoggerFactory.getLogger(BoardController.class);
 	@InitBinder
 	public void dateBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
@@ -69,7 +72,8 @@ public class BoardController {
 		BoardDTO board = bService.select(bid);
 		model.addAttribute("board", board);
 		model.addAttribute("owner", uService.select(board.getBoardVO().getUid()));
-		model.addAttribute("redirectUrl",redirectUrl.substring(21));
+		if(!redirectUrl.contains("/update"))
+			model.addAttribute("redirectUrl",redirectUrl.substring(21));
 	}
 	@GetMapping("/update")
 	public void update(@RequestParam("bid") int bid, Model model) {
@@ -78,16 +82,14 @@ public class BoardController {
 		model.addAttribute("languageList", lService.selectList());
 	}
 	@PutMapping("/update")
-	public @ResponseBody String update(@RequestParam("bid") int bid, @RequestBody Map<String, Object> json, 
+	public @ResponseBody void update(@RequestParam("bid") int bid, @RequestBody Map<String, Object> json, 
 			HttpSession session, SessionStatus sessionStatus) throws java.text.ParseException {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		Date date= new Date(sdf.parse((String)json.get("deadline")).getTime());
 		BoardVO boardVO= new BoardVO(bid,(int)json.get("uid"),(String)json.get("title"),
 				(String)json.get("content"),date,(int)json.get("partner_limit"),(String)json.get("contact"));
-		bService.update(boardVO, (int[])json.get("boardField"), (int[])json.get("boardLanguage"));
-		String redirectUrl=session.getAttribute("redirectUrl").toString();
-		sessionStatus.setComplete();
-		return redirectUrl;//요청했던 url전송
+		bService.update(boardVO, (List<Integer>)json.get("boardField"), (List<Integer>)json.get("boardLanguage"));
+	
 	}
 	@DeleteMapping("/delete")
 	public @ResponseBody String delete(@RequestParam("bid") int bid, HttpSession session, SessionStatus sessionStatus) {

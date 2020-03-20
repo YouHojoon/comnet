@@ -82,6 +82,7 @@
 			var data={email: $("input[name=email]").val(), password: $("input[name=password]").val()}
 			$.ajax({
 				type: "PATCH",
+				url: "/findpw",
 				data: JSON.stringify(data),
 				contentType: "application/json",
 				success: function(){
