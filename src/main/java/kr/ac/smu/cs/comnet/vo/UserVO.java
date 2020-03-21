@@ -8,6 +8,15 @@ public class UserVO {
 	private String memo;
 	private String phone;
 	
+	public UserVO() {}
+	
+	public UserVO(int uid, String email, String name,String memo, String phone) {
+		this.uid = uid;
+		this.email = email;
+		this.name = name;
+		this.memo = memo;
+		this.phone = phone;
+	}
 	public int getUid() {
 		return uid;
 	}

@@ -15,5 +15,8 @@
          overflowToDisk="false"
          memoryStoreEvictionPolicy="LFU"
          />
-         
+         <cache name="BoardCache" eternal="true" 
+         maxElementsInMemory="1"
+         overflowToDisk="false"
+         />
 </ehcache>

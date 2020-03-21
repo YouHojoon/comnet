@@ -10,6 +10,7 @@
 		<security:form-login default-target-url="/board" login-page="/"/>
 		<security:csrf disabled="true"/>
 		<security:remember-me key="auto" token-validity-seconds="2592000"/>
+		<security:logout delete-cookies="remember-me, JSESSIONID" invalidate-session="true"/>
 	</security:http>
 	
 	<security:authentication-manager>

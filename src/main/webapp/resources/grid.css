@@ -7,6 +7,43 @@ body{
   overflow-y: auto;
   text-align: center;
 }
+#info #password{
+	width: calc(75%);
+    display: inline-block;
+    float: left;
+}
+#change-password{
+	width: calc(20%);
+    float: right;
+}
+@media(max-width: 740px){
+	#info #password{
+		width: calc(70%);
+	}
+	#change-password{
+		width: calc(25%); 
+	}
+}
+@media(max-width: 600px){
+	#info #password{
+		width: calc(65%);
+	}
+	#change-password{
+		width: calc(30%); 
+	}
+}
+@media(max-width: 495px){
+	#info #password{
+		width: calc(60%);
+	}
+	#change-password{
+		width: calc(35%); 
+	}
+}
+.password-check-auth > .input-group > .input-group-append > #auth-button{
+	border-top-right-radius: 0.25rem;
+    border-bottom-right-radius: 0.25rem;
+}
 .pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover {
     z-index: 2;
     color: #fff;
@@ -54,15 +91,7 @@ body{
 	font-size: 10px;
 	}
 }
-#project-list > tbody > tr > td > label{
-	text-align: center;
-    width: 75px;
-    background-color: #0984e3;
-    color: white;
-    border-radius: 10px;
-    background-size: cover;
-    overflow-x: auto;
-}
+
 .alarm{
   display: inline-block;
   color: white;
@@ -81,12 +110,7 @@ body{
   position: relative;
   right: 135%;
 }
-table > thead > tr > th{
-  text-align: center;
-}
-table > tbody > tr > th{
-  text-align: center;
-}
+
 .modal-header{
   font-family: 'Black Han Sans',cursive;
   background-color: #0984e3;
@@ -115,7 +139,7 @@ table > tbody > tr > th{
   transition: opacity .15s linear;
   background-color: rgba(0,0,0,0.5);
 }
-.passwd-check-auth > .input-group{
+.password-check-auth > .input-group{
     display: inline-flex;
     width: 310px;
 }
@@ -162,10 +186,7 @@ table > tbody > tr > th{
 .register-field{
   margin-top: 20px;
 }
-.register-field > table{
-  font-size: 13px;
-}
-.register-language > table{
+.register-field > table, .register-language > table{
   font-size: 13px;
 }
 .new > .register-form > #field-label{
@@ -203,11 +224,6 @@ table > tbody > tr > th{
 #project{
   padding-top: 45px;
 }
-#view{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: bold;
-  text-align: center;
-}
 .volunteer{
   color: white;
   background-color: #0984e3;
@@ -234,14 +250,7 @@ table > tbody > tr > th{
   width: 90%;
   display: inline-block;
 }
-.field-language > label{
-  text-align: center;
-  width: 75px;
-  background-color: #0984e3;
-  color: white;
-  border-radius: 10px;
-  background-size: cover;
-}
+
 .volunteer-list > h1{
   font-family: 'Black Han Sans',cursive;
   margin: 0;
@@ -249,10 +258,15 @@ table > tbody > tr > th{
   line-height: 1.4;
   margin-top: -15px;
 }
-.volunteer-list > table > tfoot > tr > th{
+.project-body > table > thead > tr > th, .project-body > table > tbody > tr > th,
+.project-body > table > tfoot > tr > th, .volunteer-list > table > tbody > tr > th,
+.volunteer-list > table > tfoot > tr > th, .volunteer-list > table > thead > tr > th,
+.register-form > .table > tbody > tr > th > .from-check, table > thead > tr > th,
+table > tbody > tr > th{
   text-align: center;
 }
-.volunteer-list > table > tbody > tr > td > label{
+#project-list > tbody > tr > td > label, .field-language > label,
+.project-body > table > tbody > tr > td > label, .volunteer-list > table > tbody > tr > td > label{
   text-align: center;
   width: 75px;
   background-color: #0984e3;
@@ -261,20 +275,7 @@ table > tbody > tr > th{
   background-size: cover;
 
 }
-.volunteer-list > table {
-  width: 90%;
-  margin-left: auto;
-  margin-right: auto;
-}
-.volunteer-list > table > thead > tr > th{
-  text-align: center;
-}
-.volunteer-list > table > tbody > tr > th{
-  text-align: center;
-}
-.project-body > table > tfoot > tr > th{
-  text-align: center;
-}
+
 .approval{
   height: 25px;
   background-color: #5cb85c;
@@ -304,15 +305,14 @@ table > tbody > tr > th{
 .project-body{
   margin-bottom: -15px;
 }
-.project-body > table > tbody > tr > td > label{
-  text-align: center;
-  width: 75px;
-  background-color: #0984e3;
-  color: white;
-  border-radius: 10px;
-  background-size: cover;
+
+.project-body > table > tbody > tr > .ability{
+	width: 50%;
 }
-.project-body > table {
+.volunteer-list > table > tbody > tr > .ability{
+	width: 39%;
+}
+.project-body > table, .volunteer-list > table {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
@@ -332,12 +332,7 @@ table > tbody > tr > th{
 	  font-size: 10px;
 	}
 }
-.project-body > table > thead > tr > th{
-  text-align: center;
-}
-.project-body > table > tbody > tr > th{
-  text-align: center;
-}
+
 .project-body > .form-group > .form-control{
   display: inline-block;
   width: 90%;
@@ -350,39 +345,18 @@ table > tbody > tr > th{
 .leader{
   margin-left:5%;
   float: left;
+  font-weight: bold;
 }
 .deadline{
   float: right;
   margin-right:5%;
+  font-weight: bold;
 }
 #project > h1{
   font-family: 'Black Han Sans',cursive;
   margin: 0;
   padding: 0;
-
   line-height: 1.4;
-}
-#info{
-  font-family: 'Noto Sans KR', sans-serif;
-  font-weight: bold;
-  text-align: center;
-  overflow-y: auto;
-}
-#info > h1{
-  font-family: 'Black Han Sans',cursive;
-  margin: 0;
-  padding: 0;
-  line-height: 1.4;
-}
-#info >.{
-  margin-top: -15px;
-}
-#info >.register-form > .form-group{
-  width: 100%;
-}
-#info >.register-form > .form-group > .form-control{
-  display: inline-flex;
-  width: 80%;
 }
 #memo-label{
   display:block;
@@ -390,11 +364,9 @@ table > tbody > tr > th{
 #memo-form{
   margin-bottom: 10px;
 }
-
-
 .mypage{
   text-align: center;
-  margin-top: 5%;
+  padding-top: 75px;
 }
 .menu{
   width: 70%;
@@ -416,6 +388,11 @@ table > tbody > tr > th{
   font-size: 40px;
   font-weight: bold;
 }
+@media(max-width: 590px){
+	.name > h1{
+	  font-size: 25px;
+	}
+}
 .menu:hover{
   background-color: white;
   border-color: #0984e3;
@@ -427,13 +404,17 @@ table > tbody > tr > th{
 #back{
   margin-top: 10px;
 }
-#user-register{
+@media(max-width: 475px){
+	.pagination>li>a{
+		padding: 6px 8px;
+	}
+}
+#user-register, #view, #info{
   font-family: 'Noto Sans KR', sans-serif;
   font-weight: bold;
   text-align: center;
-  overflow-y: auto;
 }
-.register-form > #register{
+.register-form > #register, #update{
   float: none;
   display: flex;
   margin: auto;
@@ -482,9 +463,6 @@ table > tbody > tr > th{
 .register-form > .table > tbody > tr > th{
 	text-align: left;
 }
-.register-form > .table > tbody > tr > th > .from-check{
-	text-align: center;
-}
 .register-form > .table{
   width: 80%;
   margin-left: auto;
@@ -504,7 +482,7 @@ table > tbody > tr > th{
   display: initial;
   margin-left: 14px;
 }
-#auth-button{
+.form-group > #auth-button{
   float:right;
 }
 #register{
@@ -526,7 +504,7 @@ table > tbody > tr > th{
 #search > .glyphicon-search{
   color: black;
 }
-#password{
+#password, .login #password-check{
   display: unset;
   width: 310px;
 }

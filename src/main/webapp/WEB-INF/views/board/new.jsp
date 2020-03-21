@@ -17,7 +17,7 @@
 <header>
       <h1>COMNET</h1>
     </header>
-    <form class="register-form" method="post">
+    <form class="register-form">
       	<input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
       <div class="form-group">
         <input type="text" id="title" class="form-control" placeholder="프로젝트 제목">
@@ -96,7 +96,7 @@
         </div>
         <div class="partner-limit">
 	    	<div class="form-group">
-          		<input type="text" class="form-control" placeholder="팀원제한" id="partner-limit-input">
+          		<input type="text" class="form-control" placeholder="팀원제한(최대 999명)" id="partner-limit-input">
         	</div>
 	        <div class="partner-limit-check">
 		        <div class="recruit">
@@ -172,7 +172,7 @@
         });
       $("#new").click(function(){
     	 
-    	var partner_limit_form=/^[1-9]+$/;
+    	var partner_limit_form=/^[1-9]{1,3}$/;
     	if($("#title").val()==""){
     		alert("제목을 입력해주세요.");
     		$("#title").focus();
@@ -204,16 +204,16 @@
     		return;
     	}
   		
-    	var board_field=new Array();
-  		var board_language=new Array();
+    	var boardField=new Array();
+  		var boardLanguage=new Array();
   		$("#board-field input").each(function(){
   			if($(this).is(":checked")==true){
-  				board_field.push($(this).val());
+  				boardField.push($(this).val());
   			}
   		});
   		$("#board-language input").each(function(){
   			if($(this).is(":checked")==true){
-  				board_language.push($(this).val());
+  				boardLanguage.push($(this).val());
   			}
   		});
   		
@@ -239,7 +239,7 @@
   			url: "/board/new",
   			traditional:true,
   			data:{title: $("#title").val(), content: $("#content").val(), deadline: deadline.getFullYear()+"-"+(deadline.getMonth()+1)+"-"+deadline.getDate(), partner_limit: partner_limit, 
-  				uid: $("#uid").val(), contact: $("#contact").val(), board_field: board_field, board_language: board_language},
+  				uid: $("#uid").val(), contact: $("#contact").val(), boardField: boardField, boardLanguage: boardLanguage},
   			success: function(){
   				location.href="/board";
   			}

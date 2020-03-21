@@ -8,6 +8,7 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 
 import kr.ac.smu.cs.comnet.mapper.FieldMapper;
+import kr.ac.smu.cs.comnet.vo.Conn_ufVO;
 import kr.ac.smu.cs.comnet.vo.FieldVO;
 
 @Service
@@ -24,5 +25,8 @@ public class FieldServiceImpl implements FieldService{
 				-> cache.put(fieldVO.getFid(), fieldVO));//캐시에 영역 삽입
 		return fieldList;
 	}
-	
+	@Override
+	public List<Conn_ufVO> selectUserField(int uid) {
+		return mapper.selectUserField(uid);
+	}
 }

@@ -7,12 +7,18 @@
     		SELECT * FROM Field
     	</select>
     	<insert id="registerUserField">
-    		INSERT conn_uf
-    		VALUES(#{uid},#{fid})
+    		INSERT INTO conn_uf
+    		VALUES 
+    		<foreach collection="userField" item="fid" separator=",">
+    			(#{uid},#{fid})
+    		</foreach>
     	</insert>
     	<insert id="registerBoardField">
-    		INSERT conn_bf
-    		VALUES(#{bid},#{fid})
+    		INSERT INTO conn_bf
+    		VALUES 
+    		<foreach collection="boardField" item="fid" separator=",">
+    			(#{bid},#{fid})
+    		</foreach>
     	</insert>
     	<select id="selectConn_bfList" resultType="Conn_bfVO">
     		SELECT * FROM conn_bf ORDER BY bid ASC
@@ -27,7 +33,38 @@
     		</foreach>
     		ORDER BY bid ASC 
     	</select>
-    	<select id="selectConn_bf" resultType="Conn_bfVO">
+    	<select id="selectBoardConn_bfList" resultType="Conn_bfVO">
     		SELECT * FROM conn_bf WHERE bid=#{bid}
     	</select>
+    	<delete id="deleteConn_bf">
+    		DELETE FROM conn_bf WHERE bid=#{bid}
+    	</delete>
+    	<select id="selectUserField" resultType="Conn_ufVO">
+    		SELECT * FROM conn_uf WHERE uid=#{uid}
+    	</select>
+    	<delete id="deleteConn_uf">
+    		DELETE FROM conn_uf WHERE uid=#{uid}
+    	</delete>
+    	<insert id="updateBoardField">
+    		DELETE FROM conn_bf WHERE bid=#{bid};
+    		INSERT INTO conn_bf
+    		VALUES 
+    		<foreach collection="boardField" item="fid" separator=",">
+    			(#{bid},#{fid})
+    		</foreach>
+    	</insert>
+    	<insert id="updateUserField">
+    		DELETE FROM conn_uf WHERE uid=#{uid};
+    		INSERT INTO conn_uf
+    		VALUES 
+    		<foreach collection="userField" item="fid" separator=",">
+    			(#{uid},#{fid})
+    		</foreach>
+    	</insert>
+    	<delete id="deleteConn_bfByBidList">
+    		DELETE FROM conn_bf WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    	</delete>
     </mapper>

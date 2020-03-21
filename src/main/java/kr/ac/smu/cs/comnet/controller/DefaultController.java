@@ -1,10 +1,10 @@
 package kr.ac.smu.cs.comnet.controller;
 
+import java.io.IOException;
 import java.util.List;
 
-
-
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
@@ -16,7 +16,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -41,9 +43,9 @@ public class DefaultController {
 	@Autowired
 	private UserService uService;
 	@GetMapping("/")
-	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto, 
-			HttpServletResponse response) {
-		if (auto != null) {
+	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto,
+			HttpServletRequest request, HttpServletResponse response) {
+		if (auto != null && auto.getValue().equals("")) {
 			auto.setMaxAge(2592000);//쿠키 존재 시 쿠키의 유효기간을 갱신
 			response.addCookie(auto);
 			return "redirect:/board";
@@ -55,11 +57,11 @@ public class DefaultController {
 	public void board(Model model,HttpSession session) {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<Integer> selectFieldList = (List<Integer>)session.getAttribute("selectFieldList");
-		List<Integer> selectLanguageList= (List<Integer>)session.getAttribute("selectLanguageList");
+		int[] selectFieldList = (int[])session.getAttribute("selectFieldList");
+		int[] selectLanguageList= (int[])session.getAttribute("selectLanguageList");
 		List<BoardDTO> boardList= null;
-		if(selectFieldList != null || selectLanguageList != null) 
-			boardList = bService.selectSuitableList(selectFieldList, selectLanguageList);
+		if(selectFieldList != null || selectLanguageList != null) //언어나 영역이 선택되어 있을 시에
+			boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);
 		else
 			boardList = bService.selectList();
 		model.addAttribute("boardList",boardList);
@@ -70,11 +72,11 @@ public class DefaultController {
 	}
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/board")
-	public void board(@RequestParam(name = "selectFieldList", required = false) List<Integer> selectFieldList ,
-			@RequestParam(name = "selectLanguageList", required = false) List<Integer> selectLanguageList, Model model){
+	public void board(@RequestParam(name = "selectFieldList", required = false) int[] selectFieldList ,
+			@RequestParam(name = "selectLanguageList", required = false) int[] selectLanguageList, Model model){
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
-		List<BoardDTO> boardList = bService.selectSuitableList(selectFieldList, selectLanguageList);
+		List<BoardDTO> boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());
@@ -89,12 +91,28 @@ public class DefaultController {
 		model.addAttribute("languageList", lService.selectList());
 	}
 	@GetMapping("/auth")
-	public @ResponseBody String auth(@RequestParam("email") String email) {
-		return uService.auth(email);
+	public @ResponseBody String auth(@RequestParam("email") String email, HttpServletRequest request) {
+		String requestUrl=request.getHeader("referer");
+		return uService.auth(email,requestUrl.substring(requestUrl.indexOf("/")));
 	}
 	@PostMapping("/register")
-	public void register(UserVO userVO, @RequestParam("user_field") int[] user_field, @RequestParam("user_language")int[] user_language) {
-		uService.register(userVO,user_field,user_language);
+	public void register(UserVO userVO, @RequestParam("userField") int[] userField, 
+			@RequestParam("userLanguage")int[] userLanguage, @CookieValue(name = "remember-me", required = false) Cookie auto,
+			HttpServletResponse response) throws IOException{
+		uService.register(userVO,userField,userLanguage);
+		if (auto != null) //로그인 되어 있다면 회원가입 페이지로 들어가지 못하게 막음
+			response.sendRedirect("/board");
 		
+	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/mypage")
+	public void mypage(Model model) {}
+	
+	@GetMapping("/findpw")
+	public void findpw() {}
+	
+	@PatchMapping("/findpw")
+	public @ResponseBody void findpw(@RequestParam("email") String email, @RequestBody String password) {
+		uService.changePassword(email, password);
 	}
 }

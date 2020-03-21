@@ -10,13 +10,13 @@
 <link rel="stylesheet" href="\resources\grid.css" type="text/css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Comnet</title>
+<title>COMNET</title>
 </head>
 <body id="user-register">
     <header>
       <h1>COMNET</h1>
     </header>
-    <form class="register-form" method="post" action="/register">
+    <form class="register-form">
       <div class="input-group mb-3">
         <input type="text" name="email" class="form-control" placeholder="학번">
         <div class="input-group-append">
@@ -93,13 +93,13 @@
         <textarea name="memo" class="form-control" rows="3"></textarea>
       </div>
       <button type="button" id="register" class="btn btn-primary btn-lg">회원가입</button>
-      <button type="button" id="back" onclick="location.href='/loginPage'" class="btn btn-primary btn-sm">Back</button>
+      <button type="button" id="back" onclick="location.href='/'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
     	var authString;
     	var emailForm=/^20(1|2)\d{6}$/;
     	var phoneForm=/^01(0|1)\d{8}$/;
-    	$("#register").click(function(event){
+    	$("#register").click(function(){
     		//입력 확인
     		if($("input[name=email]").val()==""){
     			alert("학번을 입력해주세요.");
@@ -122,7 +122,7 @@
     			return;
     		}
     		else if(phoneForm.test($("input[name=phone]").val())==false){
-    			alert("전화번호를 올바르게 입력해주세요.\n01011111111");
+    			alert("전화번호를 올바르게 입력해주세요.\n예:01011111111");
     			$("input[name=email]").focus();
     			return;
     		}
@@ -157,27 +157,27 @@
     			$("#auth-button").focus();
     			return;
     		}
-    		var user_field=new Array();
-    		var user_language=new Array();
+    		var userField=new Array();
+    		var userLanguage=new Array();
     		$("#user-field input").each(function(){
     			if($(this).is(":checked")==true){
-    				user_field.push($(this).val());
+    				userField.push($(this).val());
     			}
     		});
     		$("#user-language input").each(function(){
     			if($(this).is(":checked")==true){
-    				user_language.push($(this).val());
+    				userLanguage.push($(this).val());
     			}
     		});
     		$.ajax({
-    			type:"post",
+    			type:"POST",
     			url:"/register",
     			traditional:true,
     			data:{email:$("input[name=email]").val(), password:$("input[name=password]").val(),
     			      name:$("input[name=name]").val(), phone:$("input[name=phone]").val(),
-    				  memo:$("textarea[name=memo]").val(), user_field:user_field, user_language:user_language},
+    				  memo:$("textarea[name=memo]").val(), userField:userField, userLanguage:userLanguage},
     			success:function(){
-    				location.href="/loginPage";
+    				location.href="/";
     			}
     		});
     	});
@@ -211,6 +211,7 @@
     			alert("인증 성공");
     			$("input[name=email]").attr("readonly","readonly");
     			$("#auth-input").attr("readonly","readonly");
+    			$("#auth-button").attr("disabled","disabled");
     			authString=true;
     		}
     		else{

@@ -8,6 +8,7 @@ import org.springframework.cache.ehcache.EhCacheCacheManager;
 import org.springframework.stereotype.Service;
 
 import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
+import kr.ac.smu.cs.comnet.vo.Conn_ulVO;
 import kr.ac.smu.cs.comnet.vo.LanguageVO;
 
 @Service
@@ -24,5 +25,8 @@ public class LanguageServiceImpl implements LanguageService{
 				-> cache.put(languageVO.getLid(), languageVO));//언어를 캐시에 삽입
 		return languageList;
 	}
-	
+	@Override
+	public List<Conn_ulVO> selectUserLanguage(int uid) {
+		return mapper.selectUserLanguage(uid);
+	}
 }
