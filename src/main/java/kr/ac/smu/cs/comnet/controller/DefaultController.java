@@ -45,7 +45,7 @@ public class DefaultController {
 	@GetMapping("/")
 	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto,
 			HttpServletRequest request, HttpServletResponse response) {
-		if (auto != null && auto.getValue().equals("")) {
+		if (auto != null && auto.getValue()!=null) {
 			auto.setMaxAge(2592000);//쿠키 존재 시 쿠키의 유효기간을 갱신
 			response.addCookie(auto);
 			return "redirect:/board";

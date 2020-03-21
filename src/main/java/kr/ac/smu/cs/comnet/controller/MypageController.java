@@ -75,7 +75,8 @@ public class MypageController {
 		Cookie[] cookieList=request.getCookies();
 		for(Cookie cookie : cookieList) {//모든 쿠키 만료
 			cookie.setMaxAge(0);
-			cookie.setValue("");
+			cookie.setValue(null);
+			cookie.setPath("/");
 			response.addCookie(cookie);
 		}
 		sessionStatus.setComplete();//모든 세션 만료
