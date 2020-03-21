@@ -20,4 +20,7 @@
 			UPDATE User SET email=#{email}, name=#{name}, memo=#{memo}, phone=#{phone}
 			WHERE uid=#{uid}
 		</update>
+		<delete id="delete">
+			DELETE FROM User WHERE uid=#{uid} 
+		</delete>
 	</mapper>

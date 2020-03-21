@@ -30,7 +30,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
-import jdk.internal.org.jline.utils.Log;
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;

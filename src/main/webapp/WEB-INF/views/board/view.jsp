@@ -7,8 +7,8 @@
 <html>
 <head>
     <link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="\resources\grid.css" type="text/css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="\resources\grid.css" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <script src="\resources\jquery.min.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -215,8 +215,10 @@
       <div class="project-foot">
 	      <c:choose>
 	      	<c:when test="${uid==owner.uid}"><!--나의 글이면 수정,삭제 버튼 조회-->
-	      		<button type="button" onclick="location.href='/board/update?bid=${board.boardVO.bid}'" class="volunteer">수정</button>
-          		<button type="button" id="delete" class="volunteer">삭제</button>
+	      		<div class="btn-group" role="group">
+	      			<button type="button" onclick="location.href='/board/update?bid=${board.boardVO.bid}'" class="btn btn-default volunteer">수정</button>
+          			<button type="button" id="delete" class="btn btn-default volunteer">삭제</button>
+	      		</div>
 	      	</c:when>
 	      	<c:otherwise>
 	      		<button type="button" class="volunteer">지원</button>

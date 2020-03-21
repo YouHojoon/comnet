@@ -99,7 +99,12 @@
         <label id="memo-label">메모</label>
         <textarea name="memo" class="form-control" rows="3">${user.memo}</textarea>
       </div>
-      <button type="button" id="update" class="btn btn-primary btn-lg">수정</button>
+      <div>
+	      <div class="btn-group btn-group-lg" role="group">
+		      <button type="button" id="update" class="btn btn-primary btn-lg">수정</button>
+		      <button type="button" id="leave" class="btn btn-primary btn-lg">탈퇴</button>
+	      </div>
+      </div>
       <button type="button" id="back" onclick="location.href='/mypage'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
@@ -187,6 +192,20 @@
     				location.href="/mypage";
     			}
     		});
+    	});
+    	$("#leave").click(function(){
+    		var check=confirm("정말 탈퇴하시겠습니까?");
+    		if(check){
+    			$.ajax({
+    				type: "DELETE",
+    				url: "/mypage/leave?uid="+$("#uid").val(),
+    				success: function(){
+    					location.href="/";
+    				}
+    			});
+    		}
+    		else
+    			return;
     	});
     </script>
   </body>

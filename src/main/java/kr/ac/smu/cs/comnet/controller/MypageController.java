@@ -3,16 +3,24 @@ package kr.ac.smu.cs.comnet.controller;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.support.SessionStatus;
 
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
@@ -34,6 +42,7 @@ public class MypageController {
 	private LanguageService lService;
 	@Autowired
 	private UserService uService;
+	Logger log= LoggerFactory.getLogger(MypageController.class);
 	@GetMapping("/myproject")
 	public void myproject(@RequestParam("uid") int uid, Model model) {
 		model.addAttribute("fieldList", fService.selectList());
@@ -58,5 +67,17 @@ public class MypageController {
 		UserVO userVO=new UserVO(uid,(String)json.get("email")
 				,(String)json.get("name"),(String)json.get("memo"),(String)json.get("phone"));
 		uService.update(userVO, (List<Integer>)json.get("userField"), (List<Integer>)json.get("userLanguage"));
+	}
+	@DeleteMapping("/leave")
+	public @ResponseBody void leave(@RequestParam("uid") int uid, HttpServletRequest request,
+			HttpServletResponse response,SessionStatus sessionStatus) {
+		uService.delete(uid);
+		Cookie[] cookieList=request.getCookies();
+		for(Cookie cookie : cookieList) {//모든 쿠키 만료
+			cookie.setMaxAge(0);
+			cookie.setValue("");
+			response.addCookie(cookie);
+		}
+		sessionStatus.setComplete();//모든 세션 만료
 	}
 }

@@ -34,6 +34,7 @@
 		</interceptor>
 		<interceptor>
 			<mapping path="/mypage/info"/>
+			<mapping path="/mypage/leave"/>
 			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.UserInfoInterceptor"/>
 		</interceptor>
 	</interceptors>

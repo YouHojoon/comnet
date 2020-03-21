@@ -61,4 +61,10 @@
     			(#{uid},#{fid})
     		</foreach>
     	</insert>
+    	<delete id="deleteConn_bfByBidList">
+    		DELETE FROM conn_bf WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    	</delete>
     </mapper>

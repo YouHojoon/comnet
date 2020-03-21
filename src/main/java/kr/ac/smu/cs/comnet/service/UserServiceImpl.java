@@ -10,10 +10,11 @@ import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-
+import kr.ac.smu.cs.comnet.mapper.BoardMapper;
 import kr.ac.smu.cs.comnet.mapper.FieldMapper;
 import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
 import kr.ac.smu.cs.comnet.mapper.UserMapper;
+import kr.ac.smu.cs.comnet.vo.BoardVO;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Service
@@ -24,6 +25,8 @@ public class UserServiceImpl implements UserService{
 	private FieldMapper fMapper;
 	@Autowired
 	private LanguageMapper lMapper;
+	@Autowired
+	private BoardMapper bMapper;
 	@Autowired
 	private PasswordEncoder bcryptPasswordEncoder;
 	@Autowired
@@ -72,5 +75,17 @@ public class UserServiceImpl implements UserService{
 		int uid=userVO.getUid();
 		fMapper.updateUserField(uid, userField);
 		lMapper.updateUserLanguage(uid, userLanguage);
+	}
+	@Override
+	public void delete(int uid) {
+		int[] bidList=bMapper.selectMyProjectBidList(uid);
+		if(bidList.length!=0) {
+			fMapper.deleteConn_bfByBidList(bidList);
+			lMapper.deleteConn_blByBidList(bidList);
+		}
+		bMapper.deleteMyProject(uid);
+		fMapper.deleteConn_uf(uid);
+		lMapper.deleteConn_ul(uid);
+		uMapper.delete(uid);
 	}
 }

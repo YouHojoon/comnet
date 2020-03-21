@@ -36,4 +36,6 @@ public interface LanguageMapper {
 	public void updateBoardLanguage(@Param("bid") int bid, @Param("boardLanguage") List<Integer> boardLanguage);
 	
 	public void updateUserLanguage(@Param("uid") int uid, @Param("userLanguage") List<Integer> userLanguage);//유저 관심 분야 업데이트
+	
+	public void deleteConn_blByBidList(@Param("bidList") int[] bidList);//여러 프로젝트의 conn_bl 제거
 }

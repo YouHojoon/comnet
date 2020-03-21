@@ -15,4 +15,6 @@ public interface UserMapper {
 	public void changePassword(@Param("email") String email, @Param("password") String password);//비밀번호 변경
 	
 	public void update(UserVO userVO);//유저 정보 수정
+	
+	public void delete(int uid);//유저 탈퇴
 }

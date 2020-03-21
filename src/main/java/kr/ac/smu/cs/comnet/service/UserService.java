@@ -18,4 +18,6 @@ public interface UserService {
 	public void changePassword(String email, String password);//비밀번호 변경
 	
 	public void update(UserVO userVO, List<Integer> userField, List<Integer> userLanguage);//유저 정보 수정
+
+	public void delete(int uid);//유저 탈퇴
 }

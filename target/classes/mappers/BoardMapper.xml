@@ -59,4 +59,10 @@
     		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,
     		(SELECT @rownum:=0)r WHERE uid=#{uid};
     	</select>
+    	<select id="selectMyProjectBidList" resultType="int">
+    		SELECT bid FROM Board WHERE uid=#{uid}
+    	</select>
+    	<delete id="deleteMyProject">
+    		DELETE FROM Board WHERE uid=#{uid}
+    	</delete>
     </mapper>

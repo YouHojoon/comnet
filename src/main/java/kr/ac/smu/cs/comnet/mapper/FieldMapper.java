@@ -36,4 +36,6 @@ public interface FieldMapper {
 	public void updateBoardField(@Param("bid") int bid, @Param("boardField") List<Integer> boardField);//프로젝트 모집 분야 업데이트
 	
 	public void updateUserField(@Param("uid") int uid, @Param("userField") List<Integer> userField);//유저 관심 분야 업데이트
+
+	public void deleteConn_bfByBidList(@Param("bidList") int[] bidList);//여러 프로젝트의 conn_bf 제거
 }

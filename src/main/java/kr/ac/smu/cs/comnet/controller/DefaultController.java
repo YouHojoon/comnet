@@ -2,7 +2,6 @@ package kr.ac.smu.cs.comnet.controller;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
@@ -12,7 +11,6 @@ import javax.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,9 +43,9 @@ public class DefaultController {
 	@Autowired
 	private UserService uService;
 	@GetMapping("/")
-	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto, 
-			HttpServletResponse response) {
-		if (auto != null) {
+	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto,
+			HttpServletRequest request, HttpServletResponse response) {
+		if (auto != null && auto.getValue().equals("")) {
 			auto.setMaxAge(2592000);//쿠키 존재 시 쿠키의 유효기간을 갱신
 			response.addCookie(auto);
 			return "redirect:/board";

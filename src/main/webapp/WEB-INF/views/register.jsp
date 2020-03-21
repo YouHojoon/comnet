@@ -177,7 +177,7 @@
     			      name:$("input[name=name]").val(), phone:$("input[name=phone]").val(),
     				  memo:$("textarea[name=memo]").val(), userField:userField, userLanguage:userLanguage},
     			success:function(){
-    				location.href="/loginPage";
+    				location.href="/";
     			}
     		});
     	});

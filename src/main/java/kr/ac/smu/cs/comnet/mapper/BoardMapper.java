@@ -28,4 +28,8 @@ public interface BoardMapper {
 	public void delete(int bid);//프로젝트 삭제
 	
 	public List<BoardVO> selectMyProjectList(int uid);//나의 프로젝트 조회
+
+	public int[] selectMyProjectBidList(int uid);//나의 프로젝트 bid 조회
+	
+	public void deleteMyProject(int uid);//나의 프로젝트 모두 삭제
 }
