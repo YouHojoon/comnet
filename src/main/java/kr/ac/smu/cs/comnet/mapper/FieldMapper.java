@@ -14,9 +14,9 @@ public interface FieldMapper {
 	
 	public List<FieldVO> selectList();//분야 전체 조회
 
-	public void registerUserField(@Param("uid") int uid, @Param("fid") int fid);//user_field 등록
+	public void registerUserField(@Param("uid") int uid, @Param("userField") int[] userField);//userField 등록
 	
-	public void registerBoardField(@Param("bid") int bid, @Param("fid") int fid);//board_field 등록
+	public void registerBoardField(@Param("bid") int bid, @Param("boardField") int[] boardField);//boardField 등록
 	
 	public LinkedList<Conn_bfVO> selectConn_bfList();//DB접속 시간을 줄이기 위해 한번에  bid로 오름차순 정렬해 반환
 	
@@ -32,4 +32,8 @@ public interface FieldMapper {
 	public List<Conn_ufVO> selectUserField(int uid);//유저의  conn_uf 반환
 	
 	public void deleteConn_uf(int uid);//유저의 conn_uf 제거
+	
+	public void updateBoardField(@Param("bid") int bid, @Param("boardField") List<Integer> boardField);//프로젝트 모집 분야 업데이트
+	
+	public void updateUserField(@Param("uid") int uid, @Param("userField") List<Integer> userField);//유저 관심 분야 업데이트
 }

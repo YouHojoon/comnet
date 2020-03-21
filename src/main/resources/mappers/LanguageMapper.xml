@@ -7,12 +7,18 @@
     		SELECT * FROM Language
     	</select>
     	<insert id="registerUserLanguage">
-    		INSERT conn_ul
-    		VALUES(#{uid},#{lid})
+    		INSERT INTO conn_ul
+    		VALUES 
+    		<foreach collection="userLanguage" item="lid" separator=",">
+    			(#{uid},#{lid})
+    		</foreach>
     	</insert>
     	<insert id="registerBoardLanguage">
-    		INSERT conn_bl
-    		VALUES(#{bid},#{lid})
+    		INSERT INTO conn_bl
+    		VALUES 
+    		<foreach collection="boardLanguage" item="lid" separator=",">
+    			(#{bid},#{lid})
+    		</foreach>
     	</insert>
     	<select id="selectConn_blList" resultType="Conn_blVO">
     		SELECT * FROM conn_bl ORDER BY bid ASC
@@ -39,4 +45,20 @@
     	<delete id="deleteConn_ul">
     		DELETE FROM conn_ul WHERE uid=#{uid}
     	</delete>
+    	<insert id="updateBoardLanguage">
+    		DELETE FROM conn_bl WHERE bid=#{bid};
+    		INSERT INTO conn_bl
+    		VALUES 
+    		<foreach collection="boardLanguage" item="lid" separator=",">
+    			(#{bid},#{lid})
+    		</foreach>
+    	</insert>
+    	<insert id="updateUserLanguage">
+    		DELETE FROM conn_ul WHERE uid=#{uid};
+    		INSERT INTO conn_ul
+    		VALUES 
+    		<foreach collection="userLanguage" item="lid" separator=",">
+    			(#{uid},#{lid})
+    		</foreach>
+    	</insert>
     </mapper>

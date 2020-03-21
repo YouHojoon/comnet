@@ -18,7 +18,7 @@
 		<img width="200" src="\resources\logo.jpg">
 	</div>
 	
-	<form action="/login" method="post" class="login">
+	<form action="/login" method="POST" class="login">
 		<div class="input-group mb-3">
 			<input name="username" type="text" class="form-control" placeholder="학번"
 				pattern="20(1|2)[0-9]\d{5}" required title="201600000">

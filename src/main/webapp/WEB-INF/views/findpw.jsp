@@ -79,12 +79,11 @@
     			$("#auth-button").focus();
     			return;
     		}
-			var data={email: $("input[name=email]").val(), password: $("input[name=password]").val()}
+			
 			$.ajax({
 				type: "PATCH",
-				url: "/findpw",
-				data: JSON.stringify(data),
-				contentType: "application/json",
+				url: "/findpw?email="+$("input[name=email]").val(),
+				data: $("input[name=password]").val(),
 				success: function(){
 					location.href="/";
 				}

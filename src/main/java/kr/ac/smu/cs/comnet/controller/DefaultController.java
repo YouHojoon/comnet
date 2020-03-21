@@ -114,7 +114,7 @@ public class DefaultController {
 	public void findpw() {}
 	
 	@PatchMapping("/findpw")
-	public @ResponseBody void findpw(@RequestBody Map<String, String> json) {
-		uService.changePassword(json.get("email"), json.get("password"));
+	public @ResponseBody void findpw(@RequestParam("email") String email, @RequestBody String password) {
+		uService.changePassword(email, password);
 	}
 }

@@ -22,13 +22,13 @@
     </header>
     <sec:authentication var="uid" property="principal.userVO.uid"/>
     <div class="mypage">
-      <div class="menu">
-        <div class="name" onclick="location.href='/mypage/info?uid=${uid}'">
+      <div class="menu" onclick="location.href='/mypage/info?uid=${uid}'">
+        <div class="name">
           <h1 class="display-4">정보 수정</h1>
         </div>
       </div>
-      <div class="menu">
-        <div class="name" onclick="location.href='/mypage/myproject?uid=${uid}'">
+      <div class="menu" onclick="location.href='/mypage/myproject?uid=${uid}'">
+        <div class="name">
           <h1 class="display-4">나의 프로젝트</h1>
         </div>
       </div>
@@ -37,8 +37,8 @@
           <h1 class="display-4">내가 지원한 프로젝트</h1>
         </div>
       </div>
-      <div class="menu">
-        <div class="name" id="logout">
+      <div class="menu" id="logout">
+        <div class="name">
           <h1 class="display-4">로그아웃</h1>
         </div>
       </div>

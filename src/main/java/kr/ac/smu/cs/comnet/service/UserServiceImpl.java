@@ -33,10 +33,8 @@ public class UserServiceImpl implements UserService{
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
 		uMapper.register(userVO);
 		int uid=uMapper.selectByEmail(userVO.getEmail()).getUid();
-		for(int fid : userField)
-			fMapper.registerUserField(uid, fid);
-		for(int lid : userLanguage)
-			lMapper.registerUserLanguage(uid, lid);
+		fMapper.registerUserField(uid, userField);
+		lMapper.registerUserLanguage(uid, userLanguage);
 	}
 	@Override
 	public String auth(String email, String requestUrl) {
@@ -72,11 +70,7 @@ public class UserServiceImpl implements UserService{
 	public void update(UserVO userVO, List<Integer> userField, List<Integer> userLanguage) {
 		uMapper.update(userVO);
 		int uid=userVO.getUid();
-		fMapper.deleteConn_uf(uid);
-		lMapper.deleteConn_ul(uid);
-		for(int fid: userField)
-			fMapper.registerUserField(uid, fid);
-		for(int lid: userLanguage)
-			lMapper.registerUserLanguage(uid, lid);
+		fMapper.updateUserField(uid, userField);
+		lMapper.updateUserLanguage(uid, userLanguage);
 	}
 }

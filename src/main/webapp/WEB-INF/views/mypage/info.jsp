@@ -178,13 +178,12 @@
     			$("#password-check").focus();
     			return;
     		}
-    		var data={eamil:$("input[name=email]").val(), password:$("input[name=password]").val()};
+    		
     		$.ajax({
-    			type:"PATCH",
-    			url:"/findpw",
-    			data:JSON.stringify(data),
-    			contentType:"application/json",
-    			success:function(){
+    			type: "PATCH",
+    			url: "/findpw?email="+$("input[name=email]").val(),
+    			data: $("input[name=password]").val(),
+    			success: function(){
     				location.href="/mypage";
     			}
     		});
