@@ -43,8 +43,8 @@
 			<h4 class="deadline">
 				<c:choose>
 					<c:when test="${board.boardVO.deadline.year==8099}">
-					상시모집
-				</c:when>
+						상시모집
+					</c:when>
 					<c:otherwise>
 						<fmt:formatDate pattern="yyyy-MM-dd"
 							value="${board.boardVO.deadline}" />
@@ -78,7 +78,7 @@
 						<tr>
 							<th scope="row">${partner.userVO.email}</th>
 							<td><c:choose>
-								<c:when test="${uid==owner.uid}">
+								<c:when test="${uid==owner.uid} or ${board.partner}">
 									<a onclick="volunteerDetail(${partner.userVO.uid})">
 								</c:when>
 								<c:otherwise>
@@ -171,7 +171,7 @@
 										</c:forEach></td>
 									<td>
 										<button type="button" onclick="approval(${volunteer.userVO.uid})" class="approval">승인</button>
-										<button type="button" class="reject">거부</button>
+										<button type="button" onclick="reject(${volunteer.userVO.uid})" class="reject">거부</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -271,11 +271,20 @@
     			}
     		});
     	});
-    	function approval(uid){//프로젝트 지원
+    	function reject(vid){//프로젝트 지원 거부
+    		$.ajax({
+    			type:"DELETE",
+    			url:"/board/reject?bid="+$("#bid").val()+"&vid="+vid,
+    			success: function(){
+    				location.href="/board/view?bid="+$("#bid").val();
+    			}
+    		});
+    	};
+    	function approval(vid){//프로젝트 지원 승인
     		$.ajax({
     			type:"POST",
     			url:"/board/approval",
-    			data:{bid: $("#bid").val(), vid: uid},
+    			data:{bid: $("#bid").val(), vid: vid},
     			success: function(){
     				location.href="/board/view?bid="+$("#bid").val();
     			}

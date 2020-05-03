@@ -44,4 +44,8 @@ public interface BoardMapper {
 	public void approval(@Param("bid") int bid, @Param("vid") int vid);//프로젝트 지원 승인
 	
 	public List<Conn_ubVO> selectConn_ubList(int bid);//conn_ub 목록 조회
+	
+	public Conn_ubVO selectConn_ub(int bid, int uid);//conn_ub 조회
+	
+	public Conn_bvVO selectConn_bv(int bid, int vid);//conn_bv 조회
 }

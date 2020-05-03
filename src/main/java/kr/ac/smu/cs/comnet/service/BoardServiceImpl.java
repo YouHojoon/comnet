@@ -234,4 +234,8 @@ public class BoardServiceImpl implements BoardService {
 		bMapper.applyCancel(bid, vid);
 		bMapper.approval(bid, vid);
 	}
+	@Override
+	public void applyCancelByVid(int bid, int vid) {
+		bMapper.applyCancel(bid,vid);
+	}
 }

@@ -28,6 +28,7 @@ public interface BoardService {
 	
 	public void applyCancel(int bid, String email);//프로젝트 지원 취소
 	
+	public void applyCancelByVid(int bid, int vid);//프로젝트 지원 취소
 	
 	public void agree(int bid, int vid);//프로젝트 지원 승인
 }

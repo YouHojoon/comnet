@@ -82,4 +82,10 @@
 		<select id="selectConn_ubList" resultType="Conn_ubVo">
 			SELECT * FROM conn_ub WHERE bid=#{bid}
 		</select>
+		<select id="selectConn_ub" resultType="Conn_ubVo">
+			SELECT * FROM conn_ub WHERE bid=#{bid} AND uid=#{uid}
+		</select>
+		<select id="selectConn_bv" resultType="Conn_bvVo">
+			SELECT * FROM conn_ub WHERE bid=#{bid} AND vid=#{vid}
+		</select>
     </mapper>
