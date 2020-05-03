@@ -1,11 +1,15 @@
 package kr.ac.smu.cs.comnet.controller;
 
 
+import java.io.UnsupportedEncodingException;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
+import java.util.Base64;
 import java.util.List;
 import java.util.Map;
+import java.util.Base64.Decoder;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -15,6 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,11 +36,13 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
+import kr.ac.smu.cs.comnet.dto.UserDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
 import kr.ac.smu.cs.comnet.service.UserService;
 import kr.ac.smu.cs.comnet.vo.BoardVO;
+import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -50,12 +57,14 @@ public class BoardController {
 	private BoardService bService;
 	@Autowired
 	private UserService uService;
+	
 	Logger log= LoggerFactory.getLogger(BoardController.class);
 	@InitBinder
 	public void dateBinder(WebDataBinder binder) {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
 		binder.registerCustomEditor(Date.class, "deadline", new CustomDateEditor(sdf, true));
-	}
+	}	
+	
 	@GetMapping("/new")
 	public void newBoard(Model model) {
 		model.addAttribute("fieldList", fService.selectList());
@@ -66,17 +75,45 @@ public class BoardController {
 		bService.register(boardVO, boardField, boardLanguage);
 	}
 	@GetMapping("/view")
-	public void view(@RequestParam("bid") int bid, Model model, HttpServletRequest request) {
+	public void view(@RequestParam("bid") int bid, Model model, HttpServletRequest request) throws UnsupportedEncodingException {
 		String redirectUrl= request.getHeader("referer");//요청했던 url
-		BoardDTO board = bService.select(bid);
+		Cookie[] cookieList = request.getCookies();
+		String email= null;
+		for(Cookie c : cookieList) {
+			if(c.getName().equals("remember-me")) {
+				Decoder decoder = Base64.getDecoder();
+				email= new String(decoder.decode(c.getValue()),"UTF-8");
+				email=email.substring(0,email.indexOf(":"));//쿠키에서 email을 가져옴 ex:201611011
+			}
+		}
+		BoardDTO board = bService.select(bid, email);
 		model.addAttribute("board", board);
 		model.addAttribute("owner", uService.select(board.getBoardVO().getUid()));
-		if(!redirectUrl.contains("/update"))
+		log.info(board.getPartnerList().toString());
+		//지원자 수
+		List<UserDTO> volunteerList=board.getVolunteerList();
+		List<UserDTO> partnerList=board.getPartnerList();
+		if(partnerList!=null)
+			model.addAttribute("partnerTotal", partnerList.size());
+		else
+			model.addAttribute("partnerTotal", 0);
+		
+		if(volunteerList!=null)
+			model.addAttribute("volunteerTotal", volunteerList.size());
+		else
+			model.addAttribute("volunteerTotal", 0);
+		
+		if(redirectUrl!=null && (redirectUrl.substring(21).equals("/board") 
+				|| redirectUrl.contains("/mypage/myproject")))//back버튼으로 돌아갈 때 원래 있던 곳으로 돌아가기 위해서 요청 url 저장
 			model.addAttribute("redirectUrl",redirectUrl.substring(21));
+		else {
+			model.addAttribute("redirectUrl","/board");
+		}
+
 	}
 	@GetMapping("/update")
 	public void update(@RequestParam("bid") int bid, Model model) {
-		model.addAttribute("board", bService.select(bid));
+		model.addAttribute("board", bService.selectMyProject(bid));
 		model.addAttribute("fieldList",fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
 	}
@@ -96,5 +133,26 @@ public class BoardController {
 		String redirectUrl=session.getAttribute("redirectUrl").toString();
 		sessionStatus.setComplete();
 		return redirectUrl;//요청했던 url전송
+	}
+	@PostMapping("/apply")
+	public @ResponseBody void apply(@RequestParam("bid") int bid, @RequestParam("vid") int vid) {
+		bService.applyToProject(bid, vid);
+	}
+	@DeleteMapping("/applyCancel")
+	public @ResponseBody void applyCancel(@RequestParam("bid") int bid, HttpServletRequest request) throws UnsupportedEncodingException{
+		Cookie[] cookieList = request.getCookies();
+		String email= null;
+		for(Cookie c : cookieList) {
+			if(c.getName().equals("remember-me")) {
+				Decoder decoder = Base64.getDecoder();
+				email= new String(decoder.decode(c.getValue()),"UTF-8");
+				email=email.substring(0,email.indexOf(":"));//쿠키에서 email을 가져옴 ex:201611011
+			}
+		}
+		bService.applyCancel(bid, email);
+	}
+	@PostMapping("/approval")
+	public @ResponseBody void agree(@RequestParam("vid") int vid, @RequestParam("bid") int bid) {
+		bService.agree(bid, vid);
 	}
 }

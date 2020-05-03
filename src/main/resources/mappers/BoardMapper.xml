@@ -65,4 +65,21 @@
     	<delete id="deleteMyProject">
     		DELETE FROM Board WHERE uid=#{uid}
     	</delete>
+    	<insert id="applyToProject">
+			INSERT INTO conn_bv
+			VALUES(#{bid},#{vid}) 
+		</insert>
+		<select id="selectConn_bvList" resultType="Conn_bvVo">
+			SELECT * FROM conn_bv WHERE bid=#{bid}
+		</select>
+		<delete id="applyCancel">
+			DELETE FROM conn_bv WHERE bid=#{bid} AND vid=#{vid}
+		</delete>
+		<insert id="approval">
+			INSERT INTO conn_ub
+			VALUES(#{bid}, #{vid})
+		</insert>
+		<select id="selectConn_ubList" resultType="Conn_ubVo">
+			SELECT * FROM conn_ub WHERE bid=#{bid}
+		</select>
     </mapper>

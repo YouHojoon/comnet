@@ -17,32 +17,28 @@
 <header>
       <h1>COMNET</h1>
     </header>
-    <form class="register-form">
-      	<input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
-      	<!--수정하려는 글의 현재 영역과 언어 선택을 위해 설정 -->
-      	<div id="fid">
-	      	<c:forEach var="field" items="${board.boardField }">
-	      		<input type="hidden" value="${field.fid}">
-	      	</c:forEach>
-      	</div>
-      	<div id=lid>
-	      	<c:forEach var="language" items="${board.boardLanguage}">
-	      		<input type="hidden" value="${language.lid}">
-	      	</c:forEach>
-      	</div>
-      	
-      	<input id="bid" type="hidden" value="${board.boardVO.bid}">
-      	
+    <input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
+	<!--수정하려는 글의 현재 영역과 언어 선택을 위해 설정 -->
+	<div id="fid">
+		<c:forEach var="field" items="${board.boardField }">
+			<input type="hidden" value="${field.fid}">
+		</c:forEach>
+	</div>
+	<div id=lid>
+		<c:forEach var="language" items="${board.boardLanguage}">
+			<input type="hidden" value="${language.lid}">
+		</c:forEach>
+	</div>
+	<input id="bid" type="hidden" value="${board.boardVO.bid}">
+	<!--수정하려는 글의 현재 마감기한 선택을 위해 설정 -->
+	<input id="selected-year" type="hidden" value="${board.boardVO.deadline.year}">
+	<input id="selected-month" type="hidden" value="${board.boardVO.deadline.month}">
+	<input id="selected-date" type="hidden" value="${board.boardVO.deadline.date}">
+	<form class="register-form">
       <div class="form-group">
         <input type="text" id="title" class="form-control" placeholder="프로젝트 제목" value="${board.boardVO.title}">
       </div>
       <label>마감기한</label>
-      
-      <!--수정하려는 글의 현재 마감기한 선택을 위해 설정 -->
-      <input id="current-year" type="hidden" value="${board.boardVO.deadline.year}">
-      <input id="current-month" type="hidden" value="${board.boardVO.deadline.month}">
-      <input id="current-date" type="hidden" value="${board.boardVO.deadline.date}">
-      
       <div class="row">
         <div class="col">
           <select class="form-control" onchange="makeMonth()" id="year">
@@ -63,7 +59,6 @@
                 	상시모집
               </label>
           </div>
-
         </div>
       </div>
       <label id="field-label">모집 분야</label>
@@ -143,22 +138,24 @@
       $("#year").append("<option value="+nextYear+">"+nextYear+"년"+"</option>");
       makeMonth();
       makeDay();
-      if($("#current-year").val()==8099){
+      if($("#selected-year").val()==8099){
     	  $("#year").attr("disabled","true");
           $("#month").attr("disabled","true");
           $("#day").attr("disabled","true");
           $("#always").attr("checked","checked");
       }
       else
-      	$("#year option[value="+($("#current-year").val()+1900)+"]").attr("selected","selected");
-      $("#month option[value="+($("#current-month").val()+1)+"]").attr("selected","selected");
-      $("#day option[value="+$("#current-date").val()+"]").attr("selected","selected");
+      	$("#year option[value="+($("#selected-year").val()+1900)+"]").attr("selected","selected");
+      $("#month option[value="+($("#selected-month").val()+1)+"]").attr("selected","selected");
+      if($("#month option[selected='selected')").val()==($("#selected-month").val()+1) && 
+    		  $("#year option[selected='selected']").val()==($("#selected-year").val()+1900))
+      	$("#day option[value="+$("#selected-date").val()+"]").attr("selected","selected"); 
+      //마감기한 달력 생성
       if($("#partner-limit-input").val()==999){
     	  $("#partner-limit-input").attr("readonly","readonly");
     	  $("#unlimit").attr("checked","checked");
       }
-    	 
-      //마감기한 달력 생성
+ 
       $("#fid input").each(function(){
     	  $("#board-field input[value="+$(this).val()+"]").attr("checked","checked");
       });

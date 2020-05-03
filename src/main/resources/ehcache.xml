@@ -9,7 +9,10 @@
          overflowToDisk="false"
          memoryStoreEvictionPolicy="LFU"
          />
-         
+         <cache name="loginUserCache" eternal="true" 
+         maxElementsInMemory="1"
+         overflowToDisk="false"
+         memoryStoreEvictionPolicy="LFU"/>
          <cache name="LanguageCache" eternal="true" 
          maxElementsInMemory="10"
          overflowToDisk="false"
@@ -17,6 +20,10 @@
          />
          <cache name="BoardCache" eternal="true" 
          maxElementsInMemory="1"
+         overflowToDisk="false"
+         />
+         <cache name="UserCache" eternal="true" 
+         maxElementsInMemory="10"
          overflowToDisk="false"
          />
 </ehcache>

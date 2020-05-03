@@ -14,11 +14,11 @@
 <title>COMNET</title>
 </head>
 <body class="new">
-<header>
+	<header>
       <h1>COMNET</h1>
     </header>
+    <input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
     <form class="register-form">
-      	<input type="hidden" id="uid" value="<sec:authentication property='principal.userVO.uid'/>">
       <div class="form-group">
         <input type="text" id="title" class="form-control" placeholder="프로젝트 제목">
       </div>
@@ -51,12 +51,12 @@
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="field" items="${fieldList}">
-        	<c:set var="cnt" value="${cnt+1}"/>
-        	<c:if test="${cnt > 6}"><!--한 줄당 6개씩 출력-->
+        	<c:if test="${cnt > 5}"><!--한 줄당 6개씩 출력-->
         		</tr>
         		<tr>
-        		<c:set var="cnt" value="1"/>
+        		<c:set var="cnt" value="0"/>
         	</c:if>
+        	<c:set var="cnt" value="${cnt+1}"/>
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input" name="field-check" type="checkbox" value="${field.fid}">
@@ -73,12 +73,12 @@
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="language" items="${languageList}">
-        	<c:set var="cnt" value="${cnt+1}"/>
-        	<c:if test="${cnt > 6}"><!--한 줄당 6개씩 출력-->
+        	<c:if test="${cnt > 5}"><!--한 줄당 6개씩 출력-->
         		</tr>
         		<tr>
-        		<c:set var="cnt" value="1"/>
+        		<c:set var="cnt" value="0"/>
         	</c:if>
+        	<c:set var="cnt" value="${cnt+1}"/>
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input"  name="language-check" type="checkbox" value="${language.lid}">

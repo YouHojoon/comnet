@@ -24,10 +24,10 @@
         </div>
       </div>
       <div class="form-group">
-        <input type="text" name="name" class="form-control" placeholder="홍길동">
+        <input type="text" name="name" class="form-control" placeholder="이름">
       </div>
       <div class="form-group">
-        <input type="text" name="phone" class="form-control" placeholder="01011111111">
+        <input type="text" name="phone" class="form-control" placeholder="전화번호(예 : 01011111111)">
       </div>
       <div class="form-group">
         <input type="password" name="password" class="form-control" placeholder="비밀번호">
@@ -49,12 +49,12 @@
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="field" items="${fieldList}">
-        	<c:set var="cnt" value="${cnt+1}"/>
-        	<c:if test="${cnt > 6}"><!--한 줄당 6개씩 출력-->
+        	<c:if test="${cnt > 5}"><!--한 줄당 6개씩 출력-->
         		</tr>
         		<tr>
-        		<c:set var="cnt" value="1"/>
+        		<c:set var="cnt" value="0"/>
         	</c:if>
+        	<c:set var="cnt" value="${cnt+1}"/>
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input" name="field-check" type="checkbox" value="${field.fid}">
@@ -71,12 +71,12 @@
         <tr>
         <c:set var="cnt" value="0"/>
         <c:forEach var="language" items="${languageList}">
-        	<c:set var="cnt" value="${cnt+1}"/>
-        	<c:if test="${cnt > 6}"><!--한 줄당 6개씩 출력-->
+        	<c:if test="${cnt > 5}"><!--한 줄당 6개씩 출력-->
         		</tr>
         		<tr>
-        		<c:set var="cnt" value="1"/>
+        		<c:set var="cnt" value="0"/>
         	</c:if>
+        	<c:set var="cnt" value="${cnt+1}"/>
         	<th scope="col">
         		<div class="form-check">
               		<input class="form-check-input"  name="language-check" type="checkbox" value="${language.lid}">
@@ -89,14 +89,14 @@
         </tr>
       </table>
       <div class="form-group">
-        <label id="memo-label">메모</label>
+        <label id="memo-label">자기소개</label>
         <textarea name="memo" class="form-control" rows="3"></textarea>
       </div>
       <button type="button" id="register" class="btn btn-primary btn-lg">회원가입</button>
       <button type="button" id="back" onclick="location.href='/'" class="btn btn-primary btn-sm">Back</button>
     </form>
     <script type="text/javascript">
-    	var authString;
+    	var auth;
     	var emailForm=/^20(1|2)\d{6}$/;
     	var phoneForm=/^01(0|1)\d{8}$/;
     	$("#register").click(function(){
@@ -151,7 +151,7 @@
     			$("#user-language").focus();
     			return;
     		}
-    		else if(authString!=true){
+    		else if(auth!=true){
     			//인증 확인
     			alert("이메일 인증을 해주세요.");
     			$("#auth-button").focus();
@@ -192,12 +192,11 @@
     			type:"GET",
     			url:"/auth?email="+$("input[name=email]").val(),
     			success:function(data){
-    				if(data==="duplication"){
+    				if(!data){
     					alert("이미 아이디가 존재합니다.");
     					$("input[name=email]").focus();
     				}
     				else{
-    					authString=data;
         				alert("인증 메일이 전송되었습니다.");
         				$("#auth-button").attr("onclick","check()");
     				}
@@ -207,17 +206,25 @@
     		});
     	}
     	function check(){//인증메일 확인
-    		if(authString===$("#auth-input").val()){
-    			alert("인증 성공");
-    			$("input[name=email]").attr("readonly","readonly");
-    			$("#auth-input").attr("readonly","readonly");
-    			$("#auth-button").attr("disabled","disabled");
-    			authString=true;
-    		}
-    		else{
-    			alert("인증 실패");
-    			$("#auth-button").attr("onclick","auth()");
-    		}
+    		$.ajax({
+    			type:"POST",
+    			url:"/auth",
+    			data:{authString: $("#auth-input").val()},
+    			success:function(data){
+    				if(data){
+    					alert("인증 성공");
+    	    			$("input[name=email]").attr("readonly","readonly");
+    	    			$("#auth-input").attr("readonly","readonly");
+    	    			$("#auth-button").attr("disabled","disabled");
+    	    			auth=true;
+    				}
+    				else{
+    					alert("인증 실패");
+    	    			$("#auth-button").attr("onclick","auth()");
+    				}
+    				
+    			}
+    		});
     	}
     </script>
   </body>

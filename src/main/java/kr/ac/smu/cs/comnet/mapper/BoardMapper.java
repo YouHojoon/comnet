@@ -7,6 +7,8 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 
 import kr.ac.smu.cs.comnet.vo.BoardVO;
+import kr.ac.smu.cs.comnet.vo.Conn_bvVO;
+import kr.ac.smu.cs.comnet.vo.Conn_ubVO;
 
 public interface BoardMapper {
 	
@@ -32,4 +34,14 @@ public interface BoardMapper {
 	public int[] selectMyProjectBidList(int uid);//나의 프로젝트 bid 조회
 	
 	public void deleteMyProject(int uid);//나의 프로젝트 모두 삭제
+	
+	public void applyToProject(@Param("bid") int bid, @Param("vid") int vid);//프로젝트 지원
+	
+	public List<Conn_bvVO> selectConn_bvList(int bid);//conn_bv 목록 조회
+	
+	public void applyCancel(@Param("bid") int bid, @Param("vid") int vid);//프로젝트 지원 취소
+	
+	public void approval(@Param("bid") int bid, @Param("vid") int vid);//프로젝트 지원 승인
+	
+	public List<Conn_ubVO> selectConn_ubList(int bid);//conn_ub 목록 조회
 }

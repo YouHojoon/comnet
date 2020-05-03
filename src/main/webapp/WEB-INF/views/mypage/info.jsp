@@ -19,29 +19,29 @@
     </header>
     <!--사용자 선택 영역-->
 		<div id="select-field">
-			<c:forEach items="${userField}" var="fid">
+			<c:forEach items="${user.userField}" var="fid">
 				<input type="hidden" value="${fid.fid}">
 			</c:forEach>
 		</div>
 		<!--사용자 선택 언어-->
 		<div id="select-language">
-			<c:forEach items="${userLanguage}" var="lid">
+			<c:forEach items="${user.userLanguage}" var="lid">
 				<input type="hidden" value="${lid.lid}">
 			</c:forEach>
 		</div>
-    <input type="hidden" id="uid" value="${user.uid}">
+    <input type="hidden" id="uid" value="${user.userVO.uid}">
     <form class="register-form">
       <div class="input-group mb-3">
-        <input type="text" readonly="readonly" name="email" class="form-control" placeholder="학번" value="${user.email}">
+        <input type="text" readonly="readonly" name="email" class="form-control" placeholder="학번" value="${user.userVO.email}">
         <div class="input-group-append">
           <span class="input-group-text">@sangmyung.kr</span>
         </div>
       </div>
       <div class="form-group">
-        <input type="text" name="name" class="form-control" placeholder="홍길동" value="${user.name}">
+        <input type="text" name="name" class="form-control" placeholder="이름" value="${user.userVO.name}">
       </div>
       <div class="form-group">
-        <input type="text" name="phone" class="form-control" placeholder="01011111111" value="${user.phone}">
+        <input type="text" name="phone" class="form-control" placeholder="전화번호(예 : 01011111111)" value="${user.userVO.phone}">
       </div>
       <div class="form-group">
         <input id="password" type="password" name="password" class="form-control" placeholder="비밀번호">
@@ -97,7 +97,7 @@
       </table>
       <div class="form-group">
         <label id="memo-label">메모</label>
-        <textarea name="memo" class="form-control" rows="3">${user.memo}</textarea>
+        <textarea name="memo" class="form-control" rows="3">${user.userVO.memo}</textarea>
       </div>
       <div>
 	      <div class="btn-group btn-group-lg" role="group">

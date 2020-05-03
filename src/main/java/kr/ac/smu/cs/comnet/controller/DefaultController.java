@@ -22,8 +22,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
+import kr.ac.smu.cs.comnet.dto.UserDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
@@ -31,7 +33,7 @@ import kr.ac.smu.cs.comnet.service.UserService;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Controller
-@SessionAttributes({"selectFieldList", "selectLanguageList"})
+@SessionAttributes({"selectFieldList", "selectLanguageList","authString"})
 public class DefaultController {
 	Logger log=LoggerFactory.getLogger(DefaultController.class);
 	@Autowired
@@ -43,13 +45,7 @@ public class DefaultController {
 	@Autowired
 	private UserService uService;
 	@GetMapping("/")
-	public String login(@CookieValue(name = "remember-me", required = false) Cookie auto,
-			HttpServletRequest request, HttpServletResponse response) {
-		if (auto != null && auto.getValue()!=null) {
-			auto.setMaxAge(2592000);//쿠키 존재 시 쿠키의 유효기간을 갱신
-			response.addCookie(auto);
-			return "redirect:/board";
-		}
+	public String login() {
 		return "/loginPage";
 	}
 	@PreAuthorize("isAuthenticated()")
@@ -91,13 +87,32 @@ public class DefaultController {
 		model.addAttribute("languageList", lService.selectList());
 	}
 	@GetMapping("/auth")
-	public @ResponseBody String auth(@RequestParam("email") String email, HttpServletRequest request) {
+	public @ResponseBody boolean auth(@RequestParam("email") String email, Model model, HttpServletRequest request) {
 		String requestUrl=request.getHeader("referer");
-		return uService.auth(email,requestUrl.substring(requestUrl.indexOf("/")));
+		String authString=uService.auth(email,requestUrl.substring(requestUrl.lastIndexOf("/")));
+		if(authString.equals("no"))
+			return false;
+		else if(authString.equals("duplication"))
+			return false;
+		else {
+			model.addAttribute("authString", authString);
+			return true;
+		}
+	}
+	@PostMapping("/auth")
+	public @ResponseBody boolean auth(@RequestParam("authString") String authString, HttpSession session, SessionStatus sessionStatus) {
+		if(((String)session.getAttribute("authString")).equals(authString)) {
+			sessionStatus.setComplete();
+			return true;
+		}
+		else {
+			sessionStatus.setComplete();
+			return false;
+		}
 	}
 	@PostMapping("/register")
 	public void register(UserVO userVO, @RequestParam("userField") int[] userField, 
-			@RequestParam("userLanguage")int[] userLanguage, @CookieValue(name = "remember-me", required = false) Cookie auto,
+			@RequestParam("userLanguage") int[] userLanguage, @CookieValue(name = "remember-me", required = false) Cookie auto,
 			HttpServletResponse response) throws IOException{
 		uService.register(userVO,userField,userLanguage);
 		if (auto != null) //로그인 되어 있다면 회원가입 페이지로 들어가지 못하게 막음
@@ -114,5 +129,10 @@ public class DefaultController {
 	@PatchMapping("/findpw")
 	public @ResponseBody void findpw(@RequestParam("email") String email, @RequestBody String password) {
 		uService.changePassword(email, password);
+	}
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping("/volunteerDetail")
+	public @ResponseBody UserDTO volunteerDetail(@RequestParam("vid") int vid){
+		return uService.userDetail(vid);
 	}
 }

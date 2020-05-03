@@ -7,6 +7,9 @@ body{
   overflow-y: auto;
   text-align: center;
 }
+#partner-list{
+	margin-bottom: 0;
+}
 #info #password{
 	width: calc(75%);
     display: inline-block;
@@ -110,7 +113,24 @@ body{
   position: relative;
   right: 135%;
 }
-
+#volunteer-modal .modal-body{
+	padding-top: 4px;
+}
+#volunteer-modal .modal-title{
+	font-family: 'Noto Sans KR', sans-serif;
+	font-weight: bold	
+}
+#modal-close{
+  color: white;
+  background-color: #0984e3;
+  border-style: none;
+}
+#modal-close:hover{
+  background-color: #1e90ff;
+}
+#modal-close:focus{
+  background-color: #1e90ff;
+}
 .modal-header{
   font-family: 'Black Han Sans',cursive;
   background-color: #0984e3;
@@ -224,7 +244,7 @@ body{
 #project{
   padding-top: 45px;
 }
-.volunteer{
+.apply{
   color: white;
   background-color: #0984e3;
   border-style: none;
@@ -234,10 +254,12 @@ body{
   line-height: 1.5;
   border-radius: .3rem;
 }
-.volunteer:hover{
+.apply:hover{
+  color: white;
   background-color: #1e90ff;
 }
-.volunteer:focus{
+.apply:focus{
+  color: white;
   background-color: #1e90ff;
 }
 .project-body > .list-group{
@@ -250,7 +272,9 @@ body{
   width: 90%;
   display: inline-block;
 }
-
+.modal-body > .field-language{
+  margin-top: 0px;
+}
 .volunteer-list > h1{
   font-family: 'Black Han Sans',cursive;
   margin: 0;
@@ -312,10 +336,21 @@ table > tbody > tr > th{
 .volunteer-list > table > tbody > tr > .ability{
 	width: 39%;
 }
+@media(max-width: 540px){
+	.volunteer-list > table > tbody > tr > .ability{
+		width: 36%;
+	}
+}
 .project-body > table, .volunteer-list > table {
   width: 90%;
   margin-left: auto;
   margin-right: auto;
+}
+.volunteer-list > table {
+  margin-bottom: 0;
+}
+#volunteer-pagination{
+  margin-bottom: 15px;
 }
 @media(max-width: 480px){
 	.project-body > table {
@@ -418,6 +453,17 @@ table > tbody > tr > th{
   float: none;
   display: flex;
   margin: auto;
+}
+#register{
+  color: white;
+  background-color: #0984e3;
+  border-style: none;
+}
+#register:hover{
+  background-color: #1e90ff;
+}
+#register:focus{
+  background-color: #1e90ff;
 }
 .register-form > .input-group{
   margin-top: 15px;

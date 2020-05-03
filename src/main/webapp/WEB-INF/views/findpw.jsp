@@ -42,11 +42,11 @@
         <button type="button" id="change" class="btn btn-primary">변경</button>
       </div>
       <div class="button">
-        <button type="button" class="btn btn-primary btn-sm">Back</button>
+        <button type="button" class="btn btn-primary btn-sm" onclick="location.href='/'">Back</button>
       </div>
     </div>
 	<script type="text/javascript">
-		var authString;
+		var auth;
 		var emailForm=/^20(1|2)\d{6}$/;
 		$("#change").click(function(){
 			if($("input[name=email]").val() == "") {
@@ -73,7 +73,7 @@
     			$("#password-check").focus();
     			return;
     		}
-    		else if(authString!=true){
+    		else if(auth!=true){
     			//인증 확인
     			alert("이메일 인증을 해주세요.");
     			$("#auth-button").focus();
@@ -100,11 +100,10 @@
 				type : "GET",
 				url : "/auth?email=" + $("input[name=email]").val(),
 				success : function(data) {
-					if (data === "no") {
+					if (!data) {
 						alert("아이디가 존재하지 않습니다.");
 						$("input[name=email]").focus();
 					} else {
-						authString = data;
 						alert("인증 메일이 전송되었습니다.");
 						$("#auth-button").attr("onclick", "check()");
 					}
@@ -113,17 +112,25 @@
 				}
 			});
 		}
-		function check() {//인증메일 확인
-			if (authString === $("#auth-input").val()) {
-				alert("인증 성공");
-				$("input[name=email]").attr("readonly", "readonly");
-				$("#auth-input").attr("readonly", "readonly");
-				$("#auth-button").attr("disabled","disabled");
-				authString = true;
-			} else {
-				alert("인증 실패");
-				$("#auth-button").attr("onclick", "auth()");
-			}
+		function check(){//인증메일 확인
+    		$.ajax({
+    			type:"POST",
+    			url:"/auth",
+    			data:{authString:$("#auth-input").val()},
+    			success:function(data){
+    				if(data){
+    					alert("인증 성공");
+    	    			$("input[name=email]").attr("readonly","readonly");
+    	    			$("#auth-input").attr("readonly","readonly");
+    	    			$("#auth-button").attr("disabled","disabled");
+    	    			auth=true;
+    				}
+    				else{
+    					alert("인증 실패");
+    	    			$("#auth-button").attr("onclick","auth()");
+    				}
+    			}
+    		});
 		}
 	</script>
 </body>

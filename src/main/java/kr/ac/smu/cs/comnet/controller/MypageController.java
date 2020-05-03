@@ -56,9 +56,7 @@ public class MypageController {
 	}
 	@GetMapping("/info")
 	public void info(@RequestParam("uid") int uid, Model model) {
-		model.addAttribute("user", uService.select(uid));
-		model.addAttribute("userField", fService.selectUserField(uid));
-		model.addAttribute("userLanguage", lService.selectUserLanguage(uid));
+		model.addAttribute("user", uService.userDetail(uid));
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
 	}

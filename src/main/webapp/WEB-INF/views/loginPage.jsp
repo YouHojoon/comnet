@@ -17,7 +17,7 @@
 	<div class="logo">
 		<img width="200" src="\resources\logo.jpg">
 	</div>
-	
+
 	<form action="/login" method="POST" class="login">
 		<div class="input-group mb-3">
 			<input name="username" type="text" class="form-control" placeholder="학번"

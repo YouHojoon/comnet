@@ -1,5 +1,6 @@
 package kr.ac.smu.cs.comnet.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.mail.internet.MimeMessage;
@@ -9,12 +10,17 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import kr.ac.smu.cs.comnet.dto.UserDTO;
 import kr.ac.smu.cs.comnet.mapper.BoardMapper;
 import kr.ac.smu.cs.comnet.mapper.FieldMapper;
 import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
 import kr.ac.smu.cs.comnet.mapper.UserMapper;
-import kr.ac.smu.cs.comnet.vo.BoardVO;
+import kr.ac.smu.cs.comnet.vo.Conn_ufVO;
+import kr.ac.smu.cs.comnet.vo.Conn_ulVO;
+import kr.ac.smu.cs.comnet.vo.FieldVO;
+import kr.ac.smu.cs.comnet.vo.LanguageVO;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Service
@@ -31,7 +37,9 @@ public class UserServiceImpl implements UserService{
 	private PasswordEncoder bcryptPasswordEncoder;
 	@Autowired
 	private JavaMailSender javaMailSender;
+	
 	@Override
+	@Transactional
 	public void register(UserVO userVO, int[] userField, int[] userLanguage) {
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
 		uMapper.register(userVO);
@@ -70,6 +78,7 @@ public class UserServiceImpl implements UserService{
 		uMapper.changePassword(email, bcryptPasswordEncoder.encode(password));
 	}
 	@Override
+	@Transactional
 	public void update(UserVO userVO, List<Integer> userField, List<Integer> userLanguage) {
 		uMapper.update(userVO);
 		int uid=userVO.getUid();
@@ -77,6 +86,7 @@ public class UserServiceImpl implements UserService{
 		lMapper.updateUserLanguage(uid, userLanguage);
 	}
 	@Override
+	@Transactional
 	public void delete(int uid) {
 		int[] bidList=bMapper.selectMyProjectBidList(uid);
 		if(bidList.length!=0) {
@@ -87,5 +97,17 @@ public class UserServiceImpl implements UserService{
 		fMapper.deleteConn_uf(uid);
 		lMapper.deleteConn_ul(uid);
 		uMapper.delete(uid);
+	}
+	@Override
+	public UserDTO userDetail(int uid) {
+		List<FieldVO> userField= new ArrayList<FieldVO>();
+		List<LanguageVO> userLanguage = new ArrayList<LanguageVO>();
+		List<Conn_ufVO> conn_ufVOList= fMapper.selectUserField(uid);
+		List<Conn_ulVO> conn_ulVOList= lMapper.selectUserLanguage(uid);
+		for(Conn_ufVO conn_ufVO : conn_ufVOList) 
+			userField.add(fMapper.select(conn_ufVO.getFid()));
+		for(Conn_ulVO conn_ulVO: conn_ulVOList)
+			userLanguage.add(lMapper.select(conn_ulVO.getLid()));
+		return new UserDTO(uMapper.select(uid), userField, userLanguage);
 	}
 }

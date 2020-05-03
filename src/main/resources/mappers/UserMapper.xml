@@ -23,4 +23,5 @@
 		<delete id="delete">
 			DELETE FROM User WHERE uid=#{uid} 
 		</delete>
+		
 	</mapper>

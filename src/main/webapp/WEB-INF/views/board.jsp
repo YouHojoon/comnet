@@ -2,6 +2,7 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -35,7 +36,8 @@
 			<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 		</button>
 	</header>
-
+	<sec:authentication var="uid" property="principal.userVO.uid"/>
+	
 	<div class="project-list">
 	<!--사이드 메뉴 시작-->
 		<!--사용자 선택 영역-->
@@ -76,7 +78,6 @@
 		</div>
 		<!--사이드 메뉴 끝-->
 		<!--프로젝트 조회 시작-->
-		<input type="hidden" id="total" value="${total}">
 		<table id="project-list" class="table table-hover">
 			<thead>
 				<tr>
@@ -84,20 +85,37 @@
 					<th scope="col">제목</th>
 					<th scope="col">모집분야</th>
 					<th scope="col">기한</th>
-					<th scope="col">팀원</th>
+					<th scope="col">팀원제한</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach var="board" items="${boardList}">
 					<tr id="board">
 						<th id="rowNum" scope="row">${board.boardVO.rowNum}</th>
-						<td><a onclick="keepPage()" href="/board/view?bid=${board.boardVO.bid}">${board.boardVO.title}</a></td>
+						<td><a onclick="keepPage()" href="/board/view?bid=${board.boardVO.bid}&uid=${uid}">${board.boardVO.title}</a></td>
 						<td class="requirement">
-							<c:forEach var="field" items="${board.boardField}">
-								<label><c:out value="${field.fname}"/></label>
+							<c:set var="cnt" value="-1"/>
+							<c:forEach begin="0" end="5" var="field" items="${board.boardField}" varStatus="status">
+								<c:set var="cnt" value="${cnt+1}" />
+								<c:choose>
+									<c:when test="${status.index==4}">
+										<label>...</label>
+									</c:when>
+									<c:otherwise>
+										<label>${field.fname}</label>
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
-							<c:forEach var="language" items="${board.boardLanguage}">
-								<label><c:out value="${language.lname}"/></label>
+							<c:forEach begin="${cnt}" end="5" var="language" items="${board.boardLanguage}" varStatus="status">
+								<c:set var="cnt" value="${cnt+1}" />
+								<c:choose>
+									<c:when test="${status.index==4}">
+										<label>...</label>
+									</c:when>
+									<c:otherwise>
+										<label>${language.lname}</label>								
+									</c:otherwise>
+								</c:choose>
 							</c:forEach>
 						</td>
 						<td>
@@ -187,12 +205,12 @@
 	</div>
 	<footer id="test"> Create by YouHoJoon </footer>
 	<script type="text/javascript">
-		var total=$("#total").val();
+		var total=${total}
 		var startPage=sessionStorage.getItem("page");
 		if(startPage==null)
 			startPage=1;
 		sessionStorage.removeItem("page");
-		pagination();
+		pagination(startPage);
 		$("#select-field input").each(function(){//선택 영역 표시
 			$("#field-list > a[id="+$(this).val()+"]").addClass("active");
 		});
@@ -254,34 +272,29 @@
 		function keepPage(){//프로젝트 상세 조회 시 페이지 유지를 위해 세션 처리
 			sessionStorage.setItem("page",$("li[class=active] > a").text());
 		}
-		function pageMove(page){//페이지 옮길 때 실행
-			startPage=page;
-			$('html').scrollTop(0);
-			pagination();
-		}
-		function pagination(){//페이징 처리
+		function pagination(page){//페이징 처리
 			$("th[id=rowNum]").parent().css("display","none");
 			$("th[id=rowNum]").filter(function(){
-					return $(this).text() <= 15 * startPage && $(this).text() >= (startPage-1) * 15 + 1;
+					return $(this).text() <= 15 * page && $(this).text() >= (page-1) * 15 + 1;
 					//페이지 범위 사이에 있는 것만 보이게
 			}).parent().css("display","table-row");
 			$(".pagination").html("");
 			var endPage = Math.ceil(total / 15.0);
-			var realEndPage=Math.ceil(startPage / 10.0) * 10;
+			var realEndPage=Math.ceil(page / 10.0) * 10;
 			var realStartPage= realEndPage-9;
 			if(realEndPage > endPage)
 				realEndPage=endPage;
 			//페이지 버튼생성
 			if(realEndPage > 10)
-				$(".pagination").append("<li><a aria-label='Previous' onclick='pageMove("+ (realStartPage - 1) +")'><span aria-hidden='true'>&laquo;</span></a></li>")
+				$(".pagination").append("<li><a aria-label='Previous' onclick='pagination("+ (realStartPage - 1) +")'><span aria-hidden='true'>&laquo;</span></a></li>")
 			for(var i=realStartPage; i<=realEndPage; i++){
-				if(i == startPage)
-					$(".pagination").append("<li class='active'><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
+				if(i == page)
+					$(".pagination").append("<li class='active'><a onclick='pagination("+ i +")'>" + i + "</li></a>")
 				else
-					$(".pagination").append("<li><a onclick='pageMove("+ i +")'>" + i + "</li></a>")
+					$(".pagination").append("<li><a onclick='pagination("+ i +")'>" + i + "</li></a>")
 			}
 			if(realEndPage != endPage)
-				$(".pagination").append("<li><a aria-label='Next' onclick='pageMove("+ (realEndPage + 1) +")'><span aria-hidden='true'>&raquo;</span></a></li>")
+				$(".pagination").append("<li><a aria-label='Next' onclick='pagination("+ (realEndPage + 1) +")'><span aria-hidden='true'>&raquo;</span></a></li>")
 		}
 		function showMenu() {//사이드 메뉴 크기 결정
 			if($(window).width() > 960){
