@@ -42,7 +42,7 @@ import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
 import kr.ac.smu.cs.comnet.service.UserService;
 import kr.ac.smu.cs.comnet.vo.BoardVO;
-import kr.ac.smu.cs.comnet.vo.UserVO;
+
 
 @Controller
 @PreAuthorize("isAuthenticated()")
@@ -89,7 +89,6 @@ public class BoardController {
 		BoardDTO board = bService.select(bid, email);
 		model.addAttribute("board", board);
 		model.addAttribute("owner", uService.select(board.getBoardVO().getUid()));
-		log.info(board.getPartnerList().toString());
 		//지원자 수
 		List<UserDTO> volunteerList=board.getVolunteerList();
 		List<UserDTO> partnerList=board.getPartnerList();
@@ -154,5 +153,9 @@ public class BoardController {
 	@PostMapping("/approval")
 	public @ResponseBody void agree(@RequestParam("vid") int vid, @RequestParam("bid") int bid) {
 		bService.agree(bid, vid);
+	}
+	@DeleteMapping("/reject")
+	public @ResponseBody void reject(@RequestParam("bid") int bid, @RequestParam("vid") int vid) {
+		bService.applyCancelByVid(bid, vid);
 	}
 }
