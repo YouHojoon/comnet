@@ -48,4 +48,6 @@ public interface BoardMapper {
 	public Conn_ubVO selectConn_ub(int bid, int uid);//conn_ub 조회
 	
 	public Conn_bvVO selectConn_bv(int bid, int vid);//conn_bv 조회
+	
+	public List<BoardVO> selectVolunteerProjectList(int uid);//내가 지원한 프로젝트 조회
 }

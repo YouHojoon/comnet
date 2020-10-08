@@ -60,6 +60,18 @@ public class MypageController {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
 	}
+	@GetMapping("/volunteer")
+	public String volunteer(@RequestParam("uid") int uid, Model model) {
+		model.addAttribute("fieldList", fService.selectList());
+		model.addAttribute("languageList", lService.selectList());
+		List<BoardDTO> boardList= bService.selectVolunteerProjectList(uid);
+		model.addAttribute("boardList",boardList);
+		if(boardList!=null)
+			model.addAttribute("total",boardList.size());
+		else
+			model.addAttribute("total",0);		
+		return "/mypage/myproject";
+	}
 	@PutMapping("/info")
 	public @ResponseBody void update(@RequestParam("uid") int uid, @RequestBody Map<String, Object> json) {
 		UserVO userVO=new UserVO(uid,(String)json.get("email")

@@ -31,4 +31,8 @@ public interface BoardService {
 	public void applyCancelByVid(int bid, int vid);//프로젝트 지원 취소
 	
 	public void agree(int bid, int vid);//프로젝트 지원 승인
+	
+	public List<BoardDTO> selectVolunteerProjectList(int uid);//내가 지원한 프로젝트 목록 조회
+	
+	public BoardDTO selectVolunteerProject(int bid);//내가 지원한 프로젝트 조회
 }

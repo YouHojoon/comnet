@@ -43,11 +43,7 @@
 			<mapping path="/"/>
 			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.CheckLoginInterceptor"/>
 		</interceptor>
-		<interceptor>
-			<mapping path="/board/apply"/>
-			<mapping path="/board/approval"/>
-			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.CheckPartnerOrVolunteerInterceptor"/>
-		</interceptor>
+		
 	</interceptors>
 	<context:component-scan base-package="kr.ac.smu.cs.comnet.controller" />
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>

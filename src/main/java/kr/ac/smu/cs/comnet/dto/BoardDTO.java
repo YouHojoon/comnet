@@ -20,7 +20,12 @@ public class BoardDTO {
 		this.boardField = boardField;
 		this.boardLanguage = boardLanguage;
 	}
-
+	public BoardDTO(BoardVO boardVO, List<FieldVO> boardField, List<LanguageVO> boardLanguage,List<UserDTO> partnerList) {
+		this.boardVO = boardVO;
+		this.boardField = boardField;
+		this.boardLanguage = boardLanguage;
+		this.partnerList = partnerList;
+	}
 	public BoardDTO(BoardVO boardVO, List<FieldVO> boardField, 
 			List<LanguageVO> boardLanguage, List<UserDTO> volunteerList, List<UserDTO> partnerList,boolean applied,boolean partner) {
 		this.boardVO=boardVO;

@@ -222,7 +222,25 @@ public class BoardServiceImpl implements BoardService {
 			boardField.add(fMapper.select(conn_bfVO.getFid()));
 		for (Conn_blVO conn_blVO : conn_blList)
 			boardLanguage.add(lMapper.select(conn_blVO.getLid()));
-		return new BoardDTO(boardVO, boardField, boardLanguage);
+		
+		List<Conn_ubVO> conn_ubList = bMapper.selectConn_ubList(bid);
+		List<UserDTO> partnerList = new ArrayList<UserDTO>();
+		
+		if(conn_ubList!=null) {
+			for(Conn_ubVO conn_ubVO : conn_ubList) {
+				List<FieldVO> userField= new ArrayList<FieldVO>();
+				List<LanguageVO> userLanguage = new ArrayList<LanguageVO>();
+				int uid=conn_ubVO.getUid();
+				List<Conn_ufVO> conn_ufVOList= fMapper.selectUserField(uid);
+				List<Conn_ulVO> conn_ulVOList= lMapper.selectUserLanguage(uid);
+				for(Conn_ufVO conn_ufVO : conn_ufVOList) 
+					userField.add(fMapper.select(conn_ufVO.getFid()));
+				for(Conn_ulVO conn_ulVO: conn_ulVOList)
+					userLanguage.add(lMapper.select(conn_ulVO.getLid()));
+				partnerList.add(new UserDTO(uMapper.select(uid), userField, userLanguage));
+			}
+		}
+		return new BoardDTO(boardVO, boardField, boardLanguage,partnerList);
 	}
 	@Override
 	public void applyCancel(int bid, String email) {
@@ -237,5 +255,32 @@ public class BoardServiceImpl implements BoardService {
 	@Override
 	public void applyCancelByVid(int bid, int vid) {
 		bMapper.applyCancel(bid,vid);
+	}
+	@Override
+	public BoardDTO selectVolunteerProject(int bid) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	@Override
+	public List<BoardDTO> selectVolunteerProjectList(int uid) {
+		long start = System.currentTimeMillis();
+		List<BoardVO> boardList = bMapper.selectVolunteerProjectList(uid);
+		if (boardList.size() == 0)// 프로젝트가 없으면 null 반환
+			return null;
+		List<Integer> bidList = new ArrayList<Integer>();
+		int rowNum = 1;
+		for (BoardVO boardVO : boardList) {
+			bidList.add(boardVO.getBid());
+			boardVO.setRowNum(rowNum);
+			rowNum++;
+		}
+		List<BoardDTO> boardDTOList = new ArrayList<BoardDTO>();// O(n)만큼 걸려서 데이터가 많아지면 시간 오래 걸림
+		Queue<Conn_bfVO> conn_bfList = fMapper.selectSuitableConn_bfList(bidList);
+		Queue<Conn_blVO> conn_blList = lMapper.selectSuitableConn_blList(bidList);
+		for (BoardVO boardVO : boardList) 
+			boardDTOList.add(bindBoardDTO(boardVO, conn_bfList, conn_blList));
+		long end = System.currentTimeMillis();
+		log.info(Long.toString(end - start));
+		return boardDTOList;
 	}
 }

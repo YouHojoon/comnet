@@ -112,9 +112,15 @@ public class BoardController {
 	}
 	@GetMapping("/update")
 	public void update(@RequestParam("bid") int bid, Model model) {
-		model.addAttribute("board", bService.selectMyProject(bid));
+		BoardDTO board=bService.selectMyProject(bid);
+		model.addAttribute("board", board);
 		model.addAttribute("fieldList",fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
+		List<UserDTO> partnerList=board.getPartnerList();
+		if(partnerList!=null)
+			model.addAttribute("partnerTotal", partnerList.size());
+		else
+			model.addAttribute("partnerTotal", 0);
 	}
 	@PutMapping("/update")
 	public @ResponseBody void update(@RequestParam("bid") int bid, @RequestBody Map<String, Object> json, 
@@ -134,8 +140,8 @@ public class BoardController {
 		return redirectUrl;//요청했던 url전송
 	}
 	@PostMapping("/apply")
-	public @ResponseBody void apply(@RequestParam("bid") int bid, @RequestParam("vid") int vid) {
-		bService.applyToProject(bid, vid);
+	public @ResponseBody void apply(@RequestBody Map<String, Integer> json) {
+		bService.applyToProject(json.get("bid"), json.get("vid"));
 	}
 	@DeleteMapping("/applyCancel")
 	public @ResponseBody void applyCancel(@RequestParam("bid") int bid, HttpServletRequest request) throws UnsupportedEncodingException{

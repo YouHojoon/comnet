@@ -32,7 +32,7 @@
           <h1 class="display-4">나의 프로젝트</h1>
         </div>
       </div>
-      <div class="menu">
+      <div class="menu" onclick="location.href='/mypage/volunteer?uid=${uid}'">
         <div class="name">
           <h1 class="display-4">내가 지원한 프로젝트</h1>
         </div>

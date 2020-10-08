@@ -78,14 +78,16 @@
 						<tr>
 							<th scope="row">${partner.userVO.email}</th>
 							<td><c:choose>
-								<c:when test="${uid==owner.uid} or ${board.partner}">
-									<a onclick="volunteerDetail(${partner.userVO.uid})">
-								</c:when>
-								<c:otherwise>
-									<a>
-								</c:otherwise>
-							</c:choose>
-							${partner.userVO.name}</a></td>
+									<c:when test="${uid eq owner.uid}">
+										<a onclick="volunteerDetail(${partner.userVO.uid})">
+									</c:when>
+									<c:when test="${board.partner}">
+										<a onclick="volunteerDetail(${partner.userVO.uid})">
+									</c:when>
+									<c:otherwise>
+										<a>
+									</c:otherwise>
+								</c:choose> ${partner.userVO.name}</a></td>
 							<td class="ability"><c:set var="cnt" value="-1" /> <c:forEach
 									begin="0" end="5" var="field" items="${partner.userField}"
 									varStatus="status">
@@ -114,17 +116,24 @@
 				</tbody>
 				<tfoot>
 					<tr>
-						<th colspan="3" scope="col">${partnerTotal}/${board.boardVO.partner_limit}</th>
+						<th colspan="3" scope="col">${partnerTotal}/<c:choose>
+								<c:when test="${board.boardVO.partner_limit==999}">
+							제한없음
+						</c:when>
+								<c:otherwise>
+							${board.boardVO.partner_limit}
+						</c:otherwise>
+							</c:choose></th>
 					</tr>
 				</tfoot>
 			</table>
-				<!--팀원 페이징 처리 시작-->
-					<nav id="partner-pagination">
-						<ul class="pagination">
+			<!--팀원 페이징 처리 시작-->
+			<nav id="partner-pagination">
+				<ul class="pagination">
 
 
-						</ul>
-					</nav>
+				</ul>
+			</nav>
 			<c:if test="${uid==owner.uid}">
 				<!--나의 글이면 지원자 목록 조회-->
 				<div class="volunteer-list">
@@ -170,8 +179,10 @@
 											</c:choose>
 										</c:forEach></td>
 									<td>
-										<button type="button" onclick="approval(${volunteer.userVO.uid})" class="approval">승인</button>
-										<button type="button" onclick="reject(${volunteer.userVO.uid})" class="reject">거부</button>
+										<button type="button"
+											onclick="approval(${volunteer.userVO.uid})" class="approval">승인</button>
+										<button type="button"
+											onclick="reject(${volunteer.userVO.uid})" class="reject">거부</button>
 									</td>
 								</tr>
 							</c:forEach>
@@ -265,7 +276,7 @@
     		$.ajax({
     			type:"POST",
     			url:"/board/apply",
-    			data:{bid: $("#bid").val(), vid: $("#uid").val()},
+    			data:JSON.stringify({bid: $("#bid").val(), vid: $("#uid").val()}),
     			success: function(){
     				location.href="/board/view?bid="+$("#bid").val();
     			}

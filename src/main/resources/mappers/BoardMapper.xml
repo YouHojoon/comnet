@@ -77,7 +77,7 @@
 		</delete>
 		<insert id="approval">
 			INSERT INTO conn_ub
-			VALUES(#{bid}, #{vid})
+			VALUES(#{vid}, #{bid})
 		</insert>
 		<select id="selectConn_ubList" resultType="Conn_ubVo">
 			SELECT * FROM conn_ub WHERE bid=#{bid}
@@ -88,4 +88,8 @@
 		<select id="selectConn_bv" resultType="Conn_bvVo">
 			SELECT * FROM conn_ub WHERE bid=#{bid} AND vid=#{vid}
 		</select>
+		<select id="selectVolunteerProjectList" resultType="BoardVO">
+    		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,conn_bv,
+    		(SELECT @rownum:=0)r WHERE conn_bv.vid=#{uid} AND conn_bv.bid=Board.bid;
+    	</select>
     </mapper>
