@@ -88,27 +88,30 @@
 										<a>
 									</c:otherwise>
 								</c:choose> ${partner.userVO.name}</a></td>
-							<td class="ability"><c:set var="cnt" value="-1" /> <c:forEach
-									begin="0" end="5" var="field" items="${partner.userField}"
+							<td class="ability"><c:set var="cnt" value="0" /> <c:forEach
+									begin="0" end="3" var="field" items="${partner.userField}"
 									varStatus="status">
 									<c:set var="cnt" value="${cnt+1}" />
 									<c:choose>
-										<c:when test="${status.index==4}">
+										<c:when test="${cnt==4}">
 				                  			...				    				             			             
 				                  		</c:when>
-										<c:otherwise>
+										<c:when test="${cnt<4}">
 											<label>${field.fname}</label>
-										</c:otherwise>
+										</c:when>
+										<c:otherwise></c:otherwise>
 									</c:choose>
-								</c:forEach> <c:forEach begin="${cnt}" end="5" var="language"
+								</c:forEach> <c:forEach begin="${cnt}" end="4" var="language"
 									items="${partner.userLanguage}" varStatus="status">
+									<c:set var="cnt" value="${cnt+1}" />
 									<c:choose>
-										<c:when test="${status.index==4}">
-				                  			...
+										<c:when test="${cnt==4}">
+				                  			...				    				             			             
 				                  		</c:when>
-										<c:otherwise>
+										<c:when test="${cnt<4}">
 											<label>${language.lname}</label>
-										</c:otherwise>
+										</c:when>
+										<c:otherwise></c:otherwise>
 									</c:choose>
 								</c:forEach></td>
 						</tr>
@@ -155,27 +158,30 @@
 								<tr>
 									<th scope="row">${volunteer.userVO.email}</th>
 									<td><a onclick="volunteerDetail(${volunteer.userVO.uid})">${volunteer.userVO.name}</a></td>
-									<td class="ability"><c:set var="cnt" value="-1" /> <c:forEach
-											begin="0" end="5" var="field" items="${volunteer.userField}"
+									<td class="ability"><c:set var="cnt" value="0" /> <c:forEach
+											begin="0" end="3" var="field" items="${volunteer.userField}"
 											varStatus="status">
 											<c:set var="cnt" value="${cnt+1}" />
 											<c:choose>
-												<c:when test="${status.index==4}">
+												<c:when test="${cnt==4}">
 				                  			...				    				             			             
 				                  		</c:when>
-												<c:otherwise>
+												<c:when test="${cnt<4 }">
 													<label>${field.fname}</label>
-												</c:otherwise>
+												</c:when>
+												<c:otherwise></c:otherwise>
 											</c:choose>
-										</c:forEach> <c:forEach begin="${cnt}" end="5" var="language"
+										</c:forEach> <c:forEach begin="${cnt}" end="4" var="language"
 											items="${volunteer.userLanguage}" varStatus="status">
+											<c:set var="cnt" value="${cnt+1}" />
 											<c:choose>
-												<c:when test="${status.index==4}">
+												<c:when test="${cnt==4}">
 				                  			...
 				                  		</c:when>
-												<c:otherwise>
+												<c:when test="${cnt<4 }">
 													<label>${language.lname}</label>
-												</c:otherwise>
+												</c:when>
+												<c:otherwise></c:otherwise>
 											</c:choose>
 										</c:forEach></td>
 									<td>

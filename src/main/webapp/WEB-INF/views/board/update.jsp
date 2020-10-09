@@ -159,26 +159,31 @@
 						<th scope="row">${partner.userVO.email}</th>
 						<td><a onclick="volunteerDetail(${partner.userVO.uid})">
 								${partner.userVO.name}</a></td>
-						<td class="ability"><c:set var="cnt" value="-1" /> <c:forEach
-								begin="0" end="5" var="field" items="${partner.userField}"
+						<td class="ability"><c:set var="cnt" value="0" /> <c:forEach
+								begin="0" end="3" var="field" items="${partner.userField}"
 								varStatus="status">
+								<c:choose>
+									<c:when test="${cnt==4}">
+				                  			...		
+				                  			<c:set var="cnt" value="${cnt+1}" />
+									</c:when>
+									<c:when test="${cnt<4 }">
+										<c:set var="cnt" value="${cnt+1}" />
+										<label>${field.fname}</label>
+									</c:when>
+									<c:otherwise></c:otherwise>
+								</c:choose>
+							</c:forEach><c:forEach begin="${cnt}" end="4" var="language"
+								items="${partner.userLanguage}" varStatus="status">
 								<c:set var="cnt" value="${cnt+1}" />
 								<c:choose>
-									<c:when test="${status.index==4}">
+									<c:when test="${cnt==4}">
 				                  			...				    				             			             
 				                  		</c:when>
-									<c:otherwise>
-										<label>${field.fname}</label>
-									</c:otherwise>
-								</c:choose>
-							</c:forEach> <c:forEach begin="${cnt}" end="5" var="language"
-								items="${partner.userLanguage}" varStatus="status">
-								<c:choose>
-									<c:when test="${status.index==4}">
-				                  			...
-				                  		</c:when>
-									<c:otherwise>
+									<c:when test="${cnt<4 }">
 										<label>${language.lname}</label>
+									</c:when>
+									<c:otherwise>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach></td>

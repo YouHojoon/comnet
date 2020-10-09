@@ -26,6 +26,12 @@ public class BoardDTO {
 		this.boardLanguage = boardLanguage;
 		this.partnerList = partnerList;
 	}
+	@Override
+	public String toString() {
+		return "BoardDTO [boardVO=" + boardVO + ", boardField=" + boardField + ", boardLanguage=" + boardLanguage
+				+ ", volunteerList=" + volunteerList + ", partnerList=" + partnerList + ", applied=" + applied
+				+ ", partner=" + partner + "]";
+	}
 	public BoardDTO(BoardVO boardVO, List<FieldVO> boardField, 
 			List<LanguageVO> boardLanguage, List<UserDTO> volunteerList, List<UserDTO> partnerList,boolean applied,boolean partner) {
 		this.boardVO=boardVO;

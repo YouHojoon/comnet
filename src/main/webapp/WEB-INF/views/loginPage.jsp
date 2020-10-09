@@ -15,6 +15,11 @@
 <title>COMNET</title>
 </head>
 <body>
+	<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+		<div class="alert alert-danger" role="alert">아이디 혹은 비밀번호가 맞지
+			않습니다.</div>
+	</c:if>
+	
 	<div class="logo">
 		<img width="200" src="\resources\logo.jpg">
 	</div>
@@ -34,9 +39,7 @@
 		<div class="button">
 			<button id="login" type="submit" class="btn btn-primary">Login</button>
 		</div>
-		<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
-			<div class="alert alert-danger" role="alert">아이디 혹은 비밀번호가 맞지 않습니다.</div>
-		</c:if>
+
 		<div class="button">
 			<a href="/register">회원가입</a>
 		</div>

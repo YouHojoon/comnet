@@ -2,6 +2,9 @@
   margin: 0;
   padding: 0;
 }
+.alert-danger {
+    text-align: center;
+}
 .pagination{
 	display: inline-block;
     padding-left: 0;

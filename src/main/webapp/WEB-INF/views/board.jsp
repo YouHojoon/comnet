@@ -38,7 +38,7 @@
 		</button>
 		<button type="button" id="message" class="btn btn-default"
 			aria-label="Left Align">
-			<c:if test="${messageTotal!=0}">
+			<c:if test="${messageTotal>0}">
 				<div class="alarm">
 					<c:choose>
 						<c:when test="${messageTotal>99 }">
@@ -112,27 +112,31 @@
 						<th id="rowNum" scope="row">${board.boardVO.rowNum}</th>
 						<td><a onclick="keepPage()"
 							href="/board/view?bid=${board.boardVO.bid}&uid=${uid}">${board.boardVO.title}</a></td>
-						<td class="requirement"><c:set var="cnt" value="-1" /> <c:forEach
-								begin="0" end="5" var="field" items="${board.boardField}"
+						<td class="requirement"><c:set var="cnt" value="0" /> <c:forEach
+								begin="0" end="3" var="field" items="${board.boardField}"
 								varStatus="status">
 								<c:set var="cnt" value="${cnt+1}" />
 								<c:choose>
-									<c:when test="${status.index==4}">
+									<c:when test="${cnt==4}">
 										<label>...</label>
 									</c:when>
-									<c:otherwise>
+									<c:when test="${cnt<4}">
 										<label>${field.fname}</label>
+									</c:when>
+									<c:otherwise>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach> <c:forEach begin="${cnt<0 ? 0 : cnt}" end="5" var="language"
+							</c:forEach> <c:forEach begin="${cnt}" end="4" var="language"
 								items="${board.boardLanguage}" varStatus="status">
 								<c:set var="cnt" value="${cnt+1}" />
 								<c:choose>
-									<c:when test="${status.index==4}">
+									<c:when test="${cnt==4}">
 										<label>...</label>
 									</c:when>
-									<c:otherwise>
+									<c:when test="${cnt<4}">
 										<label>${language.lname}</label>
+									</c:when>
+									<c:otherwise>
 									</c:otherwise>
 								</c:choose>
 							</c:forEach></td>

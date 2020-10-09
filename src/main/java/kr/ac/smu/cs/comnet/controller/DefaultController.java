@@ -66,13 +66,16 @@ public class DefaultController {
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
 		model.addAttribute("messageList", messageList);
+		
 		int[] selectFieldList = (int[])session.getAttribute("selectFieldList");
 		int[] selectLanguageList= (int[])session.getAttribute("selectLanguageList");
+		
 		List<BoardDTO> boardList= null;
 		if(selectFieldList != null || selectLanguageList != null) //언어나 영역이 선택되어 있을 시에
 			boardList = bService.selectSuitableBoardList(selectFieldList, selectLanguageList);
 		else
 			boardList = bService.selectList();
+		
 		model.addAttribute("boardList",boardList);
 		if(boardList!=null)
 			model.addAttribute("total",boardList.size());
