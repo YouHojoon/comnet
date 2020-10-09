@@ -16,6 +16,8 @@ public interface BoardService {
 	
 	public BoardDTO select(int bid, String email);//프로젝트 상세 조회
 	
+	public BoardVO select(int bid);//프로젝트 상세 조회
+	
 	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage);//프로젝트 수정
 
 	public void delete(int bid);//프로젝트 삭제
@@ -35,4 +37,6 @@ public interface BoardService {
 	public List<BoardDTO> selectVolunteerProjectList(int uid);//내가 지원한 프로젝트 목록 조회
 	
 	public BoardDTO selectVolunteerProject(int bid);//내가 지원한 프로젝트 조회
+	
+	public void eliminatePartner(int bid, int pid);//팀원 추방
 }

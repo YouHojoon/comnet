@@ -2,13 +2,19 @@
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
-<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="sec"
+	uri="http://www.springframework.org/security/tags"%>
 <!DOCTYPE html>
 <html>
 <head>
-<link href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap" rel="stylesheet">
-<link href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link
+	href="https://fonts.googleapis.com/css?family=Black+Han+Sans&display=swap"
+	rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
+	rel="stylesheet">
+<link rel="stylesheet"
+	href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 <link rel="stylesheet" href="\resources\grid.css" type="text/css">
 <script src="\resources\jquery.min.js"></script>
 <script
@@ -32,14 +38,25 @@
 		</button>
 		<button type="button" id="message" class="btn btn-default"
 			aria-label="Left Align">
-			<div class="alarm">99</div>
+			<c:if test="${messageTotal!=0}">
+				<div class="alarm">
+					<c:choose>
+						<c:when test="${messageTotal>99 }">
+						99
+					</c:when>
+						<c:otherwise>
+						${messageTotal }
+					</c:otherwise>
+					</c:choose>
+				</div>
+			</c:if>
 			<span class="glyphicon glyphicon-envelope" aria-hidden="true"></span>
 		</button>
 	</header>
-	<sec:authentication var="uid" property="principal.userVO.uid"/>
-	
+	<sec:authentication var="uid" property="principal.userVO.uid" />
+
 	<div class="project-list">
-	<!--사이드 메뉴 시작-->
+		<!--사이드 메뉴 시작-->
 		<!--사용자 선택 영역-->
 		<div id="select-field">
 			<c:if test="${selectFieldList!=null}">
@@ -60,7 +77,7 @@
 			<div class="language">
 				<label class="menu-label">분야</label>
 				<div id="field-list" class="list-group">
-					<c:forEach var="field" items="${fieldList}" >
+					<c:forEach var="field" items="${fieldList}">
 						<a class="list-group-item" id="${field.fid}">${field.fname}</a>
 					</c:forEach>
 				</div>
@@ -73,7 +90,8 @@
 					</c:forEach>
 				</div>
 			</div>
-			<input type="text" id="search-input" class="form-control" placeholder="조회 조건 검색">
+			<input type="text" id="search-input" class="form-control"
+				placeholder="조회 조건 검색">
 			<button type="button" id="save" class="btn btn-default">저장</button>
 		</div>
 		<!--사이드 메뉴 끝-->
@@ -92,10 +110,11 @@
 				<c:forEach var="board" items="${boardList}">
 					<tr id="board">
 						<th id="rowNum" scope="row">${board.boardVO.rowNum}</th>
-						<td><a onclick="keepPage()" href="/board/view?bid=${board.boardVO.bid}&uid=${uid}">${board.boardVO.title}</a></td>
-						<td class="requirement">
-							<c:set var="cnt" value="-1"/>
-							<c:forEach begin="0" end="5" var="field" items="${board.boardField}" varStatus="status">
+						<td><a onclick="keepPage()"
+							href="/board/view?bid=${board.boardVO.bid}&uid=${uid}">${board.boardVO.title}</a></td>
+						<td class="requirement"><c:set var="cnt" value="-1" /> <c:forEach
+								begin="0" end="5" var="field" items="${board.boardField}"
+								varStatus="status">
 								<c:set var="cnt" value="${cnt+1}" />
 								<c:choose>
 									<c:when test="${status.index==4}">
@@ -105,56 +124,52 @@
 										<label>${field.fname}</label>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach>
-							<c:forEach begin="${cnt}" end="5" var="language" items="${board.boardLanguage}" varStatus="status">
+							</c:forEach> <c:forEach begin="${cnt}" end="5" var="language"
+								items="${board.boardLanguage}" varStatus="status">
 								<c:set var="cnt" value="${cnt+1}" />
 								<c:choose>
 									<c:when test="${status.index==4}">
 										<label>...</label>
 									</c:when>
 									<c:otherwise>
-										<label>${language.lname}</label>								
+										<label>${language.lname}</label>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach>
-						</td>
-						<td>
-							<c:choose>
+							</c:forEach></td>
+						<td><c:choose>
 								<c:when test="${board.boardVO.deadline.year==8099}">
 									상시모집
 								</c:when>
 								<c:otherwise>
-									<fmt:formatDate pattern="yyyy-MM-dd" value="${board.boardVO.deadline}"/>
+									<fmt:formatDate pattern="yyyy-MM-dd"
+										value="${board.boardVO.deadline}" />
 								</c:otherwise>
-							</c:choose>
-						</td>
-						<td>
-							<c:choose>
+							</c:choose></td>
+						<td><c:choose>
 								<c:when test="${board.boardVO.partner_limit==999}">
 									제한없음
 								</c:when>
 								<c:otherwise>
 									${board.boardVO.partner_limit}
 								</c:otherwise>
-							</c:choose>
-						</td>
+							</c:choose></td>
 					</tr>
 				</c:forEach>
 			</tbody>
 		</table>
 		<!--프로젝트 조회 끝-->
 		<button type="button" id="register" class="btn btn-default"
-		onclick="location.href='/board/new'" aria-label="Left Align">register</button>
-	<!--페이징 처리 시작-->
+			onclick="location.href='/board/new'" aria-label="Left Align">register</button>
+		<!--페이징 처리 시작-->
 		<nav>
 			<ul class="pagination">
-				
-				
+
+
 			</ul>
 		</nav>
-	<!--페이징 처리 끝-->
+		<!--페이징 처리 끝-->
 	</div>
-	
+
 	<!--알림 조회 모달-->
 	<div class="modal" id="message-modal" tabindex="-1" role="dialog"
 		aria-labelledby="exampleModalLongTitle" aria-hidden="true">
@@ -169,31 +184,14 @@
 				</div>
 				<div class="modal-body">
 					<ul class="list-group">
-						<li class="list-group-item">Lookie 합격
-							<button type="button" class="close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</li>
-						<li class="list-group-item">뭐뭐 불합격
-							<button type="button" class="close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</li>
-						<li class="list-group-item">이것저것 합격
-							<button type="button" class="close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</li>
-						<li class="list-group-item">저건 불합격
-							<button type="button" class="close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</li>
-						<li class="list-group-item">저건 합격
-							<button type="button" class="close">
-								<span aria-hidden="true">&times;</span>
-							</button>
-						</li>
+						<c:forEach var="message" items="${messageList }">
+							<li class="list-group-item">${message.msg }
+								<button type="button" onclick="deleteMessage(${message.mid})"
+									class="close">
+									<span aria-hidden="true">&times;</span>
+								</button>
+							</li>
+						</c:forEach>
 					</ul>
 				</div>
 				<div class="modal-footer">
@@ -269,6 +267,15 @@
 			$(".list-group > a").css('display', 'none');
 			$(".list-group > a:contains(" + search + ")").css('display', 'block');
 		});
+		function deleteMessage(mid){//메세지 삭제
+		  		$.ajax({
+					type:"DELETE",
+					url:"/message?mid="+mid,
+					success: function(){
+						$("button[onclick='deleteMessage("+mid+")']").parent().remove();
+					}
+				});
+		};
 		function keepPage(){//프로젝트 상세 조회 시 페이지 유지를 위해 세션 처리
 			sessionStorage.setItem("page",$("li[class=active] > a").text());
 		}

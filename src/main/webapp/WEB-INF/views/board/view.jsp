@@ -277,6 +277,7 @@
     			type:"POST",
     			url:"/board/apply",
     			data:JSON.stringify({bid: $("#bid").val(), vid: $("#uid").val()}),
+    			contentType:"application/json",
     			success: function(){
     				location.href="/board/view?bid="+$("#bid").val();
     			}

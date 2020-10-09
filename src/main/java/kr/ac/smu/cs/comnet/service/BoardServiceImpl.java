@@ -166,9 +166,12 @@ public class BoardServiceImpl implements BoardService {
 		
 		return new BoardDTO(boardVO, boardField, boardLanguage,volunteerList, partnerList,applied,partner);
 	}
-
 	@Override
-	@Transactional
+	public BoardVO select(int bid) {
+		return bMapper.select(bid);
+	}
+	@Override
+	@Transactional(rollbackFor=Exception.class)
 	public void update(BoardVO boardVO, List<Integer> boardField, List<Integer> boardLanguage) {
 		bMapper.update(boardVO);
 		int bid = boardVO.getBid();
@@ -177,7 +180,7 @@ public class BoardServiceImpl implements BoardService {
 	}
 
 	@Override
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	public void delete(int bid) {
 		fMapper.deleteConn_bf(bid);
 		lMapper.deleteConn_bl(bid);
@@ -282,5 +285,9 @@ public class BoardServiceImpl implements BoardService {
 		long end = System.currentTimeMillis();
 		log.info(Long.toString(end - start));
 		return boardDTOList;
+	}
+	@Override
+	public void eliminatePartner(int bid, int pid) {
+		bMapper.eliminatePartner(bid, pid);
 	}
 }

@@ -1,7 +1,6 @@
 package kr.ac.smu.cs.comnet.vo;
 
 public class Conn_ulVO {
-	
 	private int uid;
 	private int lid;
 	

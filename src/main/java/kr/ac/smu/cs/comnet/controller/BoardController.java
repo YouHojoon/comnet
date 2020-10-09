@@ -2,6 +2,7 @@ package kr.ac.smu.cs.comnet.controller;
 
 
 import java.io.UnsupportedEncodingException;
+import java.lang.annotation.Target;
 import java.sql.Date;
 import java.text.SimpleDateFormat;
 import java.util.Base64;
@@ -21,6 +22,7 @@ import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,8 +42,10 @@ import kr.ac.smu.cs.comnet.dto.UserDTO;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
+import kr.ac.smu.cs.comnet.service.MessageService;
 import kr.ac.smu.cs.comnet.service.UserService;
 import kr.ac.smu.cs.comnet.vo.BoardVO;
+import kr.ac.smu.cs.comnet.vo.MessageVO;
 
 
 @Controller
@@ -57,6 +61,8 @@ public class BoardController {
 	private BoardService bService;
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private MessageService mService;
 	
 	Logger log= LoggerFactory.getLogger(BoardController.class);
 	@InitBinder
@@ -139,9 +145,12 @@ public class BoardController {
 		sessionStatus.setComplete();
 		return redirectUrl;//요청했던 url전송
 	}
+	@Transactional(rollbackFor=Exception.class)
 	@PostMapping("/apply")
 	public @ResponseBody void apply(@RequestBody Map<String, Integer> json) {
 		bService.applyToProject(json.get("bid"), json.get("vid"));
+		BoardVO board = bService.select(json.get("bid"));
+		mService.createMessage(new MessageVO(board.getUid(), board.getTitle()+" "+ MessageVO.APPLY_USER));
 	}
 	@DeleteMapping("/applyCancel")
 	public @ResponseBody void applyCancel(@RequestParam("bid") int bid, HttpServletRequest request) throws UnsupportedEncodingException{
@@ -156,12 +165,23 @@ public class BoardController {
 		}
 		bService.applyCancel(bid, email);
 	}
+	@Transactional(rollbackFor=Exception.class)
 	@PostMapping("/approval")
 	public @ResponseBody void agree(@RequestParam("vid") int vid, @RequestParam("bid") int bid) {
 		bService.agree(bid, vid);
+		mService.createMessage(new MessageVO(vid, bService.select(bid).getTitle()+" "+ MessageVO.APPROVAL_USER));
 	}
+	@Transactional(rollbackFor=Exception.class)
 	@DeleteMapping("/reject")
 	public @ResponseBody void reject(@RequestParam("bid") int bid, @RequestParam("vid") int vid) {
 		bService.applyCancelByVid(bid, vid);
+		bService.agree(bid, vid);
+		mService.createMessage(new MessageVO(vid, bService.select(bid).getTitle()+" "+ MessageVO.REJECT_USER));
+	}
+	@Transactional(rollbackFor=Exception.class)
+	@DeleteMapping("/eliminate")
+	public @ResponseBody void eliminate(@RequestParam("bid") int bid, @RequestParam("pid") int pid) {
+		bService.eliminatePartner(bid, pid);
+		mService.createMessage(new MessageVO(pid, bService.select(bid).getTitle()+" "+ MessageVO.ELIMINATE_USER));
 	}
 }

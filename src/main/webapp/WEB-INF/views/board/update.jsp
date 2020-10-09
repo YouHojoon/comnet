@@ -17,6 +17,10 @@
 	href="https://fonts.googleapis.com/css?family=Noto+Sans+KR&display=swap"
 	rel="stylesheet">
 <script src="\resources\jquery.min.js"></script>
+<script
+	src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+	integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+	crossorigin="anonymous"></script>
 <link rel="stylesheet" href="\resources\grid.css" type="text/css">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="utf-8">
@@ -179,7 +183,8 @@
 								</c:choose>
 							</c:forEach></td>
 						<td>
-							<button type="button" class="reject">추방</button>
+							<button type="button" class="reject"
+								onclick="eliminate(${partner.userVO.uid})">추방</button>
 						</td>
 					</tr>
 				</c:forEach>
@@ -338,7 +343,8 @@
             var date=Calander.getDate();
             str+="<option value="+date+">"+date+"일"+"</option>";
             Calander.setDate(date+1);
-          } while(Calander.getDate()!=1)
+          } while(Calander.getDate()!=1);
+          
           $("#day").html(str);
       }
       $("#always").click(function(){
@@ -452,6 +458,20 @@
   			}
   		});
   	}
+  	function eliminate(pid){//프로젝트 지원 거부
+		var check=confirm("정말 추방하시겠습니까?");
+  		if(check){
+	  		$.ajax({
+				type:"DELETE",
+				url:"/board/eliminate?bid="+$("#bid").val()+"&pid="+pid,
+				success: function(){
+					$("button[onclick='eliminate("+pid+")']").parent().parent().remove();
+				}
+			});
+  		}
+  		else
+  			return;
+	}
     </script>
 </body>
 </html>

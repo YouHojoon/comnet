@@ -12,6 +12,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
@@ -26,10 +29,13 @@ import org.springframework.web.bind.support.SessionStatus;
 
 import kr.ac.smu.cs.comnet.dto.BoardDTO;
 import kr.ac.smu.cs.comnet.dto.UserDTO;
+import kr.ac.smu.cs.comnet.security.User;
 import kr.ac.smu.cs.comnet.service.BoardService;
 import kr.ac.smu.cs.comnet.service.FieldService;
 import kr.ac.smu.cs.comnet.service.LanguageService;
+import kr.ac.smu.cs.comnet.service.MessageService;
 import kr.ac.smu.cs.comnet.service.UserService;
+import kr.ac.smu.cs.comnet.vo.MessageVO;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 @Controller
@@ -44,15 +50,22 @@ public class DefaultController {
 	private BoardService bService;
 	@Autowired
 	private UserService uService;
+	@Autowired
+	private MessageService mService;
+	
 	@GetMapping("/")
 	public String login() {
 		return "/loginPage";
 	}
 	@PreAuthorize("isAuthenticated()")
 	@GetMapping("/board")
-	public void board(Model model,HttpSession session) {
+	public void board(Model model,HttpSession session,HttpServletRequest request) {
+		User principal=(User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		UserVO user = uService.select(principal.getUsername());
+		List<MessageVO> messageList = mService.selectMessageList(user.getUid());
 		model.addAttribute("fieldList", fService.selectList());
 		model.addAttribute("languageList", lService.selectList());
+		model.addAttribute("messageList", messageList);
 		int[] selectFieldList = (int[])session.getAttribute("selectFieldList");
 		int[] selectLanguageList= (int[])session.getAttribute("selectLanguageList");
 		List<BoardDTO> boardList= null;
@@ -65,6 +78,11 @@ public class DefaultController {
 			model.addAttribute("total",boardList.size());
 		else
 			model.addAttribute("total",0);
+		
+		if(messageList!=null)
+			model.addAttribute("messageTotal", messageList.size());
+		else
+			model.addAttribute("messageTotal",0);
 	}
 	@PreAuthorize("isAuthenticated()")
 	@PostMapping("/board")

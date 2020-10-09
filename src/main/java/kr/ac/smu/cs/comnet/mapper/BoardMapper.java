@@ -50,4 +50,6 @@ public interface BoardMapper {
 	public Conn_bvVO selectConn_bv(int bid, int vid);//conn_bv 조회
 	
 	public List<BoardVO> selectVolunteerProjectList(int uid);//내가 지원한 프로젝트 조회
+	
+	public void eliminatePartner(@Param("bid") int bid, @Param("pid") int pid);//팀원 추방
 }

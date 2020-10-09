@@ -40,7 +40,7 @@ public class UserServiceImpl implements UserService{
 	private JavaMailSender javaMailSender;
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	public void register(UserVO userVO, int[] userField, int[] userLanguage) {
 		userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
 		uMapper.register(userVO);
@@ -79,7 +79,7 @@ public class UserServiceImpl implements UserService{
 		uMapper.changePassword(email, bcryptPasswordEncoder.encode(password));
 	}
 	@Override
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	public void update(UserVO userVO, List<Integer> userField, List<Integer> userLanguage) {
 		uMapper.update(userVO);
 		int uid=userVO.getUid();
@@ -87,7 +87,7 @@ public class UserServiceImpl implements UserService{
 		lMapper.updateUserLanguage(uid, userLanguage);
 	}
 	@Override
-	@Transactional
+	@Transactional(rollbackFor=Exception.class)
 	public void delete(int uid) {
 		int[] bidList=bMapper.selectMyProjectBidList(uid);
 		if(bidList.length!=0) {
@@ -110,5 +110,9 @@ public class UserServiceImpl implements UserService{
 		for(Conn_ulVO conn_ulVO: conn_ulVOList)
 			userLanguage.add(lMapper.select(conn_ulVO.getLid()));
 		return new UserDTO(uMapper.select(uid), userField, userLanguage);
+	}
+	@Override
+	public UserVO select(String email) {
+		return uMapper.selectByEmail(email);
 	}
 }

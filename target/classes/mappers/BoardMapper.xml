@@ -92,4 +92,7 @@
     		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,conn_bv,
     		(SELECT @rownum:=0)r WHERE conn_bv.vid=#{uid} AND conn_bv.bid=Board.bid;
     	</select>
+    	<delete id="eliminatePartner">
+    		DELETE FROM conn_ub WHERE bid=#{bid} AND uid=#{pid}
+    	</delete>
     </mapper>

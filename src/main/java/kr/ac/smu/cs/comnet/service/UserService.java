@@ -14,6 +14,8 @@ public interface UserService {
 	
 	public UserVO select(int uid);//User 조회
 	
+	public UserVO select(String email);//User 조회
+	
 	public void changePassword(String email, String password);//비밀번호 변경
 	
 	public void update(UserVO userVO, List<Integer> userField, List<Integer> userLanguage);//유저 정보 수정

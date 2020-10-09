@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	<mapper namespace="kr.ac.smu.cs.comnet.mapper.MessageMapper">
+		<insert id="createMessage">
+			INSERT INTO message(uid,msg)
+			VALUES(#{uid},#{msg})
+		</insert>
+		<delete id="deleteMessage">
+			DELETE FROM message WHERE mid=#{mid}
+		</delete>
+		<select id="selectMessageList" resultType="MessageVO">
+			SELECT * FROM message where uid=#{uid}
+		</select>
+	</mapper>
