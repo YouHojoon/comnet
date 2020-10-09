@@ -35,6 +35,8 @@ public interface BoardMapper {
 	
 	public void deleteMyProject(int uid);//나의 프로젝트 모두 삭제
 	
+	public void deleteRelevant(@Param("bidList") int[] bidList);//관련된 유저 외래키 삭제
+	
 	public void applyToProject(@Param("bid") int bid, @Param("vid") int vid);//프로젝트 지원
 	
 	public List<Conn_bvVO> selectConn_bvList(int bid);//conn_bv 목록 조회

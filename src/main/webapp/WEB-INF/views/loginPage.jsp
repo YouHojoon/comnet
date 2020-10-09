@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,18 +21,22 @@
 
 	<form action="/login" method="POST" class="login">
 		<div class="input-group mb-3">
-			<input name="username" type="text" class="form-control" placeholder="학번">
+			<input name="username" type="text" class="form-control"
+				placeholder="학번">
 			<div class="input-group-append">
 				<span class="input-group-text">@sangmyung.kr</span>
 			</div>
 		</div>
 		<div>
-			<input type="password" id="password" name="password" class="form-control"
-				placeholder="비밀번호" required>
+			<input type="password" id="password" name="password"
+				class="form-control" placeholder="비밀번호" required>
 		</div>
 		<div class="button">
 			<button id="login" type="submit" class="btn btn-primary">Login</button>
 		</div>
+		<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+			<div class="alert alert-danger" role="alert">아이디 혹은 비밀번호가 맞지 않습니다.</div>
+		</c:if>
 		<div class="button">
 			<a href="/register">회원가입</a>
 		</div>

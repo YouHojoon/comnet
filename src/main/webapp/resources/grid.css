@@ -296,7 +296,8 @@ table > tbody > tr > th{
   text-align: center;
 }
 #project-list > tbody > tr > td > label, .field-language > label,
-.project-body > table > tbody > tr > td > label, .volunteer-list > table > tbody > tr > td > label{
+.project-body > table > tbody > tr > td > label, .volunteer-list > table > tbody > tr > td > label,
+.ability > label{
   text-align: center;
   width: 75px;
   background-color: #0984e3;

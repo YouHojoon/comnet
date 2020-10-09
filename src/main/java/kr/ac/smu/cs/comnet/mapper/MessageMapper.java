@@ -9,5 +9,7 @@ public interface MessageMapper {
 	
 	public void deleteMessage(int mid);
 	
+	public void deleteByUid(int uid);
+	
 	public List<MessageVO> selectMessageList(int uid);
 }

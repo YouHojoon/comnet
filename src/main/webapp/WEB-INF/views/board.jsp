@@ -124,7 +124,7 @@
 										<label>${field.fname}</label>
 									</c:otherwise>
 								</c:choose>
-							</c:forEach> <c:forEach begin="${cnt}" end="5" var="language"
+							</c:forEach> <c:forEach begin="${cnt<0 ? 0 : cnt}" end="5" var="language"
 								items="${board.boardLanguage}" varStatus="status">
 								<c:set var="cnt" value="${cnt+1}" />
 								<c:choose>

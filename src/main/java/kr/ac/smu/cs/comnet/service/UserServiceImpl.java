@@ -17,6 +17,7 @@ import kr.ac.smu.cs.comnet.dto.UserDTO;
 import kr.ac.smu.cs.comnet.mapper.BoardMapper;
 import kr.ac.smu.cs.comnet.mapper.FieldMapper;
 import kr.ac.smu.cs.comnet.mapper.LanguageMapper;
+import kr.ac.smu.cs.comnet.mapper.MessageMapper;
 import kr.ac.smu.cs.comnet.mapper.UserMapper;
 import kr.ac.smu.cs.comnet.vo.Conn_ufVO;
 import kr.ac.smu.cs.comnet.vo.Conn_ulVO;
@@ -34,6 +35,8 @@ public class UserServiceImpl implements UserService{
 	private LanguageMapper lMapper;
 	@Autowired
 	private BoardMapper bMapper;
+	@Autowired
+	private MessageMapper mMapper;
 	@Autowired
 	private PasswordEncoder bcryptPasswordEncoder;
 	@Autowired
@@ -93,7 +96,9 @@ public class UserServiceImpl implements UserService{
 		if(bidList.length!=0) {
 			fMapper.deleteConn_bfByBidList(bidList);
 			lMapper.deleteConn_blByBidList(bidList);
+			bMapper.deleteRelevant(bidList);
 		}
+		mMapper.deleteByUid(uid);
 		bMapper.deleteMyProject(uid);
 		fMapper.deleteConn_uf(uid);
 		lMapper.deleteConn_ul(uid);

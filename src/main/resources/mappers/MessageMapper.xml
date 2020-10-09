@@ -13,4 +13,7 @@
 		<select id="selectMessageList" resultType="MessageVO">
 			SELECT * FROM message where uid=#{uid}
 		</select>
+		<delete id="deleteByUid">
+			DELETE FROM message WHERE uid=#{uid}
+		</delete>
 	</mapper>
