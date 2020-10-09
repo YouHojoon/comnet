@@ -2,9 +2,140 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-    <mapper namespace="kr.ac.smu.cs.comnet.mapper.BoardMapper">
-    	<select id="selectList" resultType="BoardVO">
-    		SELECT @rownum:=@rownum+1 as rowNum, Board.* FROM Board,(SELECT @rownum:=0)r		
-    	</select>
+<mapper namespace="kr.ac.smu.cs.comnet.mapper.BoardMapper">
+	<select id="selectList" resultType="BoardVO">
+		SELECT @rownum:=@rownum+1 as
+		rowNum, Board.* FROM Board,
+		(SELECT @rownum:=0)r;
+	</select>
+	<insert id="register">
+		INSERT INTO Board(title, content, deadline,
+		partner_limit, contact,
+		reg_date, uid)
+		VALUES(#{title}, #{content},
+		#{deadline}, #{partner_limit}, #{contact}, #{reg_date},
+		#{uid})
+	</insert>
+	<select id="selectBid" resultType="int">
+		SELECT bid FROM Board where
+		reg_date=#{reg_date}
+	</select>
+	<select id="selectSuitableBoardList" resultType="BoardVO">
+		SELECT DISTINCT Board.* FROM Board, conn_bf, conn_bl
+		<choose>
+			<when
+				test="selectLanguageList!=null and selectFieldList!=null and selectLanguageList.length>0 and selectFieldList.length>0">
+				WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN
+				<foreach item="fid" collection="selectFieldList" open="("
+					close=")" separator=",">
+					#{fid}
+				</foreach>
+				)
+				OR (conn_bl.bid=Board.bid AND conn_bl.lid IN
+				<foreach item="lid" collection="selectLanguageList" open="("
+					close=")" separator=",">
+					#{lid}
+				</foreach>
+				)
+			</when>
+			<when test="selectFieldList!=null and selectFieldList.length>0">
+				WHERE (conn_bf.bid=Board.bid AND conn_bf.fid IN
+				<foreach item="fid" collection="selectFieldList" open="("
+					close=")" separator=",">
+					#{fid}
+				</foreach>
+				)
+			</when>
+			<when
+				test="selectLanguageList!=null and selectLanguageList.length>0">
+				WHERE (conn_bl.bid=Board.bid AND conn_bl.lid IN
+				<foreach item="lid" collection="selectLanguageList" open="("
+					close=")" separator=",">
+					#{lid}
+				</foreach>
+				)
+			</when>
+		</choose>
+	</select>
+	<select id="select" resultType="BoardVO">
+		SELECT * FROM Board WHERE
+		bid=#{bid}
+	</select>
+	<update id="update">
+		UPDATE Board SET title=#{title}, content=#{content},
+		deadline=#{deadline},
+		partner_limit=#{partner_limit},
+		contact=#{contact}
+		WHERE bid=#{bid}
+	</update>
+	<delete id="delete">
+		DELETE FROM Conn_bv WHERE bid=#{bid};
+		DELETE FROM
+		Conn_ub WHERE bid=#{bid};
+		DELETE FROM Board WHERE bid=#{bid};
+	</delete>
+	<select id="selectMyProjectList" resultType="BoardVO">
+		SELECT
+		@rownum:=@rownum+1 as rowNum, Board.* FROM Board,
+		(SELECT @rownum:=0)r
+		WHERE uid=#{uid};
+	</select>
+	<select id="selectMyProjectBidList" resultType="int">
+		SELECT bid FROM
+		Board WHERE uid=#{uid}
+	</select>
+	<delete id="deleteMyProject">
+		DELETE FROM Board WHERE uid=#{uid};
+	</delete>
+	<delete id="deleteRelevant">
 
-    </mapper>
+		DELETE FROM Conn_bv WHERE bid IN
+		<foreach item="bid" collection="bidList" open="("
+			separator="," close=");">
+			#{bid}
+		</foreach>
+
+		DELETE FROM Conn_ub WHERE bid in
+		<foreach item="bid" collection="bidList" open="("
+			separator="," close=");">
+			#{bid}
+		</foreach>
+	</delete>
+
+	<insert id="applyToProject">
+		INSERT INTO conn_bv
+		VALUES(#{bid},#{vid})
+	</insert>
+	<select id="selectConn_bvList" resultType="Conn_bvVo">
+		SELECT * FROM conn_bv
+		WHERE bid=#{bid}
+	</select>
+	<delete id="applyCancel">
+		DELETE FROM conn_bv WHERE bid=#{bid} AND vid=#{vid}
+	</delete>
+	<insert id="approval">
+		INSERT INTO conn_ub
+		VALUES(#{vid}, #{bid})
+	</insert>
+	<select id="selectConn_ubList" resultType="Conn_ubVo">
+		SELECT * FROM conn_ub
+		WHERE bid=#{bid}
+	</select>
+	<select id="selectConn_ub" resultType="Conn_ubVo">
+		SELECT * FROM conn_ub
+		WHERE bid=#{bid} AND uid=#{uid}
+	</select>
+	<select id="selectConn_bv" resultType="Conn_bvVo">
+		SELECT * FROM conn_ub
+		WHERE bid=#{bid} AND vid=#{vid}
+	</select>
+	<select id="selectVolunteerProjectList" resultType="BoardVO">
+		SELECT
+		@rownum:=@rownum+1 as rowNum, Board.* FROM Board,conn_bv,
+		(SELECT
+		@rownum:=0)r WHERE conn_bv.vid=#{uid} AND conn_bv.bid=Board.bid;
+	</select>
+	<delete id="eliminatePartner">
+		DELETE FROM conn_ub WHERE bid=#{bid} AND uid=#{pid}
+	</delete>
+</mapper>

@@ -1,17 +1,38 @@
 package kr.ac.smu.cs.comnet.vo;
 
+
 import java.sql.Date;
 
+
+
 public class BoardVO {
-	int rowNum;
-	int bid;
-	int uid;
-	String title;
-	String content;
-	Date deadline; 
-	int partner_limit;
-	String contact;
-	
+	private int rowNum;//±Û ¹øÈ£
+	private int bid;
+	private int uid;
+	private String title;
+	private String content;
+	private Date deadline; 
+	private int partner_limit;
+	private String contact;
+	private String reg_date;
+	public BoardVO() {}
+	public BoardVO( int bid, int uid, String title, String content, Date deadline, int partner_limit,
+			String contact) {
+		this.bid = bid;
+		this.uid = uid;
+		this.title = title;
+		this.content = content;
+		this.deadline = deadline;
+		this.partner_limit = partner_limit;
+		this.contact = contact;
+		
+	}
+	public String getReg_date() {
+		return reg_date;
+	}
+	public void setReg_date(String reg_date) {
+		this.reg_date = reg_date;
+	}
 	public int getRowNum() {
 		return rowNum;
 	}

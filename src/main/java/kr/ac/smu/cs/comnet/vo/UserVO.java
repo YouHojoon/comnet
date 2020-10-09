@@ -1,13 +1,27 @@
 package kr.ac.smu.cs.comnet.vo;
 
 public class UserVO {
-	int uid;
-	String email;
-	String name;
-	String password;
-	String memo;
-	String phone;
+	@Override
+	public String toString() {
+		return "UserVO [uid=" + uid + ", email=" + email + ", name=" + name + ", password=" + password + ", memo="
+				+ memo + ", phone=" + phone + "]";
+	}
+	private int uid;
+	private String email;
+	private String name;
+	private String password;
+	private String memo;
+	private String phone;
 	
+	public UserVO() {}
+	
+	public UserVO(int uid, String email, String name,String memo, String phone) {
+		this.uid = uid;
+		this.email = email;
+		this.name = name;
+		this.memo = memo;
+		this.phone = phone;
+	}
 	public int getUid() {
 		return uid;
 	}

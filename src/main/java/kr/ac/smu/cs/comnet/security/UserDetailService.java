@@ -9,12 +9,13 @@ import kr.ac.smu.cs.comnet.mapper.UserMapper;
 import kr.ac.smu.cs.comnet.vo.UserVO;
 
 public class UserDetailService implements UserDetailsService{
+	
 	@Autowired
-	UserMapper mapper;
+	private UserMapper mapper;
 	
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserVO user=mapper.select(username);
+		UserVO user=mapper.selectByEmail(username);
 		return user == null ? null : new User(user);
 	}
 }

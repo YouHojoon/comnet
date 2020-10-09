@@ -6,8 +6,65 @@
     	<select id="selectList" resultType="LanguageVO">
     		SELECT * FROM Language
     	</select>
-    	<select id="selectBoardLanguage" resultType="LanguageVO">
-    		SELECT Language.lid, lname FROM Language, conn_bl
-			WHERE conn_bl.bid=#{bid} AND conn_bl.lid=Language.lid
+    	<insert id="registerUserLanguage">
+    		INSERT INTO conn_ul
+    		VALUES 
+    		<foreach collection="userLanguage" item="lid" separator=",">
+    			(#{uid},#{lid})
+    		</foreach>
+    	</insert>
+    	<insert id="registerBoardLanguage">
+    		INSERT INTO conn_bl
+    		VALUES 
+    		<foreach collection="boardLanguage" item="lid" separator=",">
+    			(#{bid},#{lid})
+    		</foreach>
+    	</insert>
+    	<select id="selectConn_blList" resultType="Conn_blVO">
+    		SELECT * FROM conn_bl ORDER BY bid ASC
     	</select>
+    	<select id="select" resultType="LanguageVO">
+    		SELECT * FROM Language WHERE lid=#{lid}
+    	</select>
+    	<select id="selectSuitableConn_blList" resultType="Conn_blVO">
+    		SELECT * FROM conn_bl WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    		ORDER BY bid ASC 
+    	</select>
+    	<select id="selectBoardConn_blList" resultType="Conn_blVO">
+    		SELECT * FROM conn_bl WHERE bid=#{bid}
+    	</select>
+    	<delete id="deleteConn_bl">
+    		DELETE FROM conn_bl WHERE bid=#{bid}
+    	</delete>
+    	<select id="selectUserLanguage" resultType="Conn_ulVO">
+    		SELECT * FROM conn_ul WHERE uid=#{uid}
+    	</select>
+    	<delete id="deleteConn_ul">
+    		DELETE FROM conn_ul WHERE uid=#{uid}
+    	</delete>
+    	<insert id="updateBoardLanguage">
+    		DELETE FROM conn_bl WHERE bid=#{bid};
+    		INSERT INTO conn_bl
+    		VALUES 
+    		<foreach collection="boardLanguage" item="lid" separator=",">
+    			(#{bid},#{lid})
+    		</foreach>
+    	</insert>
+    	<insert id="updateUserLanguage">
+    		DELETE FROM conn_ul WHERE uid=#{uid};
+    		INSERT INTO conn_ul
+    		VALUES 
+    		<foreach collection="userLanguage" item="lid" separator=",">
+    			(#{uid},#{lid})
+    		</foreach>
+    	</insert>
+    	<delete id="deleteConn_blByBidList">
+    		DELETE FROM conn_bl WHERE bid IN 
+    		<foreach item="bid" collection="bidList" open="(" separator="," close=")">
+    			#{bid}
+    		</foreach>
+    	</delete>
     </mapper>

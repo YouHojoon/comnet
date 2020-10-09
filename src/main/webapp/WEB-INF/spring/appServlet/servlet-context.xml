@@ -22,7 +22,29 @@
 		<beans:property name="prefix" value="/WEB-INF/views/" />
 		<beans:property name="suffix" value=".jsp" />
 	</beans:bean>
-	
+	<interceptors>
+		<interceptor>
+			<mapping path="/board/update"/>
+			<mapping path="/board/delete"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.OwnershipCheckInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/findpw"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.ChangePasswordInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/mypage/info"/>
+			<mapping path="/mypage/leave"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.UserInfoInterceptor"/>
+		</interceptor>
+		<interceptor>
+			<mapping path="/findpw"/>
+			<mapping path="/register"/>
+			<mapping path="/"/>
+			<beans:bean class="kr.ac.smu.cs.comnet.interceptor.CheckLoginInterceptor"/>
+		</interceptor>
+		
+	</interceptors>
 	<context:component-scan base-package="kr.ac.smu.cs.comnet.controller" />
 	<security:global-method-security pre-post-annotations="enabled" secured-annotations="enabled"/>
 	

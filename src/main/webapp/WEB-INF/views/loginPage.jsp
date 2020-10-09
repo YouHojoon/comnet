@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -11,33 +12,36 @@
 <script src="\resources\jquery.min.js"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta charset="UTF-8">
-<title>Comnet</title>
+<title>COMNET</title>
 </head>
 <body>
 	<div class="logo">
 		<img width="200" src="\resources\logo.jpg">
 	</div>
-	
-	<form action="/login" method="post" class="login">
+
+	<form action="/login" method="POST" class="login">
 		<div class="input-group mb-3">
-			<input name="username" type="text" class="form-control" placeholder="학번"
-				pattern="20(1|2)[0-9]\d{5}" required>
+			<input name="username" type="text" class="form-control"
+				placeholder="학번">
 			<div class="input-group-append">
-				<span class="input-group-text" id="basic-addon2">@sangmyung.kr</span>
+				<span class="input-group-text">@sangmyung.kr</span>
 			</div>
 		</div>
 		<div>
-			<input type="password" id="password" name="password" class="form-control"
-				placeholder="비밀번호">
+			<input type="password" id="password" name="password"
+				class="form-control" placeholder="비밀번호" required>
 		</div>
 		<div class="button">
 			<button id="login" type="submit" class="btn btn-primary">Login</button>
 		</div>
+		<c:if test="${not empty SPRING_SECURITY_LAST_EXCEPTION}">
+			<div class="alert alert-danger" role="alert">아이디 혹은 비밀번호가 맞지 않습니다.</div>
+		</c:if>
 		<div class="button">
-			<a href="#">회원가입</a>
+			<a href="/register">회원가입</a>
 		</div>
 		<div>
-			<a href="#">비밀번호 찾기</a>
+			<a href="/findpw">비밀번호 찾기</a>
 		</div>
 		<input type="hidden" name="remember-me" value="true">
 	</form>
